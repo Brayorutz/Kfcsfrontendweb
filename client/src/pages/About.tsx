@@ -1,0 +1,83 @@
+import { Section } from "@/components/Section";
+import { Users, Target, Heart, Award } from "lucide-react";
+import heroImage from "@assets/generated_images/cinematic_wide_shot_of_a_lush_green_dairy_farm_with_cows_grazing_under_a_bright_sky..png";
+
+export default function About() {
+  return (
+    <div className="pt-20">
+      <div className="bg-primary py-20 md:py-32 text-center text-white relative overflow-hidden">
+        <div className="absolute inset-0 opacity-20">
+             <img src={heroImage} className="w-full h-full object-cover grayscale" alt="Background" />
+        </div>
+        <div className="relative z-10 container mx-auto px-6">
+            <h1 className="text-5xl md:text-7xl font-serif font-bold mb-6">Our Story</h1>
+            <p className="text-xl max-w-2xl mx-auto text-primary-foreground/90">
+            Rooted in Kabianga, growing for Kenya. We are more than just a cooperative; we are a community movement.
+            </p>
+        </div>
+      </div>
+
+      <Section>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+          <div>
+            <span className="text-secondary font-bold tracking-wider uppercase text-sm mb-2 block">About Us</span>
+            <h2 className="text-4xl font-serif font-bold text-primary mb-6">A Legacy of Excellence</h2>
+            <p className="text-muted-foreground text-lg leading-relaxed mb-6">
+              Founded in 1995, Kabianga Farmers Cooperative Society Limited (KFCS) started with a handful of farmers united by a single vision: to transform the dairy landscape in Kericho.
+            </p>
+            <p className="text-muted-foreground text-lg leading-relaxed">
+              Today, we serve over 5,000 active members, process thousands of liters of milk daily, and produce award-winning dairy products that grace tables across the region. We believe in sustainable farming, fair prices for our farmers, and uncompromising quality for our consumers.
+            </p>
+          </div>
+          <div className="relative">
+            <div className="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
+              <img src={heroImage} alt="Farmers" className="w-full h-full object-cover" />
+            </div>
+            <div className="absolute -bottom-10 -left-10 bg-white p-8 rounded-xl shadow-xl max-w-xs hidden md:block border border-border">
+              <p className="font-serif italic text-xl text-primary mb-4">"Our strength lies in our unity and our shared commitment to quality."</p>
+              <p className="font-bold text-sm text-foreground">- Chairman</p>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      <Section background="muted">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+          <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+            <Target className="w-12 h-12 text-secondary mx-auto mb-6" />
+            <h3 className="text-2xl font-serif font-bold mb-4">Our Mission</h3>
+            <p className="text-muted-foreground">To empower dairy farmers through reliable market access, value addition, and sustainable practices.</p>
+          </div>
+          <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+            <Heart className="w-12 h-12 text-secondary mx-auto mb-6" />
+            <h3 className="text-2xl font-serif font-bold mb-4">Our Vision</h3>
+            <p className="text-muted-foreground">To be the premier dairy cooperative in the region, known for quality products and farmer prosperity.</p>
+          </div>
+          <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+            <Award className="w-12 h-12 text-secondary mx-auto mb-6" />
+            <h3 className="text-2xl font-serif font-bold mb-4">Our Values</h3>
+            <p className="text-muted-foreground">Integrity, Transparency, Quality, Innovation, and Community Focus.</p>
+          </div>
+        </div>
+      </Section>
+
+      <Section>
+        <h2 className="text-4xl font-serif font-bold text-center text-primary mb-16">Board of Directors</h2>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="group">
+                    <div className="aspect-[3/4] bg-muted rounded-xl overflow-hidden mb-4 relative">
+                         {/* Placeholder for board member images */}
+                         <div className="absolute inset-0 bg-gray-200 flex items-center justify-center text-gray-400">
+                            <Users className="w-12 h-12" />
+                         </div>
+                    </div>
+                    <h3 className="text-xl font-bold text-primary">Board Member {i}</h3>
+                    <p className="text-sm text-secondary font-medium uppercase tracking-wide">Director</p>
+                </div>
+            ))}
+        </div>
+      </Section>
+    </div>
+  );
+}
