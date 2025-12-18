@@ -43,12 +43,12 @@ export default function Home() {
                         Empowering farmers and nourishing communities with premium quality dairy products. Join the Kabianga revolution today.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4">
-                        <Link href="/membership">
+                        <Link href="/membership" asChild>
                             <Button size="lg" className="bg-primary hover:bg-primary/90 text-white text-lg h-14 px-8 rounded-full">
                                 Become a Member
                             </Button>
                         </Link>
-                        <Link href="/shop">
+                        <Link href="/shop" asChild>
                             <Button size="lg" variant="outline" className="bg-white/10 backdrop-blur-sm border-white/40 text-white hover:bg-white hover:text-primary text-lg h-14 px-8 rounded-full">
                                 Shop Products
                             </Button>
@@ -112,7 +112,7 @@ export default function Home() {
             <span className="text-secondary font-bold tracking-wider uppercase text-sm mb-2 block">Our Products</span>
             <h2 className="text-4xl font-serif font-bold text-primary">Taste the Freshness</h2>
           </div>
-          <Link href="/shop">
+          <Link href="/shop" asChild>
             <Button variant="link" className="text-primary text-lg group">
               View All Products <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Button>
@@ -148,7 +148,7 @@ export default function Home() {
           <p className="text-primary-foreground/80 text-lg mb-10">
             Become a member today and enjoy the benefits of a cooperative that truly cares about your growth and prosperity.
           </p>
-          <Link href="/membership">
+          <Link href="/membership" asChild>
             <Button size="lg" variant="secondary" className="h-16 px-10 rounded-full text-lg font-bold shadow-lg hover:shadow-xl transition-all">
                 Register Now
             </Button>

@@ -2,23 +2,19 @@ import { Section } from "@/components/Section";
 import { ProductCard } from "@/components/ProductCard";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Info } from "lucide-react";
-import strawberryYoghurt from "@assets/generated_images/strawberry_yoghurt_bottle_professional_product_shot..png";
-import vanillaYoghurt from "@assets/generated_images/vanilla_yoghurt_bottle_professional_product_shot..png";
-import mangoYoghurt from "@assets/generated_images/mango_yoghurt_bottle_professional_product_shot..png";
-import freshMilk from "@assets/generated_images/fresh_milk_carton_professional_product_shot..png";
-
-const products = [
-  { id: 1, name: "Fresh Milk (500ml)", price: "KES 60", category: "Milk", image: freshMilk },
-  { id: 2, name: "Strawberry Yoghurt (250ml)", price: "KES 80", category: "Yoghurt", image: strawberryYoghurt },
-  { id: 3, name: "Vanilla Yoghurt (250ml)", price: "KES 80", category: "Yoghurt", image: vanillaYoghurt },
-  { id: 4, name: "Mango Yoghurt (250ml)", price: "KES 80", category: "Yoghurt", image: mangoYoghurt },
-  { id: 5, name: "Strawberry Yoghurt (500ml)", price: "KES 150", category: "Yoghurt", image: strawberryYoghurt },
-  { id: 6, name: "Vanilla Yoghurt (500ml)", price: "KES 150", category: "Yoghurt", image: vanillaYoghurt },
-  { id: 7, name: "Mango Yoghurt (500ml)", price: "KES 150", category: "Yoghurt", image: mangoYoghurt },
-  { id: 8, name: "Dairy Meal (70kg)", price: "KES 2,500", category: "Feeds", image: freshMilk }, // Placeholder image for feed
-];
+import { useQuery } from "@tanstack/react-query";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Shop() {
+  const { data: products, isLoading } = useQuery({
+    queryKey: ["products"],
+    queryFn: async () => {
+      const response = await fetch("/api/products");
+      if (!response.ok) throw new Error("Failed to fetch products");
+      return response.json();
+    },
+  });
+
   return (
     <div className="pt-20">
        <div className="bg-primary py-16 md:py-24 text-center text-white">
@@ -35,17 +31,29 @@ export default function Shop() {
           </AlertDescription>
         </Alert>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {products.map(product => (
-                <ProductCard 
-                    key={product.id}
-                    image={product.image}
-                    name={product.name}
-                    price={product.price}
-                    category={product.category}
-                />
+        {isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+              <div key={i} className="space-y-4">
+                <Skeleton className="h-64 w-full rounded-xl" />
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-4 w-1/2" />
+              </div>
             ))}
-        </div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {products?.map((product: any) => (
+              <ProductCard
+                key={product.id}
+                image={product.image}
+                name={product.name}
+                price={`KES ${product.price}`}
+                category={product.category}
+              />
+            ))}
+          </div>
+        )}
       </Section>
     </div>
   );

@@ -6,18 +6,56 @@ import { Card, CardContent } from "@/components/ui/card";
 import { CheckCircle2 } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { useMutation } from "@tanstack/react-query";
 
 export default function Membership() {
   const [submitted, setSubmitted] = useState(false);
   const { toast } = useToast();
 
+  const applyMutation = useMutation({
+    mutationFn: async (formData: FormData) => {
+      const data = {
+        firstName: formData.get("firstName") as string,
+        lastName: formData.get("lastName") as string,
+        nationalId: formData.get("idNumber") as string,
+        phone: formData.get("phone") as string,
+        email: formData.get("email") as string || undefined,
+        village: formData.get("village") as string,
+      };
+      
+      const response = await fetch("/api/members/apply", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || "Application failed");
+      }
+      
+      return response.json();
+    },
+    onSuccess: () => {
+      setSubmitted(true);
+      toast({
+        title: "Application Received!",
+        description: "We have received your membership application. We will contact you shortly.",
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    toast({
-      title: "Application Received!",
-      description: "We have received your membership application. We will contact you shortly.",
-    });
+    const formData = new FormData(e.target as HTMLFormElement);
+    applyMutation.mutate(formData);
   };
 
   return (
@@ -63,32 +101,37 @@ export default function Membership() {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="space-y-2">
                                     <Label htmlFor="firstName">First Name</Label>
-                                    <Input id="firstName" required placeholder="John" />
+                                    <Input id="firstName" name="firstName" required placeholder="John" data-testid="input-firstname" />
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="lastName">Last Name</Label>
-                                    <Input id="lastName" required placeholder="Doe" />
+                                    <Input id="lastName" name="lastName" required placeholder="Doe" data-testid="input-lastname" />
                                 </div>
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="idNumber">National ID Number</Label>
-                                <Input id="idNumber" required placeholder="12345678" />
+                                <Input id="idNumber" name="idNumber" required placeholder="12345678" data-testid="input-nationalid" />
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="phone">Phone Number</Label>
-                                <Input id="phone" type="tel" required placeholder="0700 000 000" />
+                                <Input id="phone" name="phone" type="tel" required placeholder="0700 000 000" data-testid="input-phone" />
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="email">Email Address</Label>
-                                <Input id="email" type="email" placeholder="john@example.com" />
+                                <Input id="email" name="email" type="email" placeholder="john@example.com" data-testid="input-email" />
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="village">Village / Area</Label>
-                                <Input id="village" required placeholder="Kabianga Centre" />
+                                <Input id="village" name="village" required placeholder="Kabianga Centre" data-testid="input-village" />
                             </div>
                             <div className="pt-4">
-                                <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-white h-12 text-lg">
-                                    Submit Application
+                                <Button 
+                                  type="submit" 
+                                  className="w-full bg-primary hover:bg-primary/90 text-white h-12 text-lg"
+                                  disabled={applyMutation.isPending}
+                                  data-testid="button-submit-application"
+                                >
+                                    {applyMutation.isPending ? "Submitting..." : "Submit Application"}
                                 </Button>
                                 <p className="text-xs text-center text-muted-foreground mt-4">
                                     By submitting this form, you agree to our terms and conditions. Membership is free.

@@ -39,41 +39,39 @@ export function Navbar() {
       )}
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
-        <Link href="/">
-          <a className="text-2xl font-serif font-bold tracking-tighter text-primary">
-            KFCS<span className="text-secondary">.</span>
-          </a>
+        <Link href="/" className="text-2xl font-serif font-bold tracking-tighter text-primary">
+          KFCS<span className="text-secondary">.</span>
         </Link>
 
         {/* Desktop Nav */}
         <div className="hidden lg:flex items-center space-x-8">
           {navItems.map((item) => (
-            <Link key={item.path} href={item.path}>
-              <a
-                className={cn(
-                  "text-sm font-medium transition-colors hover:text-secondary",
-                  location === item.path ? "text-secondary font-bold" : "text-foreground/80"
-                )}
-              >
-                {item.name}
-              </a>
+            <Link 
+              key={item.path} 
+              href={item.path}
+              className={cn(
+                "text-sm font-medium transition-colors hover:text-secondary",
+                location === item.path ? "text-secondary font-bold" : "text-foreground/80"
+              )}
+            >
+              {item.name}
             </Link>
           ))}
         </div>
 
         <div className="hidden lg:flex items-center space-x-4">
-           <Link href="/portal">
+          <Link href="/portal" asChild>
             <Button variant="ghost" size="sm" className="gap-2">
               <User className="w-4 h-4" />
               Portal
             </Button>
           </Link>
-          <Link href="/shop">
-             <Button variant="outline" size="icon" className="rounded-full border-primary/20 hover:bg-primary/5 text-primary">
+          <Link href="/shop" asChild>
+            <Button variant="outline" size="icon" className="rounded-full border-primary/20 hover:bg-primary/5 text-primary">
               <ShoppingCart className="w-4 h-4" />
             </Button>
           </Link>
-          <Link href="/membership">
+          <Link href="/membership" asChild>
             <Button className="bg-primary hover:bg-primary/90 text-white rounded-full px-6">
               Join Now
             </Button>
@@ -100,26 +98,26 @@ export function Navbar() {
           >
             <div className="container mx-auto px-6 py-8 flex flex-col space-y-4">
               {navItems.map((item) => (
-                <Link key={item.path} href={item.path}>
-                  <a
-                    className="text-lg font-serif font-medium text-foreground hover:text-secondary"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {item.name}
-                  </a>
+                <Link 
+                  key={item.path} 
+                  href={item.path}
+                  className="text-lg font-serif font-medium text-foreground hover:text-secondary"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.name}
                 </Link>
               ))}
               <div className="pt-4 flex flex-col space-y-3">
-                <Link href="/portal">
-                    <Button variant="outline" className="w-full justify-start gap-2">
+                <Link href="/portal" asChild>
+                  <Button variant="outline" className="w-full justify-start gap-2">
                     <User className="w-4 h-4" />
                     Member Portal
-                    </Button>
+                  </Button>
                 </Link>
-                 <Link href="/membership">
-                    <Button className="w-full bg-primary text-white">
+                <Link href="/membership" asChild>
+                  <Button className="w-full bg-primary text-white">
                     Become a Member
-                    </Button>
+                  </Button>
                 </Link>
               </div>
             </div>
