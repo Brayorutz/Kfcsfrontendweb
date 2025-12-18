@@ -17,6 +17,8 @@ import Portal from "@/pages/Portal";
 import Admin from "@/pages/Admin";
 import News from "@/pages/News";
 import Contact from "@/pages/Contact";
+import CSR from "@/pages/CSR";
+import Sustainability from "@/pages/Sustainability";
 import { useEffect } from "react";
 import { useLocation } from "wouter";
 
@@ -47,6 +49,8 @@ function Router() {
           <Route path="/admin" component={Admin} />
           <Route path="/news" component={News} />
           <Route path="/contact" component={Contact} />
+          <Route path="/csr" component={CSR} />
+          <Route path="/sustainability" component={Sustainability} />
           <Route component={NotFound} />
         </Switch>
       </main>

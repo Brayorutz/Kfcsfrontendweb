@@ -62,11 +62,15 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} Kabianga Farmers Cooperative Society. All rights reserved.</p>
-          <div className="flex space-x-6 mt-4 md:mt-0">
-            <a href="#" className="hover:text-foreground">Privacy Policy</a>
-            <a href="#" className="hover:text-foreground">Terms of Service</a>
+        <div className="border-t border-border pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center text-xs text-muted-foreground mb-6">
+            <p>&copy; {new Date().getFullYear()} Kabianga Farmers Cooperative Society. All rights reserved.</p>
+            <div className="flex space-x-6 mt-4 md:mt-0">
+              <Link href="/csr" className="hover:text-foreground">CSR & Community</Link>
+              <Link href="/sustainability" className="hover:text-foreground">Sustainability</Link>
+              <a href="#" className="hover:text-foreground">Privacy Policy</a>
+              <a href="#" className="hover:text-foreground">Terms of Service</a>
+            </div>
           </div>
         </div>
       </div>

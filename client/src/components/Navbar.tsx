@@ -39,8 +39,9 @@ export function Navbar() {
       )}
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
-        <Link href="/" className="text-2xl font-serif font-bold tracking-tighter text-primary">
-          KFCS<span className="text-secondary">.</span>
+        <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+          <img src="/attached_assets/image_20251218_135629_0000_1766055489904.png" alt="KFCS Logo" className="h-12 w-12" data-testid="logo-kfcs" />
+          <span className="text-lg font-bold text-primary hidden sm:inline">KFCS</span>
         </Link>
 
         {/* Desktop Nav */}

@@ -105,6 +105,41 @@ export default function Home() {
         </div>
       </Section>
 
+      {/* Featured Product */}
+      <Section background="muted">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16">
+          <div className="flex items-center justify-center">
+            <img src="/attached_assets/1765823555302_1766055490016.jpg" alt="Woman enjoying Kabianga Strawberry Yoghurt" className="rounded-2xl shadow-2xl max-w-md w-full" data-testid="img-featured-yoghurt" />
+          </div>
+          <div>
+            <span className="text-secondary font-bold tracking-wider uppercase text-sm mb-2 block">Featured</span>
+            <h2 className="text-4xl font-serif font-bold text-primary mb-6">Kabianga Strawberry Delight</h2>
+            <p className="text-muted-foreground text-lg mb-6">
+              Experience the joy of pure, creamy yoghurt infused with real strawberry chunks. Every spoonful is a celebration of taste, quality, and the passion we bring to dairy excellence.
+            </p>
+            <ul className="space-y-3 mb-8">
+              <li className="flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-secondary" />
+                <span className="text-foreground">100% natural strawberry flavor</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-secondary" />
+                <span className="text-foreground">Rich, creamy texture with real fruit chunks</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-secondary" />
+                <span className="text-foreground">No artificial additives or preservatives</span>
+              </li>
+            </ul>
+            <Link href="/shop" asChild>
+              <Button size="lg" className="bg-primary hover:bg-primary/90 text-white rounded-full px-8">
+                Shop Now
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </Section>
+
       {/* Product Highlights */}
       <Section>
         <div className="flex flex-col md:flex-row justify-between items-end mb-16">
