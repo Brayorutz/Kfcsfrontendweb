@@ -1,6 +1,7 @@
 import { Section } from "@/components/Section";
 import { Users, Target, Heart, Award } from "lucide-react";
 import heroImage from "@assets/generated_images/cinematic_wide_shot_of_a_lush_green_dairy_farm_with_cows_grazing_under_a_bright_sky..png";
+import trophyImage from "@assets/IMG_20251219_144012_1766147245755.jpg";
 
 export default function About() {
   return (
@@ -42,7 +43,7 @@ export default function About() {
       </Section>
 
       <Section background="muted">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center mb-16">
           <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
             <Target className="w-12 h-12 text-secondary mx-auto mb-6" />
             <h3 className="text-2xl font-serif font-bold mb-4">Our Mission</h3>
@@ -58,6 +59,14 @@ export default function About() {
             <h3 className="text-2xl font-serif font-bold mb-4">Our Values</h3>
             <p className="text-muted-foreground">Integrity, Transparency, Quality, Innovation, and Community Focus.</p>
           </div>
+        </div>
+
+        <div className="text-center">
+          <h2 className="text-3xl font-serif font-bold text-primary mb-8">National Recognition</h2>
+          <div className="flex justify-center">
+            <img src={trophyImage} alt="Best Cooperative National Award" className="rounded-xl shadow-2xl max-w-md w-full" data-testid="img-trophy-award" />
+          </div>
+          <p className="text-muted-foreground mt-6 font-medium">Recognized as Best Cooperative at the National Level</p>
         </div>
       </Section>
 

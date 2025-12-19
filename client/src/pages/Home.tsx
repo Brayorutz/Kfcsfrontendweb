@@ -7,6 +7,7 @@ import heroImage from "@assets/generated_images/cinematic_wide_shot_of_a_lush_gr
 import strawberryYoghurt from "@assets/generated_images/strawberry_yoghurt_bottle_professional_product_shot..png";
 import vanillaYoghurt from "@assets/generated_images/vanilla_yoghurt_bottle_professional_product_shot..png";
 import mangoYoghurt from "@assets/generated_images/mango_yoghurt_bottle_professional_product_shot..png";
+import featuredYoghurt from "@assets/1765823555302_1766055490016.jpg";
 import { Link } from "wouter";
 
 export default function Home() {
@@ -109,7 +110,7 @@ export default function Home() {
       <Section background="muted">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16">
           <div className="flex items-center justify-center">
-            <img src="/attached_assets/1765823555302_1766055490016.jpg" alt="Woman enjoying Kabianga Strawberry Yoghurt" className="rounded-2xl shadow-2xl max-w-md w-full" data-testid="img-featured-yoghurt" />
+            <img src={featuredYoghurt} alt="Woman enjoying Kabianga Strawberry Yoghurt" className="rounded-2xl shadow-2xl max-w-md w-full" data-testid="img-featured-yoghurt" />
           </div>
           <div>
             <span className="text-secondary font-bold tracking-wider uppercase text-sm mb-2 block">Featured</span>

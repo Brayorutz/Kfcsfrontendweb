@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronDown, User, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import kfcsLogo from "@assets/image_20251218_135629_0000_1766055489904.png";
 
 const navItems = [
   { name: "Home", path: "/" },
@@ -40,7 +41,7 @@ export function Navbar() {
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-          <img src="/attached_assets/image_20251218_135629_0000_1766055489904.png" alt="KFCS Logo" className="h-12 w-12" data-testid="logo-kfcs" />
+          <img src={kfcsLogo} alt="KFCS Logo" className="h-12 w-12" data-testid="logo-kfcs" />
           <span className="text-lg font-bold text-primary hidden sm:inline">KFCS</span>
         </Link>
 
