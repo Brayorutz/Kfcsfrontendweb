@@ -185,90 +185,108 @@ export default function Home() {
 
       {/* Partners & Recognition Section */}
       <Section background="white" className="py-16">
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <span className="text-secondary font-bold tracking-wider uppercase text-sm mb-2 block">Trusted Partners</span>
-          <h2 className="text-4xl font-serif font-bold text-primary mb-6">Collaborating for Excellence</h2>
-          <p className="text-muted-foreground text-lg">
-            We work alongside industry leaders and organizations committed to dairy excellence and sustainable farming.
-          </p>
-        </div>
-
-        {/* Horizontal Scrolling Partners and Trophy */}
-        <div className="relative">
-          <div className="overflow-x-auto scrollbar-hide">
-            <div className="flex gap-6 pb-4 min-w-min px-4 md:px-0">
-              {/* Partner Logos */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0 }}
-                className="flex-shrink-0 bg-white rounded-2xl p-6 shadow-lg border border-border/50 hover:shadow-xl transition-shadow w-32 h-32 flex items-center justify-center"
-                data-testid="partner-logo-federation"
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-stretch">
+          {/* Left: Trophy/Award - Prominent */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
+            className="lg:col-span-1 flex flex-col items-center justify-center"
+          >
+            <Link href="/news" asChild>
+              <button 
+                className="w-full group cursor-pointer"
+                data-testid="link-awards-news"
               >
-                <img src={dairyFederationLogo} alt="Dairy Federation Partner" className="w-24 h-24 object-contain" />
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                className="flex-shrink-0 bg-white rounded-2xl p-6 shadow-lg border border-border/50 hover:shadow-xl transition-shadow w-32 h-32 flex items-center justify-center"
-                data-testid="partner-logo-coop"
-              >
-                <img src={agriculturalCoopLogo} alt="Agricultural Cooperative Partner" className="w-24 h-24 object-contain" />
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="flex-shrink-0 bg-white rounded-2xl p-6 shadow-lg border border-border/50 hover:shadow-xl transition-shadow w-32 h-32 flex items-center justify-center"
-                data-testid="partner-logo-farming"
-              >
-                <img src={sustainableFarmingLogo} alt="Sustainable Farming Partner" className="w-24 h-24 object-contain" />
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                className="flex-shrink-0 bg-white rounded-2xl p-6 shadow-lg border border-border/50 hover:shadow-xl transition-shadow w-32 h-32 flex items-center justify-center"
-                data-testid="partner-logo-health"
-              >
-                <img src={livestockHealthLogo} alt="Livestock Health Partner" className="w-24 h-24 object-contain" />
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-                className="flex-shrink-0 bg-white rounded-2xl p-6 shadow-lg border border-border/50 hover:shadow-xl transition-shadow w-32 h-32 flex items-center justify-center"
-                data-testid="partner-logo-development"
-              >
-                <img src={ruralDevelopmentLogo} alt="Rural Development Partner" className="w-24 h-24 object-contain" />
-              </motion.div>
-
-              {/* Trophy - Award Recognition */}
-              <Link href="/news" asChild>
-                <motion.button
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.5 }}
-                  className="flex-shrink-0 bg-gradient-to-br from-yellow-50 to-amber-50 rounded-2xl p-4 shadow-lg border border-border/50 hover:shadow-2xl transition-all hover:scale-105 w-40 h-40 flex flex-col items-center justify-center gap-2 cursor-pointer group"
-                  data-testid="link-awards-news"
-                >
+                <div className="bg-gradient-to-br from-yellow-50 via-amber-50 to-yellow-100 rounded-3xl p-8 shadow-2xl border border-amber-200 hover:shadow-3xl transition-all hover:scale-105 aspect-square flex flex-col items-center justify-center gap-4 relative overflow-hidden">
+                  {/* Glow effect */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  
                   <img 
                     src={trophyImage} 
                     alt="Best Cooperative National Award" 
-                    className="w-32 h-32 object-cover rounded-lg group-hover:scale-110 transition-transform" 
+                    className="w-40 h-40 object-contain drop-shadow-lg group-hover:scale-110 transition-transform relative z-10" 
+                    data-testid="img-trophy-award"
                   />
-                  <span className="text-xs font-bold text-primary text-center leading-tight">Award Winning Excellence</span>
-                </motion.button>
-              </Link>
+                  <div className="relative z-10 text-center">
+                    <h3 className="font-serif font-bold text-primary text-lg">Award Winning</h3>
+                    <p className="text-sm text-secondary font-medium">Excellence</p>
+                  </div>
+                </div>
+              </button>
+            </Link>
+          </motion.div>
+
+          {/* Right: Title and Partners Scroll */}
+          <div className="lg:col-span-2">
+            <div className="mb-8">
+              <span className="text-secondary font-bold tracking-wider uppercase text-sm mb-2 block">Trusted Partners</span>
+              <h2 className="text-4xl font-serif font-bold text-primary mb-4">Collaborating for Excellence</h2>
+              <p className="text-muted-foreground text-lg">
+                We work alongside industry leaders and organizations committed to dairy excellence and sustainable farming.
+              </p>
+            </div>
+
+            {/* Horizontal Scrolling Partner Logos */}
+            <div className="relative">
+              <div className="overflow-x-auto scrollbar-hide">
+                <div className="flex gap-4 pb-4 min-w-min">
+                  {/* Partner Logos */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 0 }}
+                    className="flex-shrink-0 bg-white rounded-2xl p-6 shadow-lg border border-border/50 hover:shadow-xl transition-shadow w-32 h-32 flex items-center justify-center"
+                    data-testid="partner-logo-federation"
+                  >
+                    <img src={dairyFederationLogo} alt="Dairy Federation Partner" className="w-24 h-24 object-contain" />
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 0.1 }}
+                    className="flex-shrink-0 bg-white rounded-2xl p-6 shadow-lg border border-border/50 hover:shadow-xl transition-shadow w-32 h-32 flex items-center justify-center"
+                    data-testid="partner-logo-coop"
+                  >
+                    <img src={agriculturalCoopLogo} alt="Agricultural Cooperative Partner" className="w-24 h-24 object-contain" />
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                    className="flex-shrink-0 bg-white rounded-2xl p-6 shadow-lg border border-border/50 hover:shadow-xl transition-shadow w-32 h-32 flex items-center justify-center"
+                    data-testid="partner-logo-farming"
+                  >
+                    <img src={sustainableFarmingLogo} alt="Sustainable Farming Partner" className="w-24 h-24 object-contain" />
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 0.3 }}
+                    className="flex-shrink-0 bg-white rounded-2xl p-6 shadow-lg border border-border/50 hover:shadow-xl transition-shadow w-32 h-32 flex items-center justify-center"
+                    data-testid="partner-logo-health"
+                  >
+                    <img src={livestockHealthLogo} alt="Livestock Health Partner" className="w-24 h-24 object-contain" />
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 0.4 }}
+                    className="flex-shrink-0 bg-white rounded-2xl p-6 shadow-lg border border-border/50 hover:shadow-xl transition-shadow w-32 h-32 flex items-center justify-center"
+                    data-testid="partner-logo-development"
+                  >
+                    <img src={ruralDevelopmentLogo} alt="Rural Development Partner" className="w-24 h-24 object-contain" />
+                  </motion.div>
+                </div>
+              </div>
+              {/* Gradient fade for scroll indicator */}
+              <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-white to-transparent pointer-events-none" />
             </div>
           </div>
-          {/* Gradient fade for scroll indicator */}
-          <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-white to-transparent pointer-events-none" />
         </div>
       </Section>
 
