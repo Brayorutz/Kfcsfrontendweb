@@ -8,6 +8,12 @@ import strawberryYoghurt from "@assets/generated_images/strawberry_yoghurt_bottl
 import vanillaYoghurt from "@assets/generated_images/vanilla_yoghurt_bottle_professional_product_shot..png";
 import mangoYoghurt from "@assets/generated_images/mango_yoghurt_bottle_professional_product_shot..png";
 import featuredYoghurt from "@assets/1765823555302_1766055490016.jpg";
+import dairyFederationLogo from "@assets/generated_images/dairy_federation_partner_logo.png";
+import agriculturalCoopLogo from "@assets/generated_images/agricultural_cooperative_logo.png";
+import sustainableFarmingLogo from "@assets/generated_images/sustainable_farming_partner_logo.png";
+import livestockHealthLogo from "@assets/generated_images/livestock_health_partner_logo.png";
+import ruralDevelopmentLogo from "@assets/generated_images/rural_development_partner_logo.png";
+import trophyImage from "@assets/IMG_20251219_144012_1766147245755.jpg";
 import { Link } from "wouter";
 
 export default function Home() {
@@ -174,6 +180,95 @@ export default function Home() {
             <p className="text-muted-foreground mb-6">A burst of tropical sunshine in every spoonful.</p>
             <span className="text-lg font-bold text-secondary">KES 150</span>
           </div>
+        </div>
+      </Section>
+
+      {/* Partners & Recognition Section */}
+      <Section background="white" className="py-16">
+        <div className="text-center max-w-3xl mx-auto mb-12">
+          <span className="text-secondary font-bold tracking-wider uppercase text-sm mb-2 block">Trusted Partners</span>
+          <h2 className="text-4xl font-serif font-bold text-primary mb-6">Collaborating for Excellence</h2>
+          <p className="text-muted-foreground text-lg">
+            We work alongside industry leaders and organizations committed to dairy excellence and sustainable farming.
+          </p>
+        </div>
+
+        {/* Horizontal Scrolling Partners and Trophy */}
+        <div className="relative">
+          <div className="overflow-x-auto scrollbar-hide">
+            <div className="flex gap-6 pb-4 min-w-min px-4 md:px-0">
+              {/* Partner Logos */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0 }}
+                className="flex-shrink-0 bg-white rounded-2xl p-6 shadow-lg border border-border/50 hover:shadow-xl transition-shadow w-32 h-32 flex items-center justify-center"
+                data-testid="partner-logo-federation"
+              >
+                <img src={dairyFederationLogo} alt="Dairy Federation Partner" className="w-24 h-24 object-contain" />
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="flex-shrink-0 bg-white rounded-2xl p-6 shadow-lg border border-border/50 hover:shadow-xl transition-shadow w-32 h-32 flex items-center justify-center"
+                data-testid="partner-logo-coop"
+              >
+                <img src={agriculturalCoopLogo} alt="Agricultural Cooperative Partner" className="w-24 h-24 object-contain" />
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="flex-shrink-0 bg-white rounded-2xl p-6 shadow-lg border border-border/50 hover:shadow-xl transition-shadow w-32 h-32 flex items-center justify-center"
+                data-testid="partner-logo-farming"
+              >
+                <img src={sustainableFarmingLogo} alt="Sustainable Farming Partner" className="w-24 h-24 object-contain" />
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="flex-shrink-0 bg-white rounded-2xl p-6 shadow-lg border border-border/50 hover:shadow-xl transition-shadow w-32 h-32 flex items-center justify-center"
+                data-testid="partner-logo-health"
+              >
+                <img src={livestockHealthLogo} alt="Livestock Health Partner" className="w-24 h-24 object-contain" />
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="flex-shrink-0 bg-white rounded-2xl p-6 shadow-lg border border-border/50 hover:shadow-xl transition-shadow w-32 h-32 flex items-center justify-center"
+                data-testid="partner-logo-development"
+              >
+                <img src={ruralDevelopmentLogo} alt="Rural Development Partner" className="w-24 h-24 object-contain" />
+              </motion.div>
+
+              {/* Trophy - Award Recognition */}
+              <Link href="/news" asChild>
+                <motion.button
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.5 }}
+                  className="flex-shrink-0 bg-gradient-to-br from-yellow-50 to-amber-50 rounded-2xl p-4 shadow-lg border border-border/50 hover:shadow-2xl transition-all hover:scale-105 w-40 h-40 flex flex-col items-center justify-center gap-2 cursor-pointer group"
+                  data-testid="link-awards-news"
+                >
+                  <img 
+                    src={trophyImage} 
+                    alt="Best Cooperative National Award" 
+                    className="w-32 h-32 object-cover rounded-lg group-hover:scale-110 transition-transform" 
+                  />
+                  <span className="text-xs font-bold text-primary text-center leading-tight">Award Winning Excellence</span>
+                </motion.button>
+              </Link>
+            </div>
+          </div>
+          {/* Gradient fade for scroll indicator */}
+          <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-white to-transparent pointer-events-none" />
         </div>
       </Section>
 
