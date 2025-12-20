@@ -1,5 +1,7 @@
 import { Section } from "@/components/Section";
-import { Users, Target, Heart, Award } from "lucide-react";
+import { Users, Target, Heart, Award, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Link } from "wouter";
 import heroImage from "@assets/generated_images/cinematic_wide_shot_of_a_lush_green_dairy_farm_with_cows_grazing_under_a_bright_sky..png";
 import trophyImage from "@assets/IMG_20251219_144012_1766147245755.jpg";
 
@@ -70,22 +72,16 @@ export default function About() {
         </div>
       </Section>
 
-      <Section>
-        <h2 className="text-4xl font-serif font-bold text-center text-primary mb-16">Board of Directors</h2>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="group">
-                    <div className="aspect-[3/4] bg-muted rounded-xl overflow-hidden mb-4 relative">
-                         {/* Placeholder for board member images */}
-                         <div className="absolute inset-0 bg-gray-200 flex items-center justify-center text-gray-400">
-                            <Users className="w-12 h-12" />
-                         </div>
-                    </div>
-                    <h3 className="text-xl font-bold text-primary">Board Member {i}</h3>
-                    <p className="text-sm text-secondary font-medium uppercase tracking-wide">Director</p>
-                </div>
-            ))}
-        </div>
+      <Section background="muted" className="text-center">
+        <h2 className="text-4xl font-serif font-bold text-primary mb-6">Board of Directors</h2>
+        <p className="text-muted-foreground text-lg max-w-2xl mx-auto mb-8">
+          Our experienced Board of Directors provides strategic leadership and ensures transparent governance aligned with our mission to serve farmers and communities.
+        </p>
+        <Link href="/about/board" asChild>
+          <Button size="lg" className="bg-primary hover:bg-primary/90 text-white rounded-full px-8">
+            View Full Board <ArrowRight className="ml-2 w-4 h-4" />
+          </Button>
+        </Link>
       </Section>
     </div>
   );
