@@ -4,6 +4,7 @@ import { Calendar } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
 import { format } from "date-fns";
+import { Link } from "wouter";
 
 export default function News() {
   const { data: news, isLoading } = useQuery({
@@ -37,27 +38,29 @@ export default function News() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {news?.map((item: any) => (
-              <Card key={item.id} className="hover:shadow-lg transition-shadow cursor-pointer group overflow-hidden border-border" data-testid={`card-news-${item.id}`}>
-                {item.image && (
-                  <div className="aspect-video bg-muted overflow-hidden relative">
-                    <img src={item.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt={item.title} />
-                    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-primary flex items-center gap-1">
-                      <Calendar className="w-3 h-3" /> {format(new Date(item.publishedAt), "MMM d, yyyy")}
+              <Link key={item.id} href={`/news/${item.id}`} asChild>
+                <Card className="hover:shadow-lg transition-shadow cursor-pointer group overflow-hidden border-border" data-testid={`card-news-${item.id}`}>
+                  {item.image && (
+                    <div className="aspect-video bg-muted overflow-hidden relative">
+                      <img src={item.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt={item.title} />
+                      <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-primary flex items-center gap-1">
+                        <Calendar className="w-3 h-3" /> {format(new Date(item.publishedAt), "MMM d, yyyy")}
+                      </div>
                     </div>
-                  </div>
-                )}
-                <CardHeader>
-                  <CardTitle className="line-clamp-2 group-hover:text-primary transition-colors" data-testid={`text-news-title-${item.id}`}>
-                    {item.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground line-clamp-3 text-sm">
-                    {item.excerpt}
-                  </p>
-                  <span className="text-secondary font-bold text-sm mt-4 inline-block">Read More &rarr;</span>
-                </CardContent>
-              </Card>
+                  )}
+                  <CardHeader>
+                    <CardTitle className="line-clamp-2 group-hover:text-primary transition-colors" data-testid={`text-news-title-${item.id}`}>
+                      {item.title}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground line-clamp-3 text-sm">
+                      {item.excerpt}
+                    </p>
+                    <span className="text-secondary font-bold text-sm mt-4 inline-block">Read More &rarr;</span>
+                  </CardContent>
+                </Card>
+              </Link>
             ))}
           </div>
         )}

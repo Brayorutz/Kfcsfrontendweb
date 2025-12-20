@@ -17,6 +17,7 @@ import Membership from "@/pages/Membership";
 import Portal from "@/pages/Portal";
 import Admin from "@/pages/Admin";
 import News from "@/pages/News";
+import NewsDetail from "@/pages/NewsDetail";
 import Contact from "@/pages/Contact";
 import CSR from "@/pages/CSR";
 import Sustainability from "@/pages/Sustainability";
@@ -49,6 +50,7 @@ function Router() {
           <Route path="/membership" component={Membership} />
           <Route path="/portal" component={Portal} />
           <Route path="/admin" component={Admin} />
+          <Route path="/news/:id" component={NewsDetail} />
           <Route path="/news" component={News} />
           <Route path="/contact" component={Contact} />
           <Route path="/csr" component={CSR} />

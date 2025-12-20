@@ -16,6 +16,7 @@ import ruralDevelopmentLogo from "@assets/generated_images/rural_development_par
 import trophyImage from "@assets/IMG_20251219_144012_1766147245755.jpg";
 import awardImage1 from "@assets/WhatsApp_Image_2025-12-19_at_20.42.35_1766218730971.jpeg";
 import awardImage2 from "@assets/WhatsApp_Image_2025-12-19_at_20.42.36_1766218742963.jpeg";
+import kabiFeedsImage from "@assets/Gemini_Generated_Image_ie833sie833sie83_1766219640993.png";
 import { Link } from "wouter";
 import { useState, useEffect } from "react";
 
@@ -176,26 +177,26 @@ export default function Home() {
       <Section background="muted">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16">
           <div className="flex items-center justify-center">
-            <img src={featuredYoghurt} alt="Woman enjoying Kabianga Strawberry Yoghurt" className="rounded-2xl shadow-2xl max-w-md w-full" data-testid="img-featured-yoghurt" />
+            <img src={kabiFeedsImage} alt="KABI FEEDS - Premium Dairy Meal" className="rounded-2xl shadow-2xl max-w-md w-full" data-testid="img-featured-kabi-feeds" />
           </div>
           <div>
             <span className="text-secondary font-bold tracking-wider uppercase text-sm mb-2 block">Featured</span>
-            <h2 className="text-4xl font-serif font-bold text-primary mb-6">Kabianga Strawberry Delight</h2>
+            <h2 className="text-4xl font-serif font-bold text-primary mb-6">KABI FEEDS</h2>
             <p className="text-muted-foreground text-lg mb-6">
-              Experience the joy of pure, creamy yoghurt infused with real strawberry chunks. Every spoonful is a celebration of taste, quality, and the passion we bring to dairy excellence.
+              Premium dairy meal formulated to support optimal milk production. KABI FEEDS contains essential minerals, vitamins, and balanced nutrition for healthy cattle. Trusted by thousands of farmers across Kenya to boost herd productivity and health.
             </p>
             <ul className="space-y-3 mb-8">
               <li className="flex items-center gap-3">
                 <div className="w-2 h-2 rounded-full bg-secondary" />
-                <span className="text-foreground">100% natural strawberry flavor</span>
+                <span className="text-foreground">High-quality mineral & vitamin blend</span>
               </li>
               <li className="flex items-center gap-3">
                 <div className="w-2 h-2 rounded-full bg-secondary" />
-                <span className="text-foreground">Rich, creamy texture with real fruit chunks</span>
+                <span className="text-foreground">Boosts milk production & quality</span>
               </li>
               <li className="flex items-center gap-3">
                 <div className="w-2 h-2 rounded-full bg-secondary" />
-                <span className="text-foreground">No artificial additives or preservatives</span>
+                <span className="text-foreground">Supports animal health & immunity</span>
               </li>
             </ul>
             <Link href="/shop" asChild>
