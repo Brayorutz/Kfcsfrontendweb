@@ -173,37 +173,66 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* Featured Product */}
+      {/* Featured Products Carousel */}
       <Section background="muted">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16">
-          <div className="flex items-center justify-center">
-            <img src={kabiFeedsImage} alt="KABI FEEDS - Premium Dairy Meal" className="rounded-2xl shadow-2xl max-w-md w-full" data-testid="img-featured-kabi-feeds" />
-          </div>
-          <div>
-            <span className="text-secondary font-bold tracking-wider uppercase text-sm mb-2 block">Featured</span>
-            <h2 className="text-4xl font-serif font-bold text-primary mb-6">KABI FEEDS</h2>
-            <p className="text-muted-foreground text-lg mb-6">
-              Premium dairy meal formulated to support optimal milk production. KABI FEEDS contains essential minerals, vitamins, and balanced nutrition for healthy cattle. Trusted by thousands of farmers across Kenya to boost herd productivity and health.
-            </p>
-            <ul className="space-y-3 mb-8">
-              <li className="flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-secondary" />
-                <span className="text-foreground">High-quality mineral & vitamin blend</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-secondary" />
-                <span className="text-foreground">Boosts milk production & quality</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-secondary" />
-                <span className="text-foreground">Supports animal health & immunity</span>
-              </li>
-            </ul>
-            <Link href="/shop" asChild>
-              <Button size="lg" className="bg-primary hover:bg-primary/90 text-white rounded-full px-8">
-                Shop Now
-              </Button>
-            </Link>
+        <div className="mb-12">
+          <span className="text-secondary font-bold tracking-wider uppercase text-sm mb-2 block">Featured</span>
+          <h2 className="text-4xl font-serif font-bold text-primary mb-2">Our Best Sellers</h2>
+        </div>
+
+        <div className="relative">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            {/* Strawberry Yoghurt */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+              className="flex flex-col items-center"
+            >
+              <div className="w-full mb-6">
+                <img src={featuredYoghurt} alt="Kabianga Strawberry Yoghurt" className="rounded-2xl shadow-2xl w-full h-96 object-cover" data-testid="img-featured-strawberry" />
+              </div>
+              <div>
+                <h3 className="text-3xl font-serif font-bold text-primary mb-4">Kabianga Strawberry Delight</h3>
+                <p className="text-muted-foreground text-lg mb-6 leading-relaxed">
+                  Pure, creamy yoghurt infused with real strawberry chunks. Every spoonful is a celebration of taste, quality, and the passion we bring to dairy excellence.
+                </p>
+                <div className="flex items-center gap-4">
+                  <span className="text-2xl font-bold text-secondary">KES 150</span>
+                  <Link href="/shop" asChild>
+                    <Button className="bg-secondary hover:bg-secondary/90 text-white rounded-full px-8">
+                      Add to Cart
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* KABI FEEDS */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="flex flex-col items-center"
+            >
+              <div className="w-full mb-6">
+                <img src={kabiFeedsImage} alt="KABI FEEDS - Premium Dairy Meal" className="rounded-2xl shadow-2xl w-full h-96 object-cover" data-testid="img-featured-kabi-feeds" />
+              </div>
+              <div>
+                <h3 className="text-3xl font-serif font-bold text-primary mb-4">KABI FEEDS</h3>
+                <p className="text-muted-foreground text-lg mb-6 leading-relaxed">
+                  Premium dairy meal formulated to support optimal milk production. Contains essential minerals, vitamins, and balanced nutrition for healthy cattle growth.
+                </p>
+                <div className="flex items-center gap-4">
+                  <span className="text-2xl font-bold text-secondary">KES 2,500</span>
+                  <Link href="/shop" asChild>
+                    <Button className="bg-secondary hover:bg-secondary/90 text-white rounded-full px-8">
+                      Add to Cart
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </Section>
