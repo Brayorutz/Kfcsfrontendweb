@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { MilkRevealWrapper, MilkWaveDivider } from "@/components/MilkReveal";
 import { Section } from "@/components/Section";
-import { ArrowRight, Droplets, TrendingUp, Users } from "lucide-react";
+import { ArrowRight, Droplets, TrendingUp, Users, ChevronLeft, ChevronRight } from "lucide-react";
 import heroImage from "@assets/generated_images/cinematic_wide_shot_of_a_lush_green_dairy_farm_with_cows_grazing_under_a_bright_sky..png";
 import strawberryYoghurt from "@assets/generated_images/strawberry_yoghurt_bottle_professional_product_shot..png";
 import vanillaYoghurt from "@assets/generated_images/vanilla_yoghurt_bottle_professional_product_shot..png";
@@ -14,22 +14,82 @@ import sustainableFarmingLogo from "@assets/generated_images/sustainable_farming
 import livestockHealthLogo from "@assets/generated_images/livestock_health_partner_logo.png";
 import ruralDevelopmentLogo from "@assets/generated_images/rural_development_partner_logo.png";
 import trophyImage from "@assets/IMG_20251219_144012_1766147245755.jpg";
+import awardImage1 from "@assets/WhatsApp_Image_2025-12-19_at_20.42.35_1766218730971.jpeg";
+import awardImage2 from "@assets/WhatsApp_Image_2025-12-19_at_20.42.36_1766218742963.jpeg";
 import { Link } from "wouter";
+import { useState, useEffect } from "react";
 
 export default function Home() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  
+  const heroSlides = [
+    { image: heroImage, alt: "Kabianga Farm" },
+    { image: awardImage1, alt: "Kabianga FCS Receiving Trophy as Best Cooperative in Kenya" },
+    { image: awardImage2, alt: "CS Wycliffe Oparanya Visits KFCS Stand at National Awards" },
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const goToPrevious = () => setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
+  const goToNext = () => setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
   return (
     <div className="w-full overflow-x-hidden">
-      {/* Hero Section */}
-      <div className="relative h-screen min-h-[700px] bg-white">
+      {/* Hero Section with Carousel */}
+      <div className="relative h-screen min-h-[700px] bg-white overflow-hidden">
         <MilkRevealWrapper>
             <div className="relative w-full h-full flex items-center">
+                {/* Carousel Container */}
                 <div className="absolute inset-0 z-0">
-                    <img
-                        src={heroImage}
-                        alt="Kabianga Farm"
-                        className="w-full h-full object-cover brightness-[0.85]"
+                  {heroSlides.map((slide, index) => (
+                    <motion.img
+                      key={index}
+                      src={slide.image}
+                      alt={slide.alt}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: currentSlide === index ? 1 : 0 }}
+                      transition={{ duration: 1 }}
+                      className="absolute w-full h-full object-cover brightness-[0.85]"
                     />
+                  ))}
                     <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent" />
+                </div>
+
+                {/* Carousel Navigation Buttons */}
+                <button
+                  onClick={goToPrevious}
+                  className="absolute left-6 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-colors text-white"
+                  data-testid="btn-carousel-prev"
+                  aria-label="Previous slide"
+                >
+                  <ChevronLeft className="w-6 h-6" />
+                </button>
+                <button
+                  onClick={goToNext}
+                  className="absolute right-6 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-colors text-white"
+                  data-testid="btn-carousel-next"
+                  aria-label="Next slide"
+                >
+                  <ChevronRight className="w-6 h-6" />
+                </button>
+
+                {/* Carousel Indicators */}
+                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-3">
+                  {heroSlides.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentSlide(index)}
+                      className={`w-3 h-3 rounded-full transition-all ${
+                        currentSlide === index ? "bg-white w-8" : "bg-white/50 hover:bg-white/75"
+                      }`}
+                      data-testid={`btn-carousel-dot-${index}`}
+                      aria-label={`Go to slide ${index + 1}`}
+                    />
+                  ))}
                 </div>
                 
                 <div className="container mx-auto px-6 relative z-10 pt-20">
