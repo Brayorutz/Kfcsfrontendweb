@@ -169,6 +169,19 @@ export async function registerRoutes(
     }
   });
   
+  app.get("/api/news/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const newsItem = await storage.getNews(parseInt(id));
+      if (!newsItem) {
+        return res.status(404).json({ error: "News not found" });
+      }
+      res.json(newsItem);
+    } catch (error: any) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+  
   app.post("/api/news", async (req, res) => {
     try {
       const newsData = insertNewsSchema.parse(req.body);
