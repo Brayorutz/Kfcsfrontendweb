@@ -8,7 +8,7 @@ import kfcsLogo from "@assets/image_20251218_135629_0000_1766055489904.png";
 
 const navItems = [
   { name: "Home", path: "/" },
-  { name: "About Us", path: "/about" },
+  { name: "About Us", path: "/about", submenu: [{ name: "Board of Directors", path: "/about/board" }] },
   { name: "Production", path: "/production" },
   { name: "Shop", path: "/shop" },
   { name: "Investors", path: "/investors" },
@@ -48,16 +48,31 @@ export function Navbar() {
         {/* Desktop Nav */}
         <div className="hidden lg:flex items-center space-x-8">
           {navItems.map((item) => (
-            <Link 
-              key={item.path} 
-              href={item.path}
-              className={cn(
-                "text-sm font-medium transition-colors hover:text-secondary",
-                location === item.path ? "text-secondary font-bold" : "text-foreground/80"
+            <div key={item.path} className="relative group">
+              <Link 
+                href={item.path}
+                className={cn(
+                  "text-sm font-medium transition-colors hover:text-secondary flex items-center gap-1",
+                  location === item.path ? "text-secondary font-bold" : "text-foreground/80"
+                )}
+              >
+                {item.name}
+                {item.submenu && <ChevronDown className="w-4 h-4" />}
+              </Link>
+              {item.submenu && (
+                <div className="absolute left-0 mt-0 w-48 bg-white border border-border rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                  {item.submenu.map((subitem) => (
+                    <Link
+                      key={subitem.path}
+                      href={subitem.path}
+                      className="block px-4 py-2 text-sm hover:bg-secondary/10 hover:text-secondary first:rounded-t-lg last:rounded-b-lg"
+                    >
+                      {subitem.name}
+                    </Link>
+                  ))}
+                </div>
               )}
-            >
-              {item.name}
-            </Link>
+            </div>
           ))}
         </div>
 
@@ -100,14 +115,29 @@ export function Navbar() {
           >
             <div className="container mx-auto px-6 py-8 flex flex-col space-y-4">
               {navItems.map((item) => (
-                <Link 
-                  key={item.path} 
-                  href={item.path}
-                  className="text-lg font-serif font-medium text-foreground hover:text-secondary"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.name}
-                </Link>
+                <div key={item.path}>
+                  <Link 
+                    href={item.path}
+                    className="text-lg font-serif font-medium text-foreground hover:text-secondary block"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                  {item.submenu && (
+                    <div className="ml-4 mt-2 space-y-2">
+                      {item.submenu.map((subitem) => (
+                        <Link
+                          key={subitem.path}
+                          href={subitem.path}
+                          className="text-sm text-muted-foreground hover:text-secondary block"
+                          onClick={() => setIsOpen(false)}
+                        >
+                          {subitem.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
               ))}
               <div className="pt-4 flex flex-col space-y-3">
                 <Link href="/portal" asChild>
