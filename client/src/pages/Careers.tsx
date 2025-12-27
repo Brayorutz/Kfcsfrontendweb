@@ -24,17 +24,9 @@ export default function Careers() {
 
   const applyMutation = useMutation({
     mutationFn: async (formData: FormData) => {
-      const data = {
-        fullName: formData.get("fullName") as string,
-        email: formData.get("email") as string,
-        phone: formData.get("phone") as string,
-        jobPosition: formData.get("jobPosition") as string,
-      };
-
       const response = await fetch("/api/careers/apply", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: formData,
       });
 
       if (!response.ok) {
@@ -157,6 +149,22 @@ export default function Careers() {
                         </option>
                       ))}
                     </select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="resume">Upload Resume/CV *</Label>
+                    <input
+                      id="resume"
+                      name="resume"
+                      type="file"
+                      accept=".pdf,.doc,.docx,.txt"
+                      required
+                      className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-white cursor-pointer"
+                      data-testid="input-resume"
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      Accepted formats: PDF, DOC, DOCX, TXT (Max 5MB)
+                    </p>
                   </div>
 
                   <div className="pt-4">

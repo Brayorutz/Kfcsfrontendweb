@@ -236,14 +236,22 @@ export async function registerRoutes(
   // Career applications
   app.post("/api/careers/apply", async (req, res) => {
     try {
-      const { fullName, email, phone, jobPosition } = req.body;
+      const fullName = req.body.get?.("fullName") || (req.body as any).fullName;
+      const email = req.body.get?.("email") || (req.body as any).email;
+      const phone = req.body.get?.("phone") || (req.body as any).phone;
+      const jobPosition = req.body.get?.("jobPosition") || (req.body as any).jobPosition;
+      const resumeFile = req.body.get?.("resume");
       
       if (!fullName || !email || !phone || !jobPosition) {
         return res.status(400).json({ error: "All fields are required" });
       }
+
+      if (!resumeFile) {
+        return res.status(400).json({ error: "Resume/CV is required" });
+      }
       
-      // For now, just acknowledge the application
-      // In a production setup with email service, this would send an email
+      // For now, just acknowledge the application with file received
+      // In a production setup with email service, this would send an email with the attachment
       res.json({ 
         success: true, 
         message: "Your career application has been received. We will contact you when opportunities become available."
