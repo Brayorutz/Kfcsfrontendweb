@@ -233,6 +233,26 @@ export async function registerRoutes(
     }
   });
   
+  // Career applications
+  app.post("/api/careers/apply", async (req, res) => {
+    try {
+      const { fullName, email, phone, jobPosition } = req.body;
+      
+      if (!fullName || !email || !phone || !jobPosition) {
+        return res.status(400).json({ error: "All fields are required" });
+      }
+      
+      // For now, just acknowledge the application
+      // In a production setup with email service, this would send an email
+      res.json({ 
+        success: true, 
+        message: "Your career application has been received. We will contact you when opportunities become available."
+      });
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
+    }
+  });
+
   // Seed initial admin (for development)
   app.post("/api/admin/seed", async (req, res) => {
     try {

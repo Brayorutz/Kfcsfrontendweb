@@ -19,6 +19,7 @@ import Admin from "@/pages/Admin";
 import News from "@/pages/News";
 import NewsDetail from "@/pages/NewsDetail";
 import Contact from "@/pages/Contact";
+import Careers from "@/pages/Careers";
 import CSR from "@/pages/CSR";
 import Sustainability from "@/pages/Sustainability";
 import { useEffect } from "react";
@@ -53,6 +54,7 @@ function Router() {
           <Route path="/news/:id" component={NewsDetail} />
           <Route path="/news" component={News} />
           <Route path="/contact" component={Contact} />
+          <Route path="/careers" component={Careers} />
           <Route path="/csr" component={CSR} />
           <Route path="/sustainability" component={Sustainability} />
           <Route component={NotFound} />
