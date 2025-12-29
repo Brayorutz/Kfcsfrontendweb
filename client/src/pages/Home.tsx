@@ -173,103 +173,33 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* Featured Products Carousel */}
-      <Section background="muted">
-        <div className="mb-12">
-          <span className="text-secondary font-bold tracking-wider uppercase text-sm mb-2 block">Featured</span>
-          <h2 className="text-4xl font-serif font-bold text-primary mb-2">Our Best Sellers</h2>
-        </div>
-
-        <div className="relative">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            {/* Strawberry Yoghurt */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-              className="flex flex-col items-center"
-            >
-              <div className="w-full mb-6">
-                <img src={featuredYoghurt} alt="Kabianga Strawberry Yoghurt" className="rounded-2xl shadow-2xl w-full h-96 object-cover" data-testid="img-featured-strawberry" />
-              </div>
-              <div>
-                <h3 className="text-3xl font-serif font-bold text-primary mb-4">Kabianga Strawberry Delight</h3>
-                <p className="text-muted-foreground text-lg mb-6 leading-relaxed">
-                  Pure, creamy yoghurt infused with real strawberry chunks. Every spoonful is a celebration of taste, quality, and the passion we bring to dairy excellence.
-                </p>
-                <div className="flex items-center gap-4">
-                  <span className="text-2xl font-bold text-secondary">KES 150</span>
-                  <Link href="/shop" asChild>
-                    <Button className="bg-secondary hover:bg-secondary/90 text-white rounded-full px-8">
-                      Add to Cart
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* KABI FEEDS */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="flex flex-col items-center"
-            >
-              <div className="w-full mb-6">
-                <img src={kabiFeedsImage} alt="KABI FEEDS - Premium Dairy Meal" className="rounded-2xl shadow-2xl w-full h-96 object-cover" data-testid="img-featured-kabi-feeds" />
-              </div>
-              <div>
-                <h3 className="text-3xl font-serif font-bold text-primary mb-4">KABI FEEDS</h3>
-                <p className="text-muted-foreground text-lg mb-6 leading-relaxed">
-                  Premium dairy meal formulated to support optimal milk production. Contains essential minerals, vitamins, and balanced nutrition for healthy cattle growth.
-                </p>
-                <div className="flex items-center gap-4">
-                  <span className="text-2xl font-bold text-secondary">KES 2,500</span>
-                  <Link href="/shop" asChild>
-                    <Button className="bg-secondary hover:bg-secondary/90 text-white rounded-full px-8">
-                      Add to Cart
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </Section>
-
-      {/* Product Highlights */}
-      <Section>
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16">
-          <div className="max-w-2xl">
-            <span className="text-secondary font-bold tracking-wider uppercase text-sm mb-2 block">Our Products</span>
-            <h2 className="text-4xl font-serif font-bold text-primary">Taste the Freshness</h2>
-          </div>
-          <Link href="/shop" asChild>
-            <Button variant="link" className="text-primary text-lg group">
-              View All Products <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Button>
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="group relative bg-secondary/5 rounded-3xl p-8 hover:bg-secondary/10 transition-colors">
-            <img src={strawberryYoghurt} alt="Strawberry" className="w-full h-64 object-contain mix-blend-multiply mb-6 group-hover:scale-105 transition-transform duration-500" />
-            <h3 className="text-2xl font-serif font-bold mb-2">Strawberry Delight</h3>
-            <p className="text-muted-foreground mb-6">Rich, creamy yoghurt infused with real strawberry chunks.</p>
-            <span className="text-lg font-bold text-secondary">KES 150</span>
-          </div>
-          <div className="group relative bg-amber-50 rounded-3xl p-8 hover:bg-amber-100 transition-colors">
-            <img src={vanillaYoghurt} alt="Vanilla" className="w-full h-64 object-contain mix-blend-multiply mb-6 group-hover:scale-105 transition-transform duration-500" />
-            <h3 className="text-2xl font-serif font-bold mb-2">Classic Vanilla</h3>
-            <p className="text-muted-foreground mb-6">Smooth, timeless vanilla flavor made with premium beans.</p>
-            <span className="text-lg font-bold text-secondary">KES 150</span>
-          </div>
-          <div className="group relative bg-orange-50 rounded-3xl p-8 hover:bg-orange-100 transition-colors">
-            <img src={mangoYoghurt} alt="Mango" className="w-full h-64 object-contain mix-blend-multiply mb-6 group-hover:scale-105 transition-transform duration-500" />
-            <h3 className="text-2xl font-serif font-bold mb-2">Tropical Mango</h3>
-            <p className="text-muted-foreground mb-6">A burst of tropical sunshine in every spoonful.</p>
-            <span className="text-lg font-bold text-secondary">KES 150</span>
-          </div>
+      {/* About Us Section */}
+      <Section background="muted" className="py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <span className="text-secondary font-bold tracking-wider uppercase text-sm mb-2 block">Who We Are</span>
+            <h2 className="text-4xl font-serif font-bold text-primary mb-6">Kabianga Farmers Cooperative</h2>
+            <p className="text-muted-foreground text-lg leading-relaxed mb-6">
+              Founded in 1995, we are a cooperative of over 5,000 farmers dedicated to transforming dairy farming in Kericho. We believe in sustainable practices, fair pricing, and uncompromising quality that empowers our farmers and nourishes our communities.
+            </p>
+            <Link href="/about" asChild>
+              <Button variant="link" className="text-primary text-lg group p-0">
+                Learn More About Us <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </Link>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            className="rounded-2xl overflow-hidden shadow-2xl"
+          >
+            <img src={heroImage} alt="KFCS Farm" className="w-full h-96 object-cover" />
+          </motion.div>
         </div>
       </Section>
 

@@ -12,6 +12,7 @@ const boardMembers = [
     role: "Chairman of the Board",
     experience: "20+ years in dairy farming and cooperative management",
     bio: "Samuel has been instrumental in establishing KFCS as a regional leader in dairy excellence. His visionary leadership has transformed the cooperative into an award-winning organization.",
+    board: "executive",
   },
   {
     id: 2,
@@ -20,6 +21,7 @@ const boardMembers = [
     role: "Vice Chairperson of the Board",
     experience: "18 years in agricultural development",
     bio: "Margaret brings extensive experience in agricultural policy and farmer advocacy. She has successfully advocated for better prices and market access for cooperative members.",
+    board: "executive",
   },
   {
     id: 3,
@@ -28,6 +30,7 @@ const boardMembers = [
     role: "Treasurer of the Board",
     experience: "15+ years in finance and cooperative accounting",
     bio: "David ensures financial transparency and accountability. His expertise in cooperative finance has strengthened KFCS's financial standing.",
+    board: "executive",
   },
   {
     id: 4,
@@ -36,6 +39,7 @@ const boardMembers = [
     role: "Secretary of the Board",
     experience: "12 years in cooperative administration",
     bio: "Grace manages all board documentation and member communications. Her attention to detail ensures smooth cooperative operations.",
+    board: "executive",
   },
   {
     id: 5,
@@ -44,6 +48,7 @@ const boardMembers = [
     role: "Director, Production & Quality",
     experience: "16 years in dairy processing and quality control",
     bio: "Peter oversees all production standards and quality assurance. His commitment to excellence has earned KFCS national recognition.",
+    board: "executive",
   },
   {
     id: 6,
@@ -52,22 +57,34 @@ const boardMembers = [
     role: "Director, Marketing & Sales",
     experience: "14 years in agricultural marketing",
     bio: "Jane leads market expansion initiatives and brand development. She has successfully increased market reach across the region.",
+    board: "board",
   },
   {
     id: 7,
     name: "Joseph Kipchoge",
-    title: "Board Member",
-    role: "Director, Member Relations",
+    title: "Supervisory Board",
+    role: "Supervisor, Member Relations",
     experience: "13 years in farmer engagement and training",
-    bio: "Joseph coordinates member support programs and training initiatives. He is dedicated to member prosperity and development.",
+    bio: "Joseph coordinates member oversight and ensures cooperative compliance with regulations. He is dedicated to member protection and good governance.",
+    board: "supervisory",
   },
   {
     id: 8,
     name: "Susan Cherotich",
-    title: "Board Member",
-    role: "Director, Sustainability & CSR",
+    title: "Supervisory Board",
+    role: "Supervisor, Sustainability & CSR",
     experience: "11 years in sustainable farming and community development",
-    bio: "Susan leads KFCS's sustainability programs and community initiatives. Her focus on environmental responsibility guides cooperative practices.",
+    bio: "Susan leads KFCS's sustainability oversight and community initiatives. Her focus on environmental responsibility guides cooperative practices.",
+    board: "supervisory",
+  },
+  {
+    id: 9,
+    name: "Robert Kamau",
+    title: "Supervisory Board",
+    role: "Supervisor, Finance & Audit",
+    experience: "17 years in cooperative auditing and financial compliance",
+    bio: "Robert ensures strict financial oversight and regulatory compliance. His expertise protects member interests and maintains organizational integrity.",
+    board: "supervisory",
   },
 ];
 
@@ -191,6 +208,31 @@ export default function BoardOfDirectors() {
                   </div>
                 </div>
               </div>
+            </motion.div>
+          ))}
+        </div>
+      </Section>
+
+      {/* Supervisory Board */}
+      <Section background="white" className="py-12">
+        <h2 className="text-4xl font-serif font-bold text-center text-primary mb-16">Supervisory Board</h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {boardMembers.filter((m) => m.board === "supervisory").map((member, index) => (
+            <motion.div
+              key={member.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="bg-gradient-to-br from-secondary/5 to-primary/5 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all border border-border/50"
+              data-testid={`supervisory-member-${member.id}`}
+            >
+              <div className="w-24 h-24 bg-gradient-to-br from-secondary/20 to-primary/20 rounded-lg flex items-center justify-center mx-auto mb-6">
+                <Users className="w-12 h-12 text-secondary opacity-50" />
+              </div>
+              <h3 className="text-xl font-bold text-primary mb-1 text-center">{member.name}</h3>
+              <p className="text-sm text-secondary font-bold text-center uppercase tracking-wide mb-4">{member.role}</p>
+              <p className="text-sm text-muted-foreground text-center leading-relaxed">{member.bio}</p>
             </motion.div>
           ))}
         </div>

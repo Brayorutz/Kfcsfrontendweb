@@ -63,12 +63,36 @@ export default function About() {
           </div>
         </div>
 
-        <div className="text-center">
+        <div className="text-center mb-16">
           <h2 className="text-3xl font-serif font-bold text-primary mb-8">National Recognition</h2>
           <div className="flex justify-center">
             <img src={trophyImage} alt="Best Cooperative National Award" className="rounded-xl shadow-2xl max-w-md w-full" data-testid="img-trophy-award" />
           </div>
           <p className="text-muted-foreground mt-6 font-medium">Recognized as Best Cooperative at the National Level</p>
+        </div>
+
+        <div>
+          <h2 className="text-3xl font-serif font-bold text-primary mb-8 text-center">Our History</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all">
+              <div className="aspect-video bg-gradient-to-br from-secondary/20 to-primary/20 flex items-center justify-center overflow-hidden">
+                <img src={heroImage} alt="Farm operations" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-primary mb-2">Farm Operations</h3>
+                <p className="text-muted-foreground">Our journey began with dedicated farmers believing in collective success and sustainable practices.</p>
+              </div>
+            </div>
+            <div className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all">
+              <div className="aspect-video bg-gradient-to-br from-secondary/20 to-primary/20 flex items-center justify-center overflow-hidden">
+                <img src={trophyImage} alt="Awards and recognition" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-primary mb-2">Awards & Recognition</h3>
+                <p className="text-muted-foreground">Decades of excellence has earned us national recognition and the trust of thousands of farmers.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </Section>
 
