@@ -1,10 +1,21 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Section } from "@/components/Section";
-import { Users, Linkedin, Mail } from "lucide-react";
+import { Users, Linkedin, Mail, X } from "lucide-react";
 import { Link } from "wouter";
+import { useState } from "react";
 import heroImage from "@assets/generated_images/cinematic_wide_shot_of_a_lush_green_dairy_farm_with_cows_grazing_under_a_bright_sky..png";
 
-const boardMembers = [
+interface BoardMember {
+  id: number;
+  name: string;
+  title: string;
+  role: string;
+  experience: string;
+  bio: string;
+  board: "management" | "supervisory";
+}
+
+const boardMembers: BoardMember[] = [
   {
     id: 1,
     name: "Samuel Kiplagat",
@@ -12,7 +23,7 @@ const boardMembers = [
     role: "Chairman of the Board",
     experience: "20+ years in dairy farming and cooperative management",
     bio: "Samuel has been instrumental in establishing KFCS as a regional leader in dairy excellence. His visionary leadership has transformed the cooperative into an award-winning organization.",
-    board: "executive",
+    board: "management",
   },
   {
     id: 2,
@@ -21,7 +32,7 @@ const boardMembers = [
     role: "Vice Chairperson of the Board",
     experience: "18 years in agricultural development",
     bio: "Margaret brings extensive experience in agricultural policy and farmer advocacy. She has successfully advocated for better prices and market access for cooperative members.",
-    board: "executive",
+    board: "management",
   },
   {
     id: 3,
@@ -30,7 +41,7 @@ const boardMembers = [
     role: "Treasurer of the Board",
     experience: "15+ years in finance and cooperative accounting",
     bio: "David ensures financial transparency and accountability. His expertise in cooperative finance has strengthened KFCS's financial standing.",
-    board: "executive",
+    board: "management",
   },
   {
     id: 4,
@@ -39,7 +50,7 @@ const boardMembers = [
     role: "Secretary of the Board",
     experience: "12 years in cooperative administration",
     bio: "Grace manages all board documentation and member communications. Her attention to detail ensures smooth cooperative operations.",
-    board: "executive",
+    board: "management",
   },
   {
     id: 5,
@@ -48,7 +59,7 @@ const boardMembers = [
     role: "Director, Production & Quality",
     experience: "16 years in dairy processing and quality control",
     bio: "Peter oversees all production standards and quality assurance. His commitment to excellence has earned KFCS national recognition.",
-    board: "executive",
+    board: "management",
   },
   {
     id: 6,
@@ -57,7 +68,7 @@ const boardMembers = [
     role: "Director, Marketing & Sales",
     experience: "14 years in agricultural marketing",
     bio: "Jane leads market expansion initiatives and brand development. She has successfully increased market reach across the region.",
-    board: "board",
+    board: "management",
   },
   {
     id: 7,
@@ -89,6 +100,11 @@ const boardMembers = [
 ];
 
 export default function BoardOfDirectors() {
+  const [selectedMember, setSelectedMember] = useState<BoardMember | null>(null);
+
+  const managementBoard = boardMembers.filter(m => m.board === "management");
+  const supervisoryBoard = boardMembers.filter(m => m.board === "supervisory");
+
   return (
     <div className="pt-20">
       {/* Hero Section */}
@@ -103,201 +119,174 @@ export default function BoardOfDirectors() {
             </Link>
           </div>
           <h1 className="text-5xl md:text-7xl font-serif font-bold mb-6">Board of Directors</h1>
-          <p className="text-xl max-w-2xl mx-auto text-primary-foreground/90">
+          <p className="text-xl max-w-2xl mx-auto text-primary-foreground/90 font-light">
             Meet the dedicated leaders guiding Kabianga Farmers Cooperative Society towards excellence and sustainable growth.
           </p>
         </div>
       </div>
 
-      {/* Leadership Overview */}
-      <Section>
+      {/* Board of Management */}
+      <Section id="management-board">
         <div className="max-w-3xl mx-auto text-center mb-16">
-          <h2 className="text-4xl font-serif font-bold text-primary mb-6">Our Leadership</h2>
+          <span className="text-secondary font-bold tracking-widest uppercase text-xs mb-3 block">Governance</span>
+          <h2 className="text-4xl md:text-5xl font-serif font-bold text-primary mb-6">Board of Management</h2>
           <p className="text-muted-foreground text-lg leading-relaxed">
-            Our Board of Directors comprises experienced agricultural professionals, business leaders, and dedicated farmers with deep roots in our communities. Together, they bring diverse expertise, shared values, and unwavering commitment to KFCS's mission.
+            Responsible for the overall strategic direction, policy formulation, and operational oversight of the cooperative.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {boardMembers.map((member, index) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+          {managementBoard.map((member, index) => (
             <motion.div
               key={member.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group"
-              data-testid={`board-member-${member.id}`}
+              viewport={{ once: true }}
+              className="group cursor-pointer"
+              onClick={() => setSelectedMember(member)}
+              data-testid={`management-member-${member.id}`}
             >
-              {/* Member Image Placeholder */}
-              <div className="aspect-[3/4] bg-gradient-to-br from-secondary/20 to-primary/20 rounded-xl overflow-hidden mb-6 relative group-hover:shadow-lg transition-all">
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-primary/10 flex items-center justify-center">
-                  <div className="text-center">
-                    <Users className="w-16 h-16 text-secondary mx-auto mb-2 opacity-40" />
-                    <p className="text-sm font-medium text-primary opacity-40">Photo</p>
-                  </div>
+              <div className="aspect-[4/5] bg-muted rounded-2xl overflow-hidden mb-6 relative shadow-md group-hover:shadow-xl transition-all duration-300 ring-1 ring-border/50">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                  <span className="text-white text-sm font-medium">View Full Profile</span>
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-secondary/10 to-primary/10">
+                  <Users className="w-20 h-20 text-primary/20" />
                 </div>
               </div>
 
-              {/* Member Info */}
-              <div>
-                <h3 className="text-xl font-bold text-primary mb-1" data-testid={`text-name-${member.id}`}>{member.name}</h3>
-                <p className="text-sm text-secondary font-medium uppercase tracking-wide mb-3">{member.role}</p>
-                <p className="text-sm text-muted-foreground leading-relaxed">{member.experience}</p>
+              <div className="text-center px-4">
+                <h3 className="text-2xl font-serif font-bold text-primary mb-1 group-hover:text-secondary transition-colors">{member.name}</h3>
+                <p className="text-sm text-secondary font-bold uppercase tracking-widest mb-3">{member.title}</p>
+                <p className="text-muted-foreground text-sm line-clamp-2">{member.role}</p>
               </div>
             </motion.div>
           ))}
         </div>
       </Section>
 
-      {/* Detailed Board Member Profiles */}
-      <Section background="muted">
-        <h2 className="text-4xl font-serif font-bold text-center text-primary mb-16">Board Member Profiles</h2>
-
-        <div className="space-y-12">
-          {boardMembers.map((member, index) => (
-            <motion.div
-              key={member.id}
-              initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-              className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all"
-              data-testid={`profile-${member.id}`}
-            >
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-8 items-start">
-                {/* Profile Image */}
-                <div className="flex justify-center md:justify-start">
-                  <div className="w-48 h-48 bg-gradient-to-br from-secondary/20 to-primary/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Users className="w-24 h-24 text-secondary opacity-30" />
-                  </div>
-                </div>
-
-                {/* Profile Details */}
-                <div className="md:col-span-3">
-                  <div className="mb-6">
-                    <h3 className="text-3xl font-serif font-bold text-primary mb-2">{member.name}</h3>
-                    <p className="text-lg font-bold text-secondary uppercase tracking-wide mb-2">{member.title}</p>
-                    <p className="text-muted-foreground font-medium">{member.role}</p>
-                  </div>
-
-                  <div className="mb-6">
-                    <h4 className="font-bold text-primary mb-2">Experience</h4>
-                    <p className="text-muted-foreground">{member.experience}</p>
-                  </div>
-
-                  <div className="mb-6">
-                    <h4 className="font-bold text-primary mb-2">About</h4>
-                    <p className="text-muted-foreground leading-relaxed">{member.bio}</p>
-                  </div>
-
-                  {/* Contact Icons */}
-                  <div className="flex gap-4">
-                    <button 
-                      className="p-2 rounded-lg bg-secondary/10 hover:bg-secondary/20 transition-colors text-secondary"
-                      data-testid={`btn-email-${member.id}`}
-                      aria-label="Email"
-                    >
-                      <Mail className="w-5 h-5" />
-                    </button>
-                    <button 
-                      className="p-2 rounded-lg bg-primary/10 hover:bg-primary/20 transition-colors text-primary"
-                      data-testid={`btn-linkedin-${member.id}`}
-                      aria-label="LinkedIn"
-                    >
-                      <Linkedin className="w-5 h-5" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+      {/* Board of Supervisory */}
+      <Section id="supervisory-board" background="muted">
+        <div className="max-w-3xl mx-auto text-center mb-16">
+          <span className="text-secondary font-bold tracking-widest uppercase text-xs mb-3 block">Oversight</span>
+          <h2 className="text-4xl md:text-5xl font-serif font-bold text-primary mb-6">Board of Supervisory</h2>
+          <p className="text-muted-foreground text-lg leading-relaxed">
+            Providing independent oversight and ensuring transparency, accountability, and compliance across all cooperative activities.
+          </p>
         </div>
-      </Section>
 
-      {/* Supervisory Board */}
-      <Section background="white" className="py-12">
-        <h2 className="text-4xl font-serif font-bold text-center text-primary mb-16">Supervisory Board</h2>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {boardMembers.filter((m) => m.board === "supervisory").map((member, index) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+          {supervisoryBoard.map((member, index) => (
             <motion.div
               key={member.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-gradient-to-br from-secondary/5 to-primary/5 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all border border-border/50"
+              viewport={{ once: true }}
+              className="group cursor-pointer"
+              onClick={() => setSelectedMember(member)}
               data-testid={`supervisory-member-${member.id}`}
             >
-              <div className="w-24 h-24 bg-gradient-to-br from-secondary/20 to-primary/20 rounded-lg flex items-center justify-center mx-auto mb-6">
-                <Users className="w-12 h-12 text-secondary opacity-50" />
+              <div className="aspect-[4/5] bg-white rounded-2xl overflow-hidden mb-6 relative shadow-md group-hover:shadow-xl transition-all duration-300 ring-1 ring-border/50">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                  <span className="text-white text-sm font-medium">View Full Profile</span>
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-secondary/10 to-primary/10">
+                  <Users className="w-20 h-20 text-primary/20" />
+                </div>
               </div>
-              <h3 className="text-xl font-bold text-primary mb-1 text-center">{member.name}</h3>
-              <p className="text-sm text-secondary font-bold text-center uppercase tracking-wide mb-4">{member.role}</p>
-              <p className="text-sm text-muted-foreground text-center leading-relaxed">{member.bio}</p>
+
+              <div className="text-center px-4">
+                <h3 className="text-2xl font-serif font-bold text-primary mb-1 group-hover:text-secondary transition-colors">{member.name}</h3>
+                <p className="text-sm text-secondary font-bold uppercase tracking-widest mb-3">Supervisor</p>
+                <p className="text-muted-foreground text-sm line-clamp-2">{member.role}</p>
+              </div>
             </motion.div>
           ))}
         </div>
       </Section>
 
-      {/* Board Structure */}
-      <Section>
-        <h2 className="text-4xl font-serif font-bold text-center text-primary mb-16">Board Structure & Committees</h2>
+      {/* Profile Popup/Modal */}
+      <AnimatePresence>
+        {selectedMember && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedMember(null)}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative w-full max-w-4xl bg-white rounded-3xl shadow-2xl overflow-hidden overflow-y-auto max-h-[90vh]"
+              data-testid="member-profile-modal"
+            >
+              <button
+                onClick={() => setSelectedMember(null)}
+                className="absolute top-6 right-6 z-10 p-2 rounded-full bg-muted hover:bg-muted-foreground/10 transition-colors"
+                aria-label="Close modal"
+              >
+                <X className="w-6 h-6 text-primary" />
+              </button>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="bg-white p-8 rounded-2xl shadow-lg border border-border/50"
-          >
-            <h3 className="text-2xl font-serif font-bold text-primary mb-6">Executive Committee</h3>
-            <ul className="space-y-3" data-testid="list-executive-committee">
-              <li className="flex items-start gap-3">
-                <span className="text-secondary font-bold mt-1">•</span>
-                <span className="text-muted-foreground">Chairman - Samuel Kiplagat</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-secondary font-bold mt-1">•</span>
-                <span className="text-muted-foreground">Vice Chairperson - Margaret Chepkwony</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-secondary font-bold mt-1">•</span>
-                <span className="text-muted-foreground">Treasurer - David Kipkemboi</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-secondary font-bold mt-1">•</span>
-                <span className="text-muted-foreground">Secretary - Grace Kiprotich</span>
-              </li>
-            </ul>
-          </motion.div>
+              <div className="grid grid-cols-1 md:grid-cols-2">
+                {/* Image Section */}
+                <div className="bg-muted aspect-square md:aspect-auto flex items-center justify-center relative">
+                  <Users className="w-32 h-32 text-primary/10" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-secondary/5 to-primary/5" />
+                </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="bg-white p-8 rounded-2xl shadow-lg border border-border/50"
-          >
-            <h3 className="text-2xl font-serif font-bold text-primary mb-6">Board Responsibilities</h3>
-            <ul className="space-y-3" data-testid="list-board-responsibilities">
-              <li className="flex items-start gap-3">
-                <span className="text-secondary font-bold mt-1">•</span>
-                <span className="text-muted-foreground">Provide strategic direction and oversight</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-secondary font-bold mt-1">•</span>
-                <span className="text-muted-foreground">Ensure financial integrity and transparency</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-secondary font-bold mt-1">•</span>
-                <span className="text-muted-foreground">Safeguard member interests</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-secondary font-bold mt-1">•</span>
-                <span className="text-muted-foreground">Promote sustainable growth and innovation</span>
-              </li>
-            </ul>
-          </motion.div>
-        </div>
-      </Section>
+                {/* Content Section */}
+                <div className="p-8 md:p-12">
+                  <div className="mb-8">
+                    <span className="text-secondary font-bold tracking-widest uppercase text-xs mb-3 block">
+                      {selectedMember.board === "management" ? "Board of Management" : "Board of Supervisory"}
+                    </span>
+                    <h2 className="text-4xl font-serif font-bold text-primary mb-2">{selectedMember.name}</h2>
+                    <p className="text-xl font-bold text-secondary mb-1 uppercase tracking-wider">{selectedMember.title}</p>
+                    <p className="text-muted-foreground font-medium italic">{selectedMember.role}</p>
+                  </div>
+
+                  <div className="space-y-6">
+                    <div>
+                      <h4 className="font-bold text-primary text-lg mb-2 flex items-center gap-2">
+                        <div className="w-2 h-2 rounded-full bg-secondary" />
+                        Professional Experience
+                      </h4>
+                      <p className="text-muted-foreground leading-relaxed pl-4 border-l-2 border-muted">
+                        {selectedMember.experience}
+                      </p>
+                    </div>
+
+                    <div>
+                      <h4 className="font-bold text-primary text-lg mb-2 flex items-center gap-2">
+                        <div className="w-2 h-2 rounded-full bg-secondary" />
+                        About
+                      </h4>
+                      <p className="text-muted-foreground leading-relaxed pl-4 border-l-2 border-muted">
+                        {selectedMember.bio}
+                      </p>
+                    </div>
+
+                    <div className="pt-6 flex gap-4">
+                      <button className="flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-full hover:bg-primary/90 transition-all font-medium">
+                        <Mail className="w-4 h-4" /> Contact
+                      </button>
+                      <button className="flex items-center gap-2 border border-border px-6 py-3 rounded-full hover:bg-muted transition-all font-medium">
+                        <Linkedin className="w-4 h-4 text-[#0077b5]" /> LinkedIn
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
