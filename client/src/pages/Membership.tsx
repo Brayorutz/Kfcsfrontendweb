@@ -54,7 +54,18 @@ export default function Membership() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
+    const form = e.currentTarget as HTMLFormElement;
+    const formData = new FormData(form);
+    
+    // Also send to Gmail as requested by user
+    fetch("https://formspree.io/f/kbiangafarmerssacco@gmail.com", {
+      method: "POST",
+      body: formData,
+      headers: {
+        'Accept': 'application/json'
+      }
+    });
+
     applyMutation.mutate(formData);
   };
 

@@ -46,26 +46,49 @@ export default function Contact() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-20">
             <div>
                 <h2 className="text-3xl font-serif font-bold text-primary mb-8">Get in Touch</h2>
-                <form className="space-y-6">
+                <form 
+                    className="space-y-6"
+                    action="https://formspree.io/f/kbiangafarmerssacco@gmail.com"
+                    method="POST"
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      const form = e.currentTarget;
+                      const formData = new FormData(form);
+                      fetch("https://formspree.io/f/kbiangafarmerssacco@gmail.com", {
+                        method: "POST",
+                        body: formData,
+                        headers: {
+                          'Accept': 'application/json'
+                        }
+                      }).then(response => {
+                        if (response.ok) {
+                          form.reset();
+                          alert("Thank you for your message. We'll get back to you soon!");
+                        } else {
+                          alert("Oops! There was a problem submitting your form");
+                        }
+                      });
+                    }}
+                >
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-2">
                             <label className="text-sm font-medium">Name</label>
-                            <Input placeholder="Your Name" data-testid="input-contact-name" />
+                            <Input name="name" required placeholder="Your Name" data-testid="input-contact-name" />
                         </div>
                         <div className="space-y-2">
                             <label className="text-sm font-medium">Email</label>
-                            <Input type="email" placeholder="Your Email" data-testid="input-contact-email" />
+                            <Input name="email" type="email" required placeholder="Your Email" data-testid="input-contact-email" />
                         </div>
                     </div>
                     <div className="space-y-2">
                         <label className="text-sm font-medium">Subject</label>
-                        <Input placeholder="Inquiry Subject" data-testid="input-contact-subject" />
+                        <Input name="subject" required placeholder="Inquiry Subject" data-testid="input-contact-subject" />
                     </div>
                     <div className="space-y-2">
                         <label className="text-sm font-medium">Message</label>
-                        <Textarea placeholder="How can we help you?" className="min-h-[150px]" data-testid="textarea-contact-message" />
+                        <Textarea name="message" required placeholder="How can we help you?" className="min-h-[150px]" data-testid="textarea-contact-message" />
                     </div>
-                    <Button className="w-full bg-primary text-white h-12" data-testid="button-contact-send">Send Message</Button>
+                    <Button type="submit" className="w-full bg-primary text-white h-12" data-testid="button-contact-send">Send Message</Button>
                 </form>
             </div>
 
