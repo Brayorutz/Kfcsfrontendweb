@@ -54,7 +54,7 @@ export default function Contact() {
                       e.preventDefault();
                       const form = e.currentTarget;
                       const formData = new FormData(form);
-                      fetch("https://formspree.io/f/kbiangafarmerssacco@gmail.com", {
+                      fetch("https://formspree.io/f/mqaejebz", {
                         method: "POST",
                         body: formData,
                         headers: {

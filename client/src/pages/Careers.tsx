@@ -58,7 +58,7 @@ export default function Careers() {
     const formData = new FormData(form);
     
     // Also send to Gmail as requested by user
-    fetch("https://formspree.io/f/kbiangafarmerssacco@gmail.com", {
+    fetch("https://formspree.io/f/mqaejebz", {
       method: "POST",
       body: formData,
       headers: {
