@@ -20,7 +20,7 @@ export function Section({ children, className, id, background = "white" }: Secti
     <section
       id={id}
       className={cn(
-        "py-20 md:py-32 relative",
+        "py-12 md:py-20 relative",
         bgStyles[background],
         className
       )}

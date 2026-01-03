@@ -8,17 +8,35 @@ import strawberryYoghurt from "@assets/generated_images/strawberry_yoghurt_bottl
 import vanillaYoghurt from "@assets/generated_images/vanilla_yoghurt_bottle_professional_product_shot..png";
 import mangoYoghurt from "@assets/generated_images/mango_yoghurt_bottle_professional_product_shot..png";
 import featuredYoghurt from "@assets/1765823555302_1766055490016.jpg";
-import dairyFederationLogo from "@assets/generated_images/dairy_federation_partner_logo.png";
-import agriculturalCoopLogo from "@assets/generated_images/agricultural_cooperative_logo.png";
-import sustainableFarmingLogo from "@assets/generated_images/sustainable_farming_partner_logo.png";
-import livestockHealthLogo from "@assets/generated_images/livestock_health_partner_logo.png";
-import ruralDevelopmentLogo from "@assets/generated_images/rural_development_partner_logo.png";
+import asdspLogo from "@assets/asdsp_logo_1767426427547.png";
+import chaiSaccoLogo from "@assets/chaisacco_logo_1767426427549.jpg";
+import coopersLogo from "@assets/coopers_logo_1767426427551.png";
+import imarishaSaccoLogo from "@assets/imarishasacco_logo_1767426427611.png";
+import kdbLogo from "@assets/kdb_logo_1767426427631.png";
+import kenyaHighlandsLogo from "@assets/kenyahighlandssacco_logo_1767426427721.png";
+import marvelFeedsLogo from "@assets/marvel_feeds_1767426427724.png";
+import navcdpLogo from "@assets/navcdp_logo_1767426427726.jpg";
+import ndegeChaiLogo from "@assets/ndegechai_logo_1767426427727.jpg";
+import newKccLogo from "@assets/newkcc_logo_1767426427729.jpg";
+import patnasSaccoLogo from "@assets/patnas_sacco_1767426427730.jpg";
+import promacoLogo from "@assets/promaco_logo_1767426427732.png";
+
+const partners = [
+  { name: "ASDSP", logo: asdspLogo },
+  { name: "Chai Sacco", logo: chaiSaccoLogo },
+  { name: "Cooper K-Brands", logo: coopersLogo },
+  { name: "Imarisha Sacco", logo: imarishaSaccoLogo },
+  { name: "Kenya Dairy Board", logo: kdbLogo },
+  { name: "Kenya Highlands Sacco", logo: kenyaHighlandsLogo },
+  { name: "Marvel Feeds", logo: marvelFeedsLogo },
+  { name: "NAVCDP", logo: navcdpLogo },
+  { name: "Ndege Chai Sacco", logo: ndegeChaiLogo },
+  { name: "New KCC", logo: newKccLogo },
+  { name: "Patnas Sacco", logo: patnasSaccoLogo },
+  { name: "Promaco", logo: promacoLogo },
+];
+
 import trophyImage from "@assets/IMG_20251219_144012_1766147245755.jpg";
-import awardImage1 from "@assets/WhatsApp_Image_2025-12-19_at_20.42.35_1766218730971.jpeg";
-import awardImage2 from "@assets/WhatsApp_Image_2025-12-19_at_20.42.36_1766218742963.jpeg";
-import kabiFeedsImage from "@assets/Gemini_Generated_Image_ie833sie833sie83_1766219640993.png";
-import { Link } from "wouter";
-import { useState, useEffect } from "react";
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -95,30 +113,34 @@ export default function Home() {
                 
                 <div className="container mx-auto px-6 relative z-10 pt-20">
                     <motion.div
-                        initial={{ opacity: 0, x: -50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 1.2, duration: 1 }}
-                        className="max-w-3xl"
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.5, duration: 1 }}
+                        className="max-w-4xl"
                     >
-                        <span className="inline-block py-1 px-3 rounded-full bg-secondary/90 text-white text-sm font-bold tracking-wide mb-6">
-                        ESTABLISHED 1995
-                        </span>
-                        <h1 className="text-5xl md:text-7xl font-serif font-bold text-white mb-6 leading-tight">
-                        Pure Dairy excellence,<br />
-                        <span className="text-green-400">Straight from the source.</span>
+                        <motion.span 
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          className="inline-block py-2 px-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-bold tracking-widest mb-8 uppercase"
+                        >
+                          Empowering Farmers Since 1995
+                        </motion.span>
+                        <h1 className="text-6xl md:text-8xl font-serif font-bold text-white mb-8 leading-[1.1] tracking-tight">
+                          Modern Dairy <br />
+                          <span className="bg-gradient-to-r from-green-400 to-emerald-300 bg-clip-text text-transparent">Excellence.</span>
                         </h1>
-                        <p className="text-lg md:text-xl text-white/90 mb-10 max-w-xl leading-relaxed">
-                        Empowering farmers and nourishing communities with premium quality dairy products. Join the Kabianga revolution today.
+                        <p className="text-xl md:text-2xl text-white/80 mb-12 max-w-2xl leading-relaxed font-light">
+                          Join over 5,000 farmers in Kabianga's premier dairy cooperative. We're reshaping the future of agriculture with technology and tradition.
                         </p>
-                        <div className="flex flex-col sm:flex-row gap-4">
+                        <div className="flex flex-col sm:flex-row gap-6">
                         <Link href="/membership" asChild>
-                            <Button size="lg" className="bg-primary hover:bg-primary/90 text-white text-lg h-14 px-8 rounded-full">
-                                Become a Member
+                            <Button size="lg" className="bg-primary hover:bg-primary/90 text-white text-xl h-16 px-10 rounded-full shadow-2xl shadow-primary/20 transition-all hover:scale-105">
+                                Join the Movement
                             </Button>
                         </Link>
-                        <Link href="/shop" asChild>
-                            <Button size="lg" variant="outline" className="bg-white/10 backdrop-blur-sm border-white/40 text-white hover:bg-white hover:text-primary text-lg h-14 px-8 rounded-full">
-                                Shop Products
+                        <Link href="/about" asChild>
+                            <Button size="lg" variant="outline" className="bg-white/10 backdrop-blur-md border-white/30 text-white hover:bg-white hover:text-primary text-xl h-16 px-10 rounded-full transition-all">
+                                Discover Our Story
                             </Button>
                         </Link>
                         </div>
@@ -203,110 +225,39 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* Partners & Recognition Section */}
-      <Section background="white" className="py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-stretch">
-          {/* Left: Trophy/Award - Prominent */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-1 flex flex-col items-center justify-center"
+      {/* Partners Carousel Section */}
+      <Section background="white" className="py-12 border-y border-border/50">
+        <div className="text-center mb-12">
+          <span className="text-secondary font-bold tracking-widest uppercase text-xs mb-3 block">Collaborating for Excellence</span>
+          <h2 className="text-3xl font-serif font-bold text-primary">Our Trusted Partners</h2>
+        </div>
+        
+        <div className="relative overflow-hidden w-full group">
+          <motion.div 
+            className="flex gap-12 items-center whitespace-nowrap"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{ 
+              duration: 30, 
+              repeat: Infinity, 
+              ease: "linear" 
+            }}
           >
-            <Link href="/news" asChild>
-              <button 
-                className="w-full group cursor-pointer"
-                data-testid="link-awards-news"
+            {[...partners, ...partners].map((partner, index) => (
+              <div 
+                key={index} 
+                className="flex-shrink-0 w-40 h-24 flex items-center justify-center grayscale hover:grayscale-0 transition-all opacity-60 hover:opacity-100"
               >
-                <div className="bg-gradient-to-br from-yellow-50 via-amber-50 to-yellow-100 rounded-3xl p-8 shadow-2xl border border-amber-200 hover:shadow-3xl transition-all hover:scale-105 aspect-square flex flex-col items-center justify-center gap-4 relative overflow-hidden">
-                  {/* Glow effect */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  
-                  <img 
-                    src={trophyImage} 
-                    alt="Best Cooperative National Award" 
-                    className="w-40 h-40 object-contain drop-shadow-lg group-hover:scale-110 transition-transform relative z-10" 
-                    data-testid="img-trophy-award"
-                  />
-                  <div className="relative z-10 text-center">
-                    <h3 className="font-serif font-bold text-primary text-lg">Award Winning</h3>
-                    <p className="text-sm text-secondary font-medium">Excellence</p>
-                  </div>
-                </div>
-              </button>
-            </Link>
-          </motion.div>
-
-          {/* Right: Title and Partners Scroll */}
-          <div className="lg:col-span-2">
-            <div className="mb-8">
-              <span className="text-secondary font-bold tracking-wider uppercase text-sm mb-2 block">Trusted Partners</span>
-              <h2 className="text-4xl font-serif font-bold text-primary mb-4">Collaborating for Excellence</h2>
-              <p className="text-muted-foreground text-lg">
-                We work alongside industry leaders and organizations committed to dairy excellence and sustainable farming.
-              </p>
-            </div>
-
-            {/* Horizontal Scrolling Partner Logos */}
-            <div className="relative">
-              <div className="overflow-x-auto scrollbar-hide">
-                <div className="flex gap-4 pb-4 min-w-min">
-                  {/* Partner Logos */}
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: 0 }}
-                    className="flex-shrink-0 bg-white rounded-2xl p-6 shadow-lg border border-border/50 hover:shadow-xl transition-shadow w-32 h-32 flex items-center justify-center"
-                    data-testid="partner-logo-federation"
-                  >
-                    <img src={dairyFederationLogo} alt="Dairy Federation Partner" className="w-24 h-24 object-contain" />
-                  </motion.div>
-
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: 0.1 }}
-                    className="flex-shrink-0 bg-white rounded-2xl p-6 shadow-lg border border-border/50 hover:shadow-xl transition-shadow w-32 h-32 flex items-center justify-center"
-                    data-testid="partner-logo-coop"
-                  >
-                    <img src={agriculturalCoopLogo} alt="Agricultural Cooperative Partner" className="w-24 h-24 object-contain" />
-                  </motion.div>
-
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                    className="flex-shrink-0 bg-white rounded-2xl p-6 shadow-lg border border-border/50 hover:shadow-xl transition-shadow w-32 h-32 flex items-center justify-center"
-                    data-testid="partner-logo-farming"
-                  >
-                    <img src={sustainableFarmingLogo} alt="Sustainable Farming Partner" className="w-24 h-24 object-contain" />
-                  </motion.div>
-
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: 0.3 }}
-                    className="flex-shrink-0 bg-white rounded-2xl p-6 shadow-lg border border-border/50 hover:shadow-xl transition-shadow w-32 h-32 flex items-center justify-center"
-                    data-testid="partner-logo-health"
-                  >
-                    <img src={livestockHealthLogo} alt="Livestock Health Partner" className="w-24 h-24 object-contain" />
-                  </motion.div>
-
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: 0.4 }}
-                    className="flex-shrink-0 bg-white rounded-2xl p-6 shadow-lg border border-border/50 hover:shadow-xl transition-shadow w-32 h-32 flex items-center justify-center"
-                    data-testid="partner-logo-development"
-                  >
-                    <img src={ruralDevelopmentLogo} alt="Rural Development Partner" className="w-24 h-24 object-contain" />
-                  </motion.div>
-                </div>
+                <img 
+                  src={partner.logo} 
+                  alt={partner.name} 
+                  className="max-w-full max-h-full object-contain" 
+                />
               </div>
-              {/* Gradient fade for scroll indicator */}
-              <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-white to-transparent pointer-events-none" />
-            </div>
-          </div>
+            ))}
+          </motion.div>
+          {/* Gradient Masks */}
+          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-10" />
+          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-10" />
         </div>
       </Section>
 
