@@ -8,6 +8,8 @@ import strawberryYoghurt from "@assets/generated_images/strawberry_yoghurt_bottl
 import vanillaYoghurt from "@assets/generated_images/vanilla_yoghurt_bottle_professional_product_shot..png";
 import mangoYoghurt from "@assets/generated_images/mango_yoghurt_bottle_professional_product_shot..png";
 import featuredYoghurt from "@assets/1765823555302_1766055490016.jpg";
+import awardImage1 from "@assets/WhatsApp_Image_2025-12-19_at_20.42.35_1766218730971.jpeg";
+import awardImage2 from "@assets/WhatsApp_Image_2025-12-19_at_20.42.36_1766218742963.jpeg";
 import asdspLogo from "@assets/asdsp_logo_1767426427547.png";
 import chaiSaccoLogo from "@assets/chaisacco_logo_1767426427549.jpg";
 import coopersLogo from "@assets/coopers_logo_1767426427551.png";
@@ -36,6 +38,8 @@ const partners = [
   { name: "Promaco", logo: promacoLogo },
 ];
 
+import { Link } from "wouter";
+import { useState, useEffect } from "react";
 import trophyImage from "@assets/IMG_20251219_144012_1766147245755.jpg";
 
 export default function Home() {
