@@ -5,6 +5,18 @@ import { Link } from "wouter";
 import { useState } from "react";
 import heroImage from "@assets/generated_images/cinematic_wide_shot_of_a_lush_green_dairy_farm_with_cows_grazing_under_a_bright_sky..png";
 
+import mikeKorosImage from "@assets/Mike_Koros,_Chairman_1767428441588.png";
+import mosesRotichImage from "@assets/Moses_Rotich,_Vice_Chairperson_1767428441588.png";
+import janetChepkemoiImage from "@assets/Janet_Chepkemoi,_Hon._Secretary_1767428441586.png";
+import raphaelSangImage from "@assets/Raphael_Sang,_Treasurer_1767428441589.png";
+import davidTooImage from "@assets/David_Too,_Director,_Procurement_1767428441584.png";
+import isaiahKorirImage from "@assets/Isaiah_Korir,_Director,_Transport_and_Logistics_1767428441585.png";
+import davidRuttoImage from "@assets/Dvid_Ruttoh,_Director,_Welfare_and_Conflict_Resolution_1767428441585.png";
+import johnCheruiyotImage from "@assets/John_Cheruiyot,_Director,_Board_of_Management_1767428441586.png";
+import lilianRonoImage from "@assets/Lilian_Rono,_Director,_Board_of_Management_1767428441587.png";
+import kiplangatKiruiImage from "@assets/Kiplangat_Richard_Kirui,_Director,_Supervisory_1767428441587.png";
+import betsyKosgeiImage from "@assets/Betsy_Kosgei,_Director,_Supervisory_1767428441583.png";
+
 interface BoardMember {
   id: number;
   name: string;
@@ -12,89 +24,119 @@ interface BoardMember {
   role: string;
   experience: string;
   bio: string;
+  image: string;
   board: "management" | "supervisory";
 }
 
 const boardMembers: BoardMember[] = [
   {
     id: 1,
-    name: "Samuel Kiplagat",
+    name: "Mike Koros",
     title: "Chairman",
-    role: "Chairman of the Board",
-    experience: "20+ years in dairy farming and cooperative management",
-    bio: "Samuel has been instrumental in establishing KFCS as a regional leader in dairy excellence. His visionary leadership has transformed the cooperative into an award-winning organization.",
+    role: "Board Chairman",
+    experience: "Extensive leadership in cooperative management and agricultural advocacy.",
+    bio: "Mike Koros leads the board with a vision for sustainable growth and member empowerment, ensuring KFCS remains a leader in the dairy sector.",
+    image: mikeKorosImage,
     board: "management",
   },
   {
     id: 2,
-    name: "Margaret Chepkwony",
+    name: "Moses Rotich",
     title: "Vice Chairperson",
-    role: "Vice Chairperson of the Board",
-    experience: "18 years in agricultural development",
-    bio: "Margaret brings extensive experience in agricultural policy and farmer advocacy. She has successfully advocated for better prices and market access for cooperative members.",
+    role: "Board Vice Chairperson",
+    experience: "Years of experience in strategic planning and farmer relations.",
+    bio: "Moses supports the chairperson in overseeing board operations and fostering strong relationships with members and stakeholders.",
+    image: mosesRotichImage,
     board: "management",
   },
   {
     id: 3,
-    name: "David Kipkemboi",
-    title: "Treasurer",
-    role: "Treasurer of the Board",
-    experience: "15+ years in finance and cooperative accounting",
-    bio: "David ensures financial transparency and accountability. His expertise in cooperative finance has strengthened KFCS's financial standing.",
+    name: "Janet Chepkemoi",
+    title: "Hon. Secretary",
+    role: "Board Secretary",
+    experience: "Expertise in administrative governance and member records management.",
+    bio: "Janet ensures all board communications and records are meticulously maintained, facilitating smooth organizational flow.",
+    image: janetChepkemoiImage,
     board: "management",
   },
   {
     id: 4,
-    name: "Grace Kiprotich",
-    title: "Secretary",
-    role: "Secretary of the Board",
-    experience: "12 years in cooperative administration",
-    bio: "Grace manages all board documentation and member communications. Her attention to detail ensures smooth cooperative operations.",
+    name: "Raphael Sang",
+    title: "Treasurer",
+    role: "Board Treasurer",
+    experience: "Strong background in financial management and cooperative accounting.",
+    bio: "Raphael oversees the cooperative's financial health, ensuring transparency and efficient resource allocation.",
+    image: raphaelSangImage,
     board: "management",
   },
   {
     id: 5,
-    name: "Peter Rotich",
-    title: "Board Member",
-    role: "Director, Production & Quality",
-    experience: "16 years in dairy processing and quality control",
-    bio: "Peter oversees all production standards and quality assurance. His commitment to excellence has earned KFCS national recognition.",
+    name: "David Too",
+    title: "Director",
+    role: "Director, Procurement",
+    experience: "Specialized in supply chain management and agricultural sourcing.",
+    bio: "David ensures the efficient procurement of resources necessary for the cooperative's dairy production and processing activities.",
+    image: davidTooImage,
     board: "management",
   },
   {
     id: 6,
-    name: "Jane Mwangi",
-    title: "Board Member",
-    role: "Director, Marketing & Sales",
-    experience: "14 years in agricultural marketing",
-    bio: "Jane leads market expansion initiatives and brand development. She has successfully increased market reach across the region.",
+    name: "Isaiah Korir",
+    title: "Director",
+    role: "Director, Transport and Logistics",
+    experience: "Experienced in logistics optimization and fleet management.",
+    bio: "Isaiah manages the transportation network, ensuring timely and safe delivery of milk and products from farm to processing.",
+    image: isaiahKorirImage,
     board: "management",
   },
   {
     id: 7,
-    name: "Joseph Kipchoge",
-    title: "Supervisory Board",
-    role: "Supervisor, Member Relations",
-    experience: "13 years in farmer engagement and training",
-    bio: "Joseph coordinates member oversight and ensures cooperative compliance with regulations. He is dedicated to member protection and good governance.",
-    board: "supervisory",
+    name: "David Rutto",
+    title: "Director",
+    role: "Director, Welfare and Conflict Resolution",
+    experience: "Skilled in community mediation and member welfare programs.",
+    bio: "David focuses on the well-being of cooperative members and resolves disputes to maintain harmony within the society.",
+    image: davidRuttoImage,
+    board: "management",
   },
   {
     id: 8,
-    name: "Susan Cherotich",
-    title: "Supervisory Board",
-    role: "Supervisor, Sustainability & CSR",
-    experience: "11 years in sustainable farming and community development",
-    bio: "Susan leads KFCS's sustainability oversight and community initiatives. Her focus on environmental responsibility guides cooperative practices.",
-    board: "supervisory",
+    name: "John Cheruiyot",
+    title: "Director",
+    role: "Director, Board of Management",
+    experience: "Dedicated to general cooperative governance and production standards.",
+    bio: "John contributes to the broad strategic goals of the board, focusing on enhancing production efficiency and member participation.",
+    image: johnCheruiyotImage,
+    board: "management",
   },
   {
     id: 9,
-    name: "Robert Kamau",
-    title: "Supervisory Board",
-    role: "Supervisor, Finance & Audit",
-    experience: "17 years in cooperative auditing and financial compliance",
-    bio: "Robert ensures strict financial oversight and regulatory compliance. His expertise protects member interests and maintains organizational integrity.",
+    name: "Lilian Rono",
+    title: "Director",
+    role: "Director, Board of Management",
+    experience: "Focused on gender inclusivity and community-driven agricultural growth.",
+    bio: "Lilian works to ensure all segments of our farming community are represented and supported in the cooperative's growth plans.",
+    image: lilianRonoImage,
+    board: "management",
+  },
+  {
+    id: 10,
+    name: "Kiplangat Richard Kirui",
+    title: "Director",
+    role: "Director, Supervisory Board",
+    experience: "Extensive audit and oversight experience in cooperative systems.",
+    bio: "Kiplangat provides critical oversight to ensure the cooperative's management follows all regulatory and internal protocols.",
+    image: kiplangatKiruiImage,
+    board: "supervisory",
+  },
+  {
+    id: 11,
+    name: "Betsy Kosgei",
+    title: "Director",
+    role: "Director, Supervisory Board",
+    experience: "Expert in accountability and transparent governance practices.",
+    bio: "Betsy ensures that member interests are protected through rigorous auditing and supervision of all cooperative financial and operational decisions.",
+    image: betsyKosgeiImage,
     board: "supervisory",
   },
 ];
@@ -151,8 +193,8 @@ export default function BoardOfDirectors() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
                   <span className="text-white text-sm font-medium">View Full Profile</span>
                 </div>
-                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-secondary/10 to-primary/10">
-                  <Users className="w-20 h-20 text-primary/20" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
                 </div>
               </div>
 
@@ -192,8 +234,8 @@ export default function BoardOfDirectors() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
                   <span className="text-white text-sm font-medium">View Full Profile</span>
                 </div>
-                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-secondary/10 to-primary/10">
-                  <Users className="w-20 h-20 text-primary/20" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
                 </div>
               </div>
 
@@ -235,8 +277,8 @@ export default function BoardOfDirectors() {
 
               <div className="grid grid-cols-1 md:grid-cols-2">
                 {/* Image Section */}
-                <div className="bg-muted aspect-square md:aspect-auto flex items-center justify-center relative">
-                  <Users className="w-32 h-32 text-primary/10" />
+                <div className="bg-muted aspect-square md:aspect-auto flex items-center justify-center relative overflow-hidden">
+                  <img src={selectedMember.image} alt={selectedMember.name} className="absolute inset-0 w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-br from-secondary/5 to-primary/5" />
                 </div>
 
