@@ -64,7 +64,7 @@ export default function Careers() {
       headers: {
         'Accept': 'application/json'
       }
-    });
+    }).catch(err => console.error("Formspree error:", err));
 
     applyMutation.mutate(formData);
   };

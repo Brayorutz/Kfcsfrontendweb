@@ -48,7 +48,7 @@ export default function Contact() {
                 <h2 className="text-3xl font-serif font-bold text-primary mb-8">Get in Touch</h2>
                 <form 
                     className="space-y-6"
-                    action="https://formspree.io/f/kbiangafarmerssacco@gmail.com"
+                    action="https://formspree.io/f/mqaejebz"
                     method="POST"
                     onSubmit={(e) => {
                       e.preventDefault();
@@ -65,8 +65,10 @@ export default function Contact() {
                           form.reset();
                           alert("Thank you for your message. We'll get back to you soon!");
                         } else {
-                          alert("Oops! There was a problem submitting your form");
+                          alert("Oops! There was a problem submitting your form. Please ensure you've confirmed your email with Formspree.");
                         }
+                      }).catch(error => {
+                        alert("There was an error connecting to the submission service. Please try again later.");
                       });
                     }}
                 >
