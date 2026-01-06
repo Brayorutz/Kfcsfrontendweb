@@ -44,10 +44,13 @@ import trophyImage from "@assets/IMG_20251219_144012_1766147245755.jpg";
 
 import allProductsHero from "@assets/All_products_Showcase_1767703540586.jpg";
 
+import wideAngleFarm from "@assets/wide_angle_shot_of_kfcs_1767709504687.jpg";
+
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
   
   const heroSlides = [
+    { image: wideAngleFarm, alt: "Wide angle view of KFCS Farm" },
     { image: allProductsHero, alt: "Kabianga Products Showcase" },
     { image: awardImage1, alt: "Kabianga FCS Receiving Trophy as Best Cooperative in Kenya" },
     { image: awardImage2, alt: "CS Wycliffe Oparanya Visits KFCS Stand at National Awards" },
@@ -236,7 +239,7 @@ export default function Home() {
             transition={{ duration: 0.5 }}
             className="rounded-2xl overflow-hidden shadow-2xl"
           >
-            <img src={heroImage} alt="KFCS Farm" className="w-full h-96 object-cover" />
+            <img src={wideAngleFarm} alt="KFCS Farm" className="w-full h-96 object-cover" />
           </motion.div>
         </div>
       </Section>

@@ -12,6 +12,13 @@ import vanilla500ml from "@assets/kabianga_vanilla_500ml_1767704465336.png";
 import freshMilkPouch from "@assets/fresh_milk_500ml_1767704465332.png";
 import happyFamily from "@assets/happy_family_1767704465333.png";
 
+// Facility Images
+import feedLab from "@assets/feed_laboratory_1767709443300.jpg";
+import milkCoolers from "@assets/Milk_Coolers_1767709504686.jpg";
+import yoghurtProduction from "@assets/yogurt_processing_1767709504687.jpg";
+import mursikProduction from "@assets/Kabianga_Mursik_5_liters_1767704465333.jpg"; // Using Mursik product image for production
+import feedProcessing from "@assets/kfcs_farm_machinery_1767709504683.jpg";
+
 export default function Production() {
   return (
     <div className="pt-20">
@@ -44,40 +51,63 @@ export default function Production() {
         </div>
       </Section>
 
+      {/* Facilities Section */}
       <Section>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-            <div className="order-2 md:order-1">
-                 <img src={plantImage} alt="Processing Plant" className="rounded-2xl shadow-2xl w-full" />
+        <div className="text-center mb-16">
+          <span className="text-secondary font-bold tracking-wider uppercase text-sm mb-2 block">Our Infrastructure</span>
+          <h2 className="text-4xl font-serif font-bold text-primary">State-of-the-Art Facilities</h2>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col">
+            <div className="h-64 overflow-hidden">
+              <img src={feedLab} alt="Feed Laboratory" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
             </div>
-            <div className="order-1 md:order-2">
-                <span className="text-secondary font-bold tracking-wider uppercase text-sm mb-2 block">Our Facilities</span>
-                <h2 className="text-4xl font-serif font-bold text-primary mb-6">World-Class Infrastructure</h2>
-                <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                    Our cooperative is equipped with modern facilities to ensure the highest standards of production and quality. From feed processing to specialized dairy production, we handle every step with precision.
-                </p>
-                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <li className="flex items-center gap-3">
-                        <div className="w-2 h-2 rounded-full bg-secondary" />
-                        <span className="text-foreground font-medium">Feed Laboratory</span>
-                    </li>
-                    <li className="flex items-center gap-3">
-                        <div className="w-2 h-2 rounded-full bg-secondary" />
-                        <span className="text-foreground font-medium">Milk Coolers</span>
-                    </li>
-                    <li className="flex items-center gap-3">
-                        <div className="w-2 h-2 rounded-full bg-secondary" />
-                        <span className="text-foreground font-medium">Yoghurt Production</span>
-                    </li>
-                    <li className="flex items-center gap-3">
-                        <div className="w-2 h-2 rounded-full bg-secondary" />
-                        <span className="text-foreground font-medium">Mursik Production</span>
-                    </li>
-                    <li className="flex items-center gap-3">
-                        <div className="w-2 h-2 rounded-full bg-secondary" />
-                        <span className="text-foreground font-medium">Feed Processing Plant</span>
-                    </li>
-                </ul>
+            <div className="p-6">
+              <h3 className="text-xl font-serif font-bold mb-3">Feed Laboratory</h3>
+              <p className="text-muted-foreground">Advanced testing facility ensuring the highest nutritional quality for our livestock feed.</p>
             </div>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col">
+            <div className="h-64 overflow-hidden">
+              <img src={milkCoolers} alt="Milk Coolers" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+            </div>
+            <div className="p-6">
+              <h3 className="text-xl font-serif font-bold mb-3">Milk Coolers</h3>
+              <p className="text-muted-foreground">High-capacity cooling systems to maintain milk freshness immediately after collection.</p>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col">
+            <div className="h-64 overflow-hidden">
+              <img src={yoghurtProduction} alt="Yoghurt Production" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+            </div>
+            <div className="p-6">
+              <h3 className="text-xl font-serif font-bold mb-3">Yoghurt Production</h3>
+              <p className="text-muted-foreground">Automated processing line for our premium creamy strawberry and vanilla yoghurts.</p>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col">
+            <div className="h-64 overflow-hidden">
+              <img src={mursikProduction} alt="Mursik Production" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+            </div>
+            <div className="p-6">
+              <h3 className="text-xl font-serif font-bold mb-3">Mursik Production</h3>
+              <p className="text-muted-foreground">Preserving tradition with our specialized traditional fermented milk production facility.</p>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col">
+            <div className="h-64 overflow-hidden">
+              <img src={feedProcessing} alt="Feed Processing Plant" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+            </div>
+            <div className="p-6">
+              <h3 className="text-xl font-serif font-bold mb-3">Feed Processing Plant</h3>
+              <p className="text-muted-foreground">Modern milling and processing plant providing balanced nutrition for cooperative farmers.</p>
+            </div>
+          </div>
         </div>
       </Section>
 

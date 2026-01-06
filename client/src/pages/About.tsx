@@ -5,12 +5,14 @@ import { Link } from "wouter";
 import heroImage from "@assets/generated_images/cinematic_wide_shot_of_a_lush_green_dairy_farm_with_cows_grazing_under_a_bright_sky..png";
 import trophyImage from "@assets/IMG_20251219_144012_1766147245755.jpg";
 
+import wideAngleFarm from "@assets/wide_angle_shot_of_kfcs_1767709504687.jpg";
+
 export default function About() {
   return (
     <div className="pt-20">
       <div className="bg-primary py-20 md:py-32 text-center text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-20">
-             <img src={heroImage} className="w-full h-full object-cover grayscale" alt="Background" />
+             <img src={wideAngleFarm} className="w-full h-full object-cover grayscale" alt="Background" />
         </div>
         <div className="relative z-10 container mx-auto px-6">
             <h1 className="text-5xl md:text-7xl font-serif font-bold mb-6">Our Story</h1>
@@ -34,7 +36,7 @@ export default function About() {
           </div>
           <div className="relative">
             <div className="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
-              <img src={heroImage} alt="Farmers" className="w-full h-full object-cover" />
+              <img src={wideAngleFarm} alt="KFCS Facility" className="w-full h-full object-cover" />
             </div>
             <div className="absolute -bottom-10 -left-10 bg-white p-8 rounded-xl shadow-xl max-w-xs hidden md:block border border-border">
               <p className="font-serif italic text-xl text-primary mb-4">"Our strength lies in our unity and our shared commitment to quality."</p>
@@ -76,7 +78,7 @@ export default function About() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all">
               <div className="aspect-video bg-gradient-to-br from-secondary/20 to-primary/20 flex items-center justify-center overflow-hidden">
-                <img src={heroImage} alt="Farm operations" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                <img src={wideAngleFarm} alt="Farm operations" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-bold text-primary mb-2">Farm Operations</h3>
