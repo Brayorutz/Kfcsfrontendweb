@@ -5,10 +5,12 @@ import strawberryYoghurt from "@assets/generated_images/strawberry_yoghurt_bottl
 import vanillaYoghurt from "@assets/generated_images/vanilla_yoghurt_bottle_professional_product_shot..png";
 import mangoYoghurt from "@assets/generated_images/mango_yoghurt_bottle_professional_product_shot..png";
 import freshMilk from "@assets/generated_images/fresh_milk_carton_professional_product_shot..png";
-import mursikImage from "@assets/Kabianga_Mursik_5_liters_1767703211041.jpg";
-import strawberry250ml from "@assets/Kabianga_Strawberry_250ml_1767703211041.jpg";
-import strawberry500ml from "@assets/Kabianga_Strawberry_500ml_1767703211042.jpg";
-import vanilla500ml from "@assets/Kabianga_Vanilla_500ml_1767703211042.jpg";
+import mursikImage from "@assets/Kabianga_Mursik_5_liters_1767704465333.jpg";
+import strawberry250ml from "@assets/kabianga_strawberry_250ml_1767704465334.png";
+import strawberry500ml from "@assets/Kabianga_Strawberry_yoghurt_500ml_1767704465335.png";
+import vanilla500ml from "@assets/kabianga_vanilla_500ml_1767704465336.png";
+import freshMilkPouch from "@assets/fresh_milk_500ml_1767704465332.png";
+import happyFamily from "@assets/happy_family_1767704465333.png";
 
 export default function Production() {
   return (
@@ -21,6 +23,22 @@ export default function Production() {
             </p>
         </div>
       </div>
+
+      {/* Happy Family Section */}
+      <Section background="muted" className="py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div className="rounded-2xl overflow-hidden shadow-2xl">
+            <img src={happyFamily} alt="Happy Family drinking Kabianga Milk" className="w-full h-full object-cover" />
+          </div>
+          <div>
+            <span className="text-secondary font-bold tracking-wider uppercase text-sm mb-2 block">Nourishing Generations</span>
+            <h2 className="text-4xl font-serif font-bold text-primary mb-6">Quality You Can Trust</h2>
+            <p className="text-muted-foreground text-lg leading-relaxed mb-6">
+              Kabianga Fresh Milk is naturally nutritious, providing the essential nutrients your family needs to thrive. From our farms to your table, we ensure every drop is packed with goodness and the authentic taste of Kericho's finest pastures.
+            </p>
+          </div>
+        </div>
+      </Section>
 
       <Section>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
@@ -128,7 +146,7 @@ export default function Production() {
             </div>
             <div className="text-center group">
                  <div className="bg-secondary/5 rounded-2xl aspect-square flex items-center justify-center p-4 mb-6 group-hover:bg-secondary/10 transition-colors overflow-hidden">
-                    <img src={freshMilk} alt="Fresh Milk" className="w-full h-full object-cover rounded-xl group-hover:scale-110 transition-transform" />
+                    <img src={freshMilkPouch} alt="Fresh Milk" className="w-full h-full object-cover rounded-xl group-hover:scale-110 transition-transform" />
                  </div>
                  <h3 className="text-2xl font-serif font-bold">Fresh Milk</h3>
                  <p className="text-muted-foreground">Pure, wholesome goodness from our farms.</p>
