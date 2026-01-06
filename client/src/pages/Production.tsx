@@ -5,6 +5,10 @@ import strawberryYoghurt from "@assets/generated_images/strawberry_yoghurt_bottl
 import vanillaYoghurt from "@assets/generated_images/vanilla_yoghurt_bottle_professional_product_shot..png";
 import mangoYoghurt from "@assets/generated_images/mango_yoghurt_bottle_professional_product_shot..png";
 import freshMilk from "@assets/generated_images/fresh_milk_carton_professional_product_shot..png";
+import mursikImage from "@assets/Kabianga_Mursik_5_liters_1767703211041.jpg";
+import strawberry250ml from "@assets/Kabianga_Strawberry_250ml_1767703211041.jpg";
+import strawberry500ml from "@assets/Kabianga_Strawberry_500ml_1767703211042.jpg";
+import vanilla500ml from "@assets/Kabianga_Vanilla_500ml_1767703211042.jpg";
 
 export default function Production() {
   return (
@@ -24,23 +28,31 @@ export default function Production() {
                  <img src={plantImage} alt="Processing Plant" className="rounded-2xl shadow-2xl w-full" />
             </div>
             <div className="order-1 md:order-2">
-                <span className="text-secondary font-bold tracking-wider uppercase text-sm mb-2 block">Our Facility</span>
-                <h2 className="text-4xl font-serif font-bold text-primary mb-6">Feed Processing Plant</h2>
+                <span className="text-secondary font-bold tracking-wider uppercase text-sm mb-2 block">Our Facilities</span>
+                <h2 className="text-4xl font-serif font-bold text-primary mb-6">World-Class Infrastructure</h2>
                 <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                    We don't just process milk; we support the entire ecosystem. Our feed processing plant ensures our farmers have access to high-quality, nutritious feed for their cattle, resulting in better milk yields and healthier herds.
+                    Our cooperative is equipped with modern facilities to ensure the highest standards of production and quality. From feed processing to specialized dairy production, we handle every step with precision.
                 </p>
-                 <ul className="space-y-4">
+                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <li className="flex items-center gap-3">
                         <div className="w-2 h-2 rounded-full bg-secondary" />
-                        <span className="text-foreground font-medium">Automated mixing and pelleting</span>
+                        <span className="text-foreground font-medium">Feed Laboratory</span>
                     </li>
                     <li className="flex items-center gap-3">
                         <div className="w-2 h-2 rounded-full bg-secondary" />
-                        <span className="text-foreground font-medium">Nutritionally balanced formulas</span>
+                        <span className="text-foreground font-medium">Milk Coolers</span>
                     </li>
                     <li className="flex items-center gap-3">
                         <div className="w-2 h-2 rounded-full bg-secondary" />
-                        <span className="text-foreground font-medium">Quality control lab on-site</span>
+                        <span className="text-foreground font-medium">Yoghurt Production</span>
+                    </li>
+                    <li className="flex items-center gap-3">
+                        <div className="w-2 h-2 rounded-full bg-secondary" />
+                        <span className="text-foreground font-medium">Mursik Production</span>
+                    </li>
+                    <li className="flex items-center gap-3">
+                        <div className="w-2 h-2 rounded-full bg-secondary" />
+                        <span className="text-foreground font-medium">Feed Processing Plant</span>
                     </li>
                 </ul>
             </div>
@@ -85,34 +97,41 @@ export default function Production() {
 
       <Section>
         <h2 className="text-4xl font-serif font-bold text-center text-primary mb-16">Product Showcase</h2>
-         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
             <div className="text-center group">
-                 <div className="bg-secondary/5 rounded-full aspect-square flex items-center justify-center p-8 mb-6 group-hover:bg-secondary/10 transition-colors">
-                    <img src={freshMilk} alt="Fresh Milk" className="w-full h-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform" />
+                 <div className="bg-secondary/5 rounded-2xl aspect-square flex items-center justify-center p-4 mb-6 group-hover:bg-secondary/10 transition-colors overflow-hidden">
+                    <img src={mursikImage} alt="Mursik" className="w-full h-full object-cover rounded-xl group-hover:scale-110 transition-transform" />
                  </div>
-                 <h3 className="text-xl font-bold">Fresh Milk</h3>
-                 <p className="text-muted-foreground">Pure, wholesome goodness.</p>
+                 <h3 className="text-2xl font-serif font-bold">Traditional Mursik</h3>
+                 <p className="text-muted-foreground">Authentic, rich, and naturally fermented.</p>
             </div>
              <div className="text-center group">
-                 <div className="bg-pink-50 rounded-full aspect-square flex items-center justify-center p-8 mb-6 group-hover:bg-pink-100 transition-colors">
-                    <img src={strawberryYoghurt} alt="Strawberry" className="w-full h-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform" />
+                 <div className="bg-pink-50 rounded-2xl aspect-square flex items-center justify-center p-4 mb-6 group-hover:bg-pink-100 transition-colors overflow-hidden">
+                    <img src={strawberry500ml} alt="Strawberry Yoghurt" className="w-full h-full object-cover rounded-xl group-hover:scale-110 transition-transform" />
                  </div>
-                 <h3 className="text-xl font-bold">Strawberry Yoghurt</h3>
-                 <p className="text-muted-foreground">Sweet and creamy delight.</p>
+                 <h3 className="text-2xl font-serif font-bold">Strawberry Yoghurt (500ml)</h3>
+                 <p className="text-muted-foreground">Sweet and creamy delight in every sip.</p>
             </div>
              <div className="text-center group">
-                 <div className="bg-amber-50 rounded-full aspect-square flex items-center justify-center p-8 mb-6 group-hover:bg-amber-100 transition-colors">
-                    <img src={vanillaYoghurt} alt="Vanilla" className="w-full h-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform" />
+                 <div className="bg-amber-50 rounded-2xl aspect-square flex items-center justify-center p-4 mb-6 group-hover:bg-amber-100 transition-colors overflow-hidden">
+                    <img src={vanilla500ml} alt="Vanilla Yoghurt" className="w-full h-full object-cover rounded-xl group-hover:scale-110 transition-transform" />
                  </div>
-                 <h3 className="text-xl font-bold">Vanilla Yoghurt</h3>
-                 <p className="text-muted-foreground">Classic smooth taste.</p>
+                 <h3 className="text-2xl font-serif font-bold">Vanilla Yoghurt (500ml)</h3>
+                 <p className="text-muted-foreground">Classic smooth taste you'll love.</p>
             </div>
-             <div className="text-center group">
-                 <div className="bg-orange-50 rounded-full aspect-square flex items-center justify-center p-8 mb-6 group-hover:bg-orange-100 transition-colors">
-                    <img src={mangoYoghurt} alt="Mango" className="w-full h-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform" />
+            <div className="text-center group">
+                 <div className="bg-pink-50 rounded-2xl aspect-square flex items-center justify-center p-4 mb-6 group-hover:bg-pink-100 transition-colors overflow-hidden">
+                    <img src={strawberry250ml} alt="Strawberry Yoghurt" className="w-full h-full object-cover rounded-xl group-hover:scale-110 transition-transform" />
                  </div>
-                 <h3 className="text-xl font-bold">Mango Yoghurt</h3>
-                 <p className="text-muted-foreground">Tropical perfection.</p>
+                 <h3 className="text-2xl font-serif font-bold">Strawberry Yoghurt (250ml)</h3>
+                 <p className="text-muted-foreground">Perfect grab-and-go size.</p>
+            </div>
+            <div className="text-center group">
+                 <div className="bg-secondary/5 rounded-2xl aspect-square flex items-center justify-center p-4 mb-6 group-hover:bg-secondary/10 transition-colors overflow-hidden">
+                    <img src={freshMilk} alt="Fresh Milk" className="w-full h-full object-cover rounded-xl group-hover:scale-110 transition-transform" />
+                 </div>
+                 <h3 className="text-2xl font-serif font-bold">Fresh Milk</h3>
+                 <p className="text-muted-foreground">Pure, wholesome goodness from our farms.</p>
             </div>
          </div>
       </Section>

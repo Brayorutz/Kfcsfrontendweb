@@ -10,7 +10,6 @@ const navItems = [
   { name: "Home", path: "/" },
   { name: "About Us", path: "/about", submenu: [{ name: "Board of Directors", path: "/about/board" }] },
   { name: "Production", path: "/production" },
-  { name: "Shop", path: "/shop" },
   { name: "Gallery", path: "/gallery" },
   { name: "Investors", path: "/investors" },
   { name: "Membership", path: "/membership" },
@@ -83,11 +82,6 @@ export function Navbar() {
             <Button variant="ghost" size="sm" className="gap-2">
               <User className="w-4 h-4" />
               Portal
-            </Button>
-          </Link>
-          <Link href="/shop" asChild>
-            <Button variant="outline" size="icon" className="rounded-full border-primary/20 hover:bg-primary/5 text-primary">
-              <ShoppingCart className="w-4 h-4" />
             </Button>
           </Link>
           <Link href="/membership" asChild>

@@ -26,7 +26,7 @@ export default function About() {
             <span className="text-secondary font-bold tracking-wider uppercase text-sm mb-2 block">About Us</span>
             <h2 className="text-4xl font-serif font-bold text-primary mb-6">A Legacy of Excellence</h2>
             <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-              Founded in 1995, Kabianga Farmers Cooperative Society Limited (KFCS) started with a handful of farmers united by a single vision: to transform the dairy landscape in Kericho.
+              Kabianga Farmers Cooperative Society Limited (KFCS) was registered in 1964 with the Ministry of Cooperatives and Social Services. We started with dedicated farmers united by a single vision: to transform the dairy landscape in Kericho.
             </p>
             <p className="text-muted-foreground text-lg leading-relaxed">
               Today, we serve over 5,000 active members, process thousands of liters of milk daily, and produce award-winning dairy products that grace tables across the region. We believe in sustainable farming, fair prices for our farmers, and uncompromising quality for our consumers.

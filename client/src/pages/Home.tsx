@@ -42,11 +42,13 @@ import { Link } from "wouter";
 import { useState, useEffect } from "react";
 import trophyImage from "@assets/IMG_20251219_144012_1766147245755.jpg";
 
+import allProductsHero from "@assets/All_products_Showcase_1767703540586.jpg";
+
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
   
   const heroSlides = [
-    { image: heroImage, alt: "Kabianga Farm" },
+    { image: allProductsHero, alt: "Kabianga Products Showcase" },
     { image: awardImage1, alt: "Kabianga FCS Receiving Trophy as Best Cooperative in Kenya" },
     { image: awardImage2, alt: "CS Wycliffe Oparanya Visits KFCS Stand at National Awards" },
   ];
@@ -153,11 +155,8 @@ export default function Home() {
             </div>
         </MilkRevealWrapper>
         
-        {/* Wave Divider at bottom of Hero */}
-        <div className="absolute bottom-0 w-full z-20">
-             <MilkWaveDivider />
-        </div>
-      </div>
+        {/* Carousel Indicators */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-3">
 
       {/* Stats Section */}
       <Section className="py-12 bg-white -mt-10 relative z-20 mx-4 md:mx-auto max-w-6xl rounded-2xl shadow-xl border border-border/50">
@@ -210,7 +209,7 @@ export default function Home() {
             <span className="text-secondary font-bold tracking-wider uppercase text-sm mb-2 block">Who We Are</span>
             <h2 className="text-4xl font-serif font-bold text-primary mb-6">Kabianga Farmers Cooperative</h2>
             <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-              Founded in 1995, we are a cooperative of over 5,000 farmers dedicated to transforming dairy farming in Kericho. We believe in sustainable practices, fair pricing, and uncompromising quality that empowers our farmers and nourishes our communities.
+              Founded in 1964 and registered with the Ministry of Cooperatives and Social Services, we are a cooperative of over 5,000 farmers dedicated to transforming dairy farming in Kericho. We believe in sustainable practices, fair pricing, and uncompromising quality that empowers our farmers and nourishes our communities.
             </p>
             <Link href="/about" asChild>
               <Button variant="link" className="text-primary text-lg group p-0">

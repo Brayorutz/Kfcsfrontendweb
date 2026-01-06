@@ -65,7 +65,7 @@ export default function Contact() {
                           form.reset();
                           alert("Thank you for your message. We'll get back to you soon!");
                         } else {
-                          alert("Oops! There was a problem submitting your form. Please ensure you've confirmed your email with Formspree.");
+                          alert("Oops! There was a problem submitting your form. All emails are sent to kabiangafarmers@gmail.com. Please ensure you've confirmed your email with Formspree.");
                         }
                       }).catch(error => {
                         alert("There was an error connecting to the submission service. Please try again later.");
