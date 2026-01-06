@@ -26,13 +26,13 @@ export default function Production() {
 
       {/* Happy Family Section */}
       <Section background="muted" className="py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <div className="rounded-2xl overflow-hidden shadow-2xl">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
+          <div className="rounded-2xl overflow-hidden shadow-2xl max-h-[400px]">
             <img src={happyFamily} alt="Happy Family drinking Kabianga Milk" className="w-full h-full object-cover" />
           </div>
           <div>
             <span className="text-secondary font-bold tracking-wider uppercase text-sm mb-2 block">Nourishing Generations</span>
-            <h2 className="text-4xl font-serif font-bold text-primary mb-6">Quality You Can Trust</h2>
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary mb-6">Quality You Can Trust</h2>
             <p className="text-muted-foreground text-lg leading-relaxed mb-6">
               Kabianga Fresh Milk is naturally nutritious, providing the essential nutrients your family needs to thrive. From our farms to your table, we ensure every drop is packed with goodness and the authentic taste of Kericho's finest pastures.
             </p>
