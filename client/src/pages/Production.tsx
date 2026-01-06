@@ -1,10 +1,5 @@
 import { Section } from "@/components/Section";
 import { motion } from "framer-motion";
-import plantImage from "@assets/generated_images/modern_dairy_processing_plant_interior..png";
-import strawberryYoghurt from "@assets/generated_images/strawberry_yoghurt_bottle_professional_product_shot..png";
-import vanillaYoghurt from "@assets/generated_images/vanilla_yoghurt_bottle_professional_product_shot..png";
-import mangoYoghurt from "@assets/generated_images/mango_yoghurt_bottle_professional_product_shot..png";
-import freshMilk from "@assets/generated_images/fresh_milk_carton_professional_product_shot..png";
 import mursikImage from "@assets/Kabianga_Mursik_5_liters_1767704465333.jpg";
 import strawberry250ml from "@assets/kabianga_strawberry_250ml_1767704465334.png";
 import strawberry500ml from "@assets/Kabianga_Strawberry_yoghurt_500ml_1767704465335.png";

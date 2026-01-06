@@ -2,10 +2,9 @@ import { Section } from "@/components/Section";
 import { Users, Target, Heart, Award, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import heroImage from "@assets/generated_images/cinematic_wide_shot_of_a_lush_green_dairy_farm_with_cows_grazing_under_a_bright_sky..png";
 import trophyImage from "@assets/IMG_20251219_144012_1766147245755.jpg";
-
 import wideAngleFarm from "@assets/wide_angle_shot_of_kfcs_1767709504687.jpg";
+import farmMachinery from "@assets/kfcs_farm_machinerary_1767709504683.jpg";
 
 export default function About() {
   return (
