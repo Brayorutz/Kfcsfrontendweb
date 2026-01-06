@@ -129,7 +129,7 @@ export default function Home() {
                           animate={{ opacity: 1, scale: 1 }}
                           className="inline-block py-2 px-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-bold tracking-widest mb-8 uppercase"
                         >
-                          Empowering Farmers Since 1995
+                          Empowering Farmers Since 1964
                         </motion.span>
                         <h1 className="text-6xl md:text-8xl font-serif font-bold text-white mb-8 leading-[1.1] tracking-tight">
                           Modern Dairy <br />
@@ -157,6 +157,19 @@ export default function Home() {
         
         {/* Carousel Indicators */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-3">
+          {heroSlides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentSlide(index)}
+              className={`w-3 h-3 rounded-full transition-all ${
+                currentSlide === index ? "bg-white w-8" : "bg-white/50 hover:bg-white/75"
+              }`}
+              data-testid={`btn-carousel-dot-${index}`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+      </div>
 
       {/* Stats Section */}
       <Section className="py-12 bg-white -mt-10 relative z-20 mx-4 md:mx-auto max-w-6xl rounded-2xl shadow-xl border border-border/50">
