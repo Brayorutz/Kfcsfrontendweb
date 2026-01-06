@@ -10,7 +10,7 @@ const navItems = [
   { name: "Home", path: "/" },
   { name: "About Us", path: "/about", submenu: [{ name: "Board of Directors", path: "/about/board" }] },
   { name: "Production", path: "/production" },
-  { name: "Shop", path: "/shop" },
+ // { name: "Shop", path: "/shop" },//
   { name: "Gallery", path: "/gallery" },
   { name: "Investors", path: "/investors" },
   { name: "Membership", path: "/membership" },
