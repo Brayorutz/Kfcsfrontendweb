@@ -9,8 +9,8 @@ const locations = [
     name: "Kabianga Centre (HQ & Processing)",
     address: "Kericho County, Kenya",
     poBox: "PO Box 123 - 20200, Kericho",
-    phone: "+254 700 000 000",
-    email: "info@kabiangafcs.co.ke",
+    phone: "0743719091",
+    email: "kabiangafarmerssacco@gmail.com",
     hours: "Mon - Fri: 8:00 AM - 5:00 PM, Sat: 8:00 AM - 1:00 PM",
     mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3982.5739319449397!2d35.26938532346897!3d-0.34893226358521574!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1827a5f7f7f7f7f7%3A0x0!2sKabianga%20FCS%20Centre!5e0!3m2!1sen!2ske",
   },
@@ -18,8 +18,8 @@ const locations = [
     name: "Taplotin Cooling Plant",
     address: "Kericho County, Kenya",
     poBox: "PO Box 456 - 20200",
-    phone: "+254 722 000 000",
-    email: "operations@kabiangafcs.co.ke",
+    phone: "0743719091",
+    email: "kabiangafarmerssacco@gmail.com",
     hours: "Mon - Fri: 6:00 AM - 6:00 PM, Sat - Sun: 8:00 AM - 4:00 PM",
     mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3982.573!2d35.27!3d-0.348!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sTaplotin%20Cooling%20Plant!5e0!3m2!1sen!2ske",
   },
@@ -27,8 +27,8 @@ const locations = [
     name: "Nairobi Distribution Centre",
     address: "Industrial Area, Nairobi",
     poBox: "PO Box 789 - 00100, Nairobi",
-    phone: "+254 020 000 000",
-    email: "sales@kabiangafcs.co.ke",
+    phone: "0743719091",
+    email: "kabiangafarmerssacco@gmail.com",
     hours: "Mon - Fri: 7:00 AM - 5:00 PM, Sat: 8:00 AM - 2:00 PM",
     mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.812!2d36.751!3d-1.318!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sNairobi%20Distribution!5e0!3m2!1sen!2ske",
   },
@@ -65,7 +65,7 @@ export default function Contact() {
                           form.reset();
                           alert("Thank you for your message. We'll get back to you soon!");
                         } else {
-                          alert("Oops! There was a problem submitting your form. Please ensure you've confirmed your email with Formspree.");
+                          alert("Oops! There was a problem submitting your form. All emails are sent to kabiangafarmers@gmail.com. Please ensure you've confirmed your email with Formspree.");
                         }
                       }).catch(error => {
                         alert("There was an error connecting to the submission service. Please try again later.");
@@ -113,7 +113,7 @@ export default function Contact() {
                             </div>
                             <div>
                                 <h3 className="font-bold text-lg mb-1">Phone</h3>
-                                <p className="text-muted-foreground">+254 700 000 000<br />+254 722 000 000</p>
+                                <p className="text-muted-foreground">0743719091</p>
                             </div>
                         </div>
                         <div className="flex items-start gap-4">
@@ -122,7 +122,7 @@ export default function Contact() {
                             </div>
                             <div>
                                 <h3 className="font-bold text-lg mb-1">Email</h3>
-                                <p className="text-muted-foreground">info@kabiangafcs.co.ke<br />sales@kabiangafcs.co.ke</p>
+                                <p className="text-muted-foreground">kabiangafarmerssacco@gmail.com</p>
                             </div>
                         </div>
                          <div className="flex items-start gap-4">

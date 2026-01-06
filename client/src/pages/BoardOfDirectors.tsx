@@ -3,7 +3,7 @@ import { Section } from "@/components/Section";
 import { Users, Linkedin, Mail, X } from "lucide-react";
 import { Link } from "wouter";
 import { useState } from "react";
-import heroImage from "@assets/generated_images/cinematic_wide_shot_of_a_lush_green_dairy_farm_with_cows_grazing_under_a_bright_sky..png";
+import wideAngleFarm from "@assets/wide_angle_shot_of_kfcs_1767709504687.jpg";
 
 import mikeKorosImage from "@assets/Mike_Koros,_Chairman_1767428441588.png";
 import mosesRotichImage from "@assets/Moses_Rotich,_Vice_Chairperson_1767428441588.png";
@@ -16,6 +16,7 @@ import johnCheruiyotImage from "@assets/John_Cheruiyot,_Director,_Board_of_Manag
 import lilianRonoImage from "@assets/Lilian_Rono,_Director,_Board_of_Management_1767428441587.png";
 import kiplangatKiruiImage from "@assets/Kiplangat_Richard_Kirui,_Director,_Supervisory_1767428441587.png";
 import betsyKosgeiImage from "@assets/Betsy_Kosgei,_Director,_Supervisory_1767428441583.png";
+import paulSoiImage from "@assets/Paul_Soi,_Director,_Supervisory_1767702615785.png";
 
 interface BoardMember {
   id: number;
@@ -139,6 +140,16 @@ const boardMembers: BoardMember[] = [
     image: betsyKosgeiImage,
     board: "supervisory",
   },
+  {
+    id: 12,
+    name: "Paul Soi",
+    title: "Director",
+    role: "Director, Supervisory Board",
+    experience: "Long-standing experience in community leadership and cooperative oversight.",
+    bio: "Paul brings a wealth of knowledge in community engagement and ensures the cooperative maintains high standards of integrity and service to its members.",
+    image: paulSoiImage,
+    board: "supervisory",
+  },
 ];
 
 export default function BoardOfDirectors() {
@@ -152,7 +163,7 @@ export default function BoardOfDirectors() {
       {/* Hero Section */}
       <div className="bg-primary py-20 md:py-32 text-center text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-20">
-          <img src={heroImage} className="w-full h-full object-cover grayscale" alt="Background" />
+          <img src={wideAngleFarm} className="w-full h-full object-cover grayscale" alt="Background" />
         </div>
         <div className="relative z-10 container mx-auto px-6">
           <div className="mb-4">

@@ -3,13 +3,10 @@ import { Button } from "@/components/ui/button";
 import { MilkRevealWrapper, MilkWaveDivider } from "@/components/MilkReveal";
 import { Section } from "@/components/Section";
 import { ArrowRight, Droplets, TrendingUp, Users, ChevronLeft, ChevronRight } from "lucide-react";
-import heroImage from "@assets/generated_images/cinematic_wide_shot_of_a_lush_green_dairy_farm_with_cows_grazing_under_a_bright_sky..png";
-import strawberryYoghurt from "@assets/generated_images/strawberry_yoghurt_bottle_professional_product_shot..png";
-import vanillaYoghurt from "@assets/generated_images/vanilla_yoghurt_bottle_professional_product_shot..png";
-import mangoYoghurt from "@assets/generated_images/mango_yoghurt_bottle_professional_product_shot..png";
-import featuredYoghurt from "@assets/1765823555302_1766055490016.jpg";
-import awardImage1 from "@assets/WhatsApp_Image_2025-12-19_at_20.42.35_1766218730971.jpeg";
-import awardImage2 from "@assets/WhatsApp_Image_2025-12-19_at_20.42.36_1766218742963.jpeg";
+import { Link } from "wouter";
+import { useState, useEffect } from "react";
+import trophyImage from "@assets/IMG_20251219_144012_1766147245755.jpg";
+
 import asdspLogo from "@assets/asdsp_logo_1767426427547.png";
 import chaiSaccoLogo from "@assets/chaisacco_logo_1767426427549.jpg";
 import coopersLogo from "@assets/coopers_logo_1767426427551.png";
@@ -38,15 +35,19 @@ const partners = [
   { name: "Promaco", logo: promacoLogo },
 ];
 
-import { Link } from "wouter";
-import { useState, useEffect } from "react";
-import trophyImage from "@assets/IMG_20251219_144012_1766147245755.jpg";
+import wideAngleFarm from "@assets/wide_angle_shot_of_kfcs_1767709504687.jpg";
+import commisionPlate from "@assets/kfcs_commision_plate_1767709504683.jpg";
+import farmMachinery from "@assets/kfcs_farm_machinerary_1767709504683.jpg";
+import awardImage1 from "@assets/WhatsApp_Image_2025-12-19_at_20.42.35_1766218730971.jpeg";
+import awardImage2 from "@assets/WhatsApp_Image_2025-12-19_at_20.42.36_1766218742963.jpeg";
+import allProductsHero from "@assets/All_products_Showcase_1767703540586.jpg";
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
   
   const heroSlides = [
-    { image: heroImage, alt: "Kabianga Farm" },
+    { image: wideAngleFarm, alt: "Wide angle view of KFCS Farm" },
+    { image: allProductsHero, alt: "Kabianga Products Showcase" },
     { image: awardImage1, alt: "Kabianga FCS Receiving Trophy as Best Cooperative in Kenya" },
     { image: awardImage2, alt: "CS Wycliffe Oparanya Visits KFCS Stand at National Awards" },
   ];
@@ -127,7 +128,7 @@ export default function Home() {
                           animate={{ opacity: 1, scale: 1 }}
                           className="inline-block py-2 px-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-bold tracking-widest mb-8 uppercase"
                         >
-                          Empowering Farmers Since 1995
+                          Empowering Farmers Since 1964
                         </motion.span>
                         <h1 className="text-6xl md:text-8xl font-serif font-bold text-white mb-8 leading-[1.1] tracking-tight">
                           Modern Dairy <br />
@@ -153,9 +154,19 @@ export default function Home() {
             </div>
         </MilkRevealWrapper>
         
-        {/* Wave Divider at bottom of Hero */}
-        <div className="absolute bottom-0 w-full z-20">
-             <MilkWaveDivider />
+        {/* Carousel Indicators */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-3">
+          {heroSlides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentSlide(index)}
+              className={`w-3 h-3 rounded-full transition-all ${
+                currentSlide === index ? "bg-white w-8" : "bg-white/50 hover:bg-white/75"
+              }`}
+              data-testid={`btn-carousel-dot-${index}`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
         </div>
       </div>
 
@@ -195,7 +206,7 @@ export default function Home() {
               <div className="w-0 h-0 border-t-[12px] border-t-transparent border-l-[24px] border-l-white border-b-[12px] border-b-transparent ml-2" />
             </div>
           </div>
-          <img src={heroImage} className="w-full h-full object-cover" alt="Video thumbnail" />
+          <img src={farmMachinery} className="w-full h-full object-cover" alt="Video thumbnail" />
         </div>
       </Section>
 
@@ -210,7 +221,7 @@ export default function Home() {
             <span className="text-secondary font-bold tracking-wider uppercase text-sm mb-2 block">Who We Are</span>
             <h2 className="text-4xl font-serif font-bold text-primary mb-6">Kabianga Farmers Cooperative</h2>
             <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-              Founded in 1995, we are a cooperative of over 5,000 farmers dedicated to transforming dairy farming in Kericho. We believe in sustainable practices, fair pricing, and uncompromising quality that empowers our farmers and nourishes our communities.
+              Founded in 1964 and registered with the Ministry of Cooperatives and Social Services, we are a cooperative of over 5,000 farmers dedicated to transforming dairy farming in Kericho. We believe in sustainable practices, fair pricing, and uncompromising quality that empowers our farmers and nourishes our communities.
             </p>
             <Link href="/about" asChild>
               <Button variant="link" className="text-primary text-lg group p-0">
@@ -224,7 +235,7 @@ export default function Home() {
             transition={{ duration: 0.5 }}
             className="rounded-2xl overflow-hidden shadow-2xl"
           >
-            <img src={heroImage} alt="KFCS Farm" className="w-full h-96 object-cover" />
+            <img src={wideAngleFarm} alt="KFCS Farm" className="w-full h-96 object-cover" />
           </motion.div>
         </div>
       </Section>

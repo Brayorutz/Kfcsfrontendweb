@@ -66,6 +66,7 @@ export default function Membership() {
       }
     }).catch(err => console.error("Formspree error:", err));
 
+    // Note: All emails are sent to kabiangafarmers@gmail.com
     applyMutation.mutate(formData);
   };
 
