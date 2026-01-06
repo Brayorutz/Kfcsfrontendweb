@@ -17,7 +17,7 @@ import feedLab from "@assets/feed_laboratory_1767709443300.jpg";
 import milkCoolers from "@assets/Milk_Coolers_1767709504686.jpg";
 import yoghurtProduction from "@assets/yogurt_processing_1767709504687.jpg";
 import mursikProduction from "@assets/Kabianga_Mursik_5_liters_1767704465333.jpg"; // Using Mursik product image for production
-import feedProcessing from "@assets/kfcs_farm_machinery_1767709504683.jpg";
+import feedProcessing from "@assets/kfcs_farm_machinerary_1767709504683.jpg";
 
 export default function Production() {
   return (
