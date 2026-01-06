@@ -27,8 +27,12 @@ export default function Production() {
       {/* Happy Family Section */}
       <Section background="muted" className="py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
-          <div className="rounded-2xl overflow-hidden shadow-2xl max-h-[400px]">
-            <img src={happyFamily} alt="Happy Family drinking Kabianga Milk" className="w-full h-full object-cover" />
+          <div className="flex justify-center">
+            <img 
+              src={happyFamily} 
+              alt="Happy Family drinking Kabianga Milk" 
+              className="max-w-[80%] md:max-w-full h-auto rounded-2xl shadow-2xl" 
+            />
           </div>
           <div>
             <span className="text-secondary font-bold tracking-wider uppercase text-sm mb-2 block">Nourishing Generations</span>
