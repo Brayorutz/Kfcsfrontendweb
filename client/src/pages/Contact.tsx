@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { useMutation } from "@tanstack/react-query";
 
 const locations = [
   {
@@ -39,43 +38,35 @@ const locations = [
 export default function Contact() {
   const { toast } = useToast();
   
-  const contactMutation = useMutation({
-    mutationFn: async (formData: any) => {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-      if (!response.ok) throw new Error("Failed to send message");
-      return response.json();
-    },
-    onSuccess: () => {
-      toast({
-        title: "Message Sent",
-        description: "Thank you for your message. We'll get back to you soon!",
-      });
-    },
-    onError: () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    
+    // Using Formspree to send to kabiangafarmerssacco@gmail.com
+    fetch("https://formspree.io/f/mqaejebz", {
+      method: "POST",
+      body: formData,
+      headers: {
+        'Accept': 'application/json'
+      }
+    }).then(response => {
+      if (response.ok) {
+        form.reset();
+        toast({
+          title: "Message Sent",
+          description: "Thank you for your message. We'll get back to you soon at kabiangafarmerssacco@gmail.com!",
+        });
+      } else {
+        throw new Error("Submission failed");
+      }
+    }).catch(error => {
       toast({
         title: "Error",
         description: "There was a problem sending your message. Please try again.",
         variant: "destructive",
       });
-    }
-  });
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-    const data = {
-      name: formData.get("name"),
-      email: formData.get("email"),
-      subject: formData.get("subject"),
-      message: formData.get("message"),
-    };
-    contactMutation.mutate(data);
-    form.reset();
+    });
   };
   return (
     <div className="pt-20">

@@ -6,60 +6,41 @@ import { Card, CardContent } from "@/components/ui/card";
 import { CheckCircle2 } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { useMutation } from "@tanstack/react-query";
 import { Link } from "wouter";
 
 export default function Membership() {
   const [submitted, setSubmitted] = useState(false);
   const { toast } = useToast();
 
-  const applyMutation = useMutation({
-    mutationFn: async (formData: FormData) => {
-      const data = {
-        firstName: formData.get("firstName") as string,
-        lastName: formData.get("lastName") as string,
-        nationalId: formData.get("idNumber") as string,
-        phone: formData.get("phone") as string,
-        email: formData.get("email") as string || undefined,
-        village: formData.get("village") as string,
-      };
-      
-      const response = await fetch("/api/members/apply", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || "Application failed");
-      }
-      
-      return response.json();
-    },
-    onSuccess: () => {
-      setSubmitted(true);
-      toast({
-        title: "Application Received!",
-        description: "We have received your membership application. We will contact you shortly.",
-      });
-    },
-    onError: (error: Error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
-    },
-  });
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const form = e.currentTarget as HTMLFormElement;
     const formData = new FormData(form);
     
-    // Note: All emails are sent to kabiangafarmers@gmail.com
-    applyMutation.mutate(formData);
+    // Sending membership application to kabiangafarmerssacco@gmail.com using Formspree
+    fetch("https://formspree.io/f/mqaejebz", {
+      method: "POST",
+      body: formData,
+      headers: {
+        'Accept': 'application/json'
+      }
+    }).then(response => {
+      if (response.ok) {
+        setSubmitted(true);
+        toast({
+          title: "Application Received!",
+          description: "We have received your membership application. We will contact you at kabiangafarmerssacco@gmail.com shortly.",
+        });
+      } else {
+        throw new Error("Application failed");
+      }
+    }).catch(error => {
+      toast({
+        title: "Error",
+        description: error.message || "There was a problem submitting your application.",
+        variant: "destructive",
+      });
+    });
   };
 
   return (
@@ -143,10 +124,9 @@ export default function Membership() {
                                 <Button 
                                   type="submit" 
                                   className="w-full bg-primary hover:bg-primary/90 text-white h-12 text-lg"
-                                  disabled={applyMutation.isPending}
                                   data-testid="button-submit-application"
                                 >
-                                    {applyMutation.isPending ? "Submitting..." : "Submit Application"}
+                                    Submit Application
                                 </Button>
                                 <p className="text-xs text-center text-muted-foreground mt-4">
                                     By submitting this form, you agree to our terms and conditions. Membership is free.
