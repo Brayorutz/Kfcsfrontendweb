@@ -42,6 +42,12 @@ import awardImage1 from "@assets/WhatsApp_Image_2025-12-19_at_20.42.35_176621873
 import awardImage2 from "@assets/WhatsApp_Image_2025-12-19_at_20.42.36_1766218742963.jpeg";
 import allProductsHero from "@assets/All_products_Showcase_1767703540586.jpg";
 
+import paulSoiPortrait from "@assets/Paul_Soi,_Director,_Supervisory_1767771550713.png";
+import kabiangaMourns from "@assets/kabianga_fcs_mourns_the_death_of_Mr._Paul_Soi_1767771678452.jpg";
+import bestCoopAward from "@assets/Kabianga_fcs_wins_best_cooperative_1767771788350.jpeg";
+
+import { newsItems } from "@/lib/news-data";
+
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
   
@@ -273,6 +279,61 @@ export default function Home() {
           {/* Gradient Masks */}
           <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-10" />
           <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-10" />
+        </div>
+      </Section>
+
+      {/* News Section */}
+      <Section className="py-20">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+          <div className="max-w-2xl">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary mb-4">Latest News & Updates</h2>
+            <p className="text-muted-foreground text-lg">Stay updated with the latest happenings at Kabianga Farmers Cooperative Society.</p>
+          </div>
+          <Link href="/news">
+            <Button variant="outline" className="rounded-full border-primary/20 hover:bg-primary/5 px-8" data-testid="link-all-news">
+              View All News
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {newsItems.map((item) => (
+            <motion.div
+              key={item.id}
+              initial={ { opacity: 0, y: 20 } }
+              whileInView={ { opacity: 1, y: 0 } }
+              viewport={ { once: true } }
+              className="bg-white rounded-2xl overflow-hidden shadow-sm border border-pink-100 hover:shadow-xl transition-all group flex flex-col h-full"
+            >
+              <div className="relative h-64 overflow-hidden">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-4 py-1 rounded-full text-xs font-semibold text-primary">
+                  {item.date}
+                </div>
+              </div>
+              <div className="p-8 flex flex-col flex-grow">
+                <h3 className="text-xl font-bold text-primary mb-3 group-hover:text-pink-600 transition-colors line-clamp-2">
+                  {item.title}
+                </h3>
+                <p className="text-muted-foreground mb-6 line-clamp-3">
+                  {item.excerpt}
+                </p>
+                <div className="mt-auto">
+                  <Link href={`/news/${item.id}`}>
+                    <Button variant="link" className="p-0 text-pink-600 hover:text-pink-700 font-semibold group/link" data-testid={`link-news-${item.id}`}>
+                      Read More
+                      <ArrowRight className="ml-2 h-4 w-4 group-hover/link:translate-x-1 transition-transform" />
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </Section>
 
