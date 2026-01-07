@@ -10,7 +10,7 @@ import {
   contactMessages,
   type User, 
   type InsertUser,
-  type Member,
+  type Member, 
   type InsertMember,
   type Statement,
   type InsertStatement,

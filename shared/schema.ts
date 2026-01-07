@@ -141,6 +141,9 @@ export const insertAdminSchema = createInsertSchema(admins).omit({
   createdAt: true,
 });
 
+export type InsertAdmin = z.infer<typeof insertAdminSchema>;
+export type Admin = typeof admins.$inferSelect;
+
 export const contactMessages = pgTable("contact_messages", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
