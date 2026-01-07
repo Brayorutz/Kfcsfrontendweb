@@ -7,6 +7,7 @@ import {
   insertOrderSchema,
   insertNewsSchema,
   insertLoanSchema,
+  insertContactMessageSchema,
 } from "@shared/schema";
 import bcrypt from "bcrypt";
 
@@ -272,6 +273,17 @@ export async function registerRoutes(
       const passwordHash = await bcrypt.hash("admin123", 10);
       await storage.createAdmin({ username: "admin", passwordHash });
       res.json({ success: true, message: "Admin created with username: admin, password: admin123" });
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
+    }
+  });
+
+  // Contact form route
+  app.post("/api/contact", async (req, res) => {
+    try {
+      const messageData = insertContactMessageSchema.parse(req.body);
+      const message = await storage.createContactMessage(messageData);
+      res.json({ success: true, message });
     } catch (error: any) {
       res.status(400).json({ error: error.message });
     }

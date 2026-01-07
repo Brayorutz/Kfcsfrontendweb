@@ -58,15 +58,6 @@ export default function Membership() {
     const form = e.currentTarget as HTMLFormElement;
     const formData = new FormData(form);
     
-    // Also send to Gmail as requested by user
-    fetch("https://formspree.io/f/mqaejebz", {
-      method: "POST",
-      body: formData,
-      headers: {
-        'Accept': 'application/json'
-      }
-    }).catch(err => console.error("Formspree error:", err));
-
     // Note: All emails are sent to kabiangafarmers@gmail.com
     applyMutation.mutate(formData);
   };

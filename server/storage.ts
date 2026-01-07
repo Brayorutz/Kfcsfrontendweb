@@ -7,6 +7,7 @@ import {
   orders,
   news,
   admins,
+  contactMessages,
   type User, 
   type InsertUser,
   type Member,
@@ -23,6 +24,8 @@ import {
   type InsertNews,
   type Admin,
   type InsertAdmin,
+  type ContactMessage,
+  type InsertContactMessage,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc } from "drizzle-orm";
@@ -68,6 +71,9 @@ export interface IStorage {
   createNews(newsItem: InsertNews): Promise<News>;
   updateNews(id: number, newsItem: Partial<InsertNews>): Promise<void>;
   deleteNews(id: number): Promise<void>;
+  
+  // Contact Message methods
+  createContactMessage(message: InsertContactMessage): Promise<ContactMessage>;
   
   // Admin methods
   getAdminByUsername(username: string): Promise<Admin | undefined>;
@@ -226,6 +232,15 @@ export class DatabaseStorage implements IStorage {
   
   async deleteNews(id: number): Promise<void> {
     await db.delete(news).where(eq(news.id, id));
+  }
+
+  // Contact Message methods
+  async createContactMessage(insertMessage: InsertContactMessage): Promise<ContactMessage> {
+    const [message] = await db
+      .insert(contactMessages)
+      .values(insertMessage)
+      .returning();
+    return message;
   }
   
   // Admin methods
