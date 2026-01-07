@@ -7,6 +7,7 @@ import { CheckCircle2 } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
+import { Link } from "wouter";
 
 export default function Membership() {
   const [submitted, setSubmitted] = useState(false);
@@ -91,7 +92,7 @@ export default function Membership() {
             <div className="grid grid-cols-1 md:grid-cols-5 gap-12">
                 <div className="md:col-span-2">
                     <h3 className="text-2xl font-bold text-primary mb-6">Why Join KFCS?</h3>
-                    <ul className="space-y-4">
+                    <ul className="space-y-4 mb-8">
                         {[
                             "Guaranteed market for your milk",
                             "Access to affordable high-quality feeds",
@@ -105,6 +106,17 @@ export default function Membership() {
                             </li>
                         ))}
                     </ul>
+
+                    <div className="bg-muted p-6 rounded-2xl border border-border">
+                        <h4 className="font-bold text-primary mb-2">Get Farmer App</h4>
+                        <p className="text-sm text-muted-foreground mb-4">Manage your deliveries and payments on the go with our mobile app.</p>
+                        <Link href="https://play.google.com/store/apps/details?id=com.getfarmer.app" target="_blank">
+                            <Button className="w-full bg-black hover:bg-black/90 text-white gap-2">
+                                <img src="https://img.icons8.com/color/48/google-play.png" className="w-5 h-5" alt="Play Store" />
+                                Download on Play Store
+                            </Button>
+                        </Link>
+                    </div>
                 </div>
                 <Card className="md:col-span-3 border-t-4 border-t-secondary shadow-lg">
                     <CardContent className="p-8">
