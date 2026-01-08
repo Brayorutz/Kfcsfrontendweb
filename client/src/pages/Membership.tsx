@@ -14,6 +14,7 @@ export default function Membership() {
 
   const applyMutation = useMutation({
     mutationFn: async (formData: FormData) => {
+      // Extract form data
       const data = {
         firstName: formData.get("firstName") as string,
         lastName: formData.get("lastName") as string,
@@ -23,6 +24,7 @@ export default function Membership() {
         village: formData.get("village") as string,
       };
       
+      // Send to your backend API
       const response = await fetch("/api/members/apply", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -33,8 +35,24 @@ export default function Membership() {
         const error = await response.json();
         throw new Error(error.error || "Application failed");
       }
+      if (!response.ok) {
+        let message = "Application failed";
+
+        const contentType = response.headers.get("content-type");
+      if (contentType?.includes("application/json")) {
+        const error = await response.json();
+            message = error.error || message;
+      } 
+      else {
+        const text = await response.text();
+          console.error("Non-JSON error response:", text);
+      }
+
+        throw new Error(message);
+}
+
       
-      return response.json();
+        return response.json();
     },
     onSuccess: () => {
       setSubmitted(true);
@@ -52,22 +70,41 @@ export default function Membership() {
     },
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    e.stopPropagation(); // Prevent any parent form submission
+    
     const form = e.currentTarget as HTMLFormElement;
     const formData = new FormData(form);
     
-    // Also send to Gmail as requested by user
-    fetch("https://formspree.io/f/mqaejebz", {
-      method: "POST",
-      body: formData,
-      headers: {
-        'Accept': 'application/json'
-      }
-    }).catch(err => console.error("Formspree error:", err));
-
-    // Note: All emails are sent to kabiangafarmers@gmail.com
-    applyMutation.mutate(formData);
+    // First, send to your backend
+    try {
+      await applyMutation.mutateAsync(formData);
+      
+      // After successful backend submission, send email notification
+      // Create data for email
+      const emailData = {
+        firstName: formData.get("firstName") as string,
+        lastName: formData.get("lastName") as string,
+        nationalId: formData.get("idNumber") as string,
+        phone: formData.get("phone") as string,
+        email: formData.get("email") as string || "No email provided",
+        village: formData.get("village") as string,
+        to: "kabiangafarmerssacco@gmail.com", // Corrected email
+        subject: "New Membership Application",
+      };
+      
+      // Send email notification
+      await fetch("/api/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(emailData),
+      }).catch(err => console.error("Email send error:", err));
+      
+    } catch (error) {
+      // Error is already handled by mutation's onError
+      console.error("Application submission failed:", error);
+    }
   };
 
   return (
