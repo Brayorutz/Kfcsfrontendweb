@@ -6,12 +6,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { CheckCircle2 } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { useMutation } from "@tanstack/react-query";
+import { Link } from "wouter";
 
 export default function Membership() {
   const [submitted, setSubmitted] = useState(false);
   const { toast } = useToast();
-
   const applyMutation = useMutation({
     mutationFn: async (formData: FormData) => {
       // Extract form data
@@ -71,12 +70,12 @@ export default function Membership() {
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     e.stopPropagation(); // Prevent any parent form submission
     
     const form = e.currentTarget as HTMLFormElement;
     const formData = new FormData(form);
-    
     // First, send to your backend
     try {
       await applyMutation.mutateAsync(formData);
@@ -105,6 +104,30 @@ export default function Membership() {
       // Error is already handled by mutation's onError
       console.error("Application submission failed:", error);
     }
+    // Sending membership application to kabiangafarmerssacco@gmail.com using Formspree
+    fetch("https://formspree.io/f/mqaejebz", {
+      method: "POST",
+      body: formData,
+      headers: {
+        'Accept': 'application/json'
+      }
+    }).then(response => {
+      if (response.ok) {
+        setSubmitted(true);
+        toast({
+          title: "Application Received!",
+          description: "We have received your membership application. We will contact you at kabiangafarmerssacco@gmail.com shortly.",
+        });
+      } else {
+        throw new Error("Application failed");
+      }
+    }).catch(error => {
+      toast({
+        title: "Error",
+        description: error.message || "There was a problem submitting your application.",
+        variant: "destructive",
+      });
+    });
   };
 
   return (
@@ -128,7 +151,7 @@ export default function Membership() {
             <div className="grid grid-cols-1 md:grid-cols-5 gap-12">
                 <div className="md:col-span-2">
                     <h3 className="text-2xl font-bold text-primary mb-6">Why Join KFCS?</h3>
-                    <ul className="space-y-4">
+                    <ul className="space-y-4 mb-8">
                         {[
                             "Guaranteed market for your milk",
                             "Access to affordable high-quality feeds",
@@ -142,6 +165,17 @@ export default function Membership() {
                             </li>
                         ))}
                     </ul>
+
+                    <div className="bg-muted p-6 rounded-2xl border border-border">
+                        <h4 className="font-bold text-primary mb-2">Get Farmer App</h4>
+                        <p className="text-sm text-muted-foreground mb-4">Manage your deliveries and payments on the go with our mobile app.</p>
+                        <Link href="https://play.google.com/store/apps/details?id=com.getfarmer.app" target="_blank">
+                            <Button className="w-full bg-black hover:bg-black/90 text-white gap-2">
+                                <img src="https://img.icons8.com/color/48/google-play.png" className="w-5 h-5" alt="Play Store" />
+                                Download on Play Store
+                            </Button>
+                        </Link>
+                    </div>
                 </div>
                 <Card className="md:col-span-3 border-t-4 border-t-secondary shadow-lg">
                     <CardContent className="p-8">
@@ -177,10 +211,9 @@ export default function Membership() {
                                 <Button 
                                   type="submit" 
                                   className="w-full bg-primary hover:bg-primary/90 text-white h-12 text-lg"
-                                  disabled={applyMutation.isPending}
                                   data-testid="button-submit-application"
                                 >
-                                    {applyMutation.isPending ? "Submitting..." : "Submit Application"}
+                                    Submit Application
                                 </Button>
                                 <p className="text-xs text-center text-muted-foreground mt-4">
                                     By submitting this form, you agree to our terms and conditions. Membership is free.

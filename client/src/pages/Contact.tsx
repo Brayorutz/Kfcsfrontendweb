@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 const locations = [
   {
@@ -33,6 +34,38 @@ const locations = [
 ];
 
 export default function Contact() {
+  const { toast } = useToast();
+  
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    
+    // Using Formspree to send to kabiangafarmerssacco@gmail.com
+    fetch("https://formspree.io/f/mqaejebz", {
+      method: "POST",
+      body: formData,
+      headers: {
+        'Accept': 'application/json'
+      }
+    }).then(response => {
+      if (response.ok) {
+        form.reset();
+        toast({
+          title: "Message Sent",
+          description: "Thank you for your message. We'll get back to you soon at kabiangafarmerssacco@gmail.com!",
+        });
+      } else {
+        throw new Error("Submission failed");
+      }
+    }).catch(error => {
+      toast({
+        title: "Error",
+        description: "There was a problem sending your message. Please try again.",
+        variant: "destructive",
+      });
+    });
+  };
   return (
     <div className="pt-20">
        <div className="bg-primary py-16 md:py-24 text-center text-white">
@@ -46,29 +79,7 @@ export default function Contact() {
                 <h2 className="text-3xl font-serif font-bold text-primary mb-8">Get in Touch</h2>
                 <form 
                     className="space-y-6"
-                    action="https://formspree.io/f/mqaejebz"
-                    method="POST"
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      const form = e.currentTarget;
-                      const formData = new FormData(form);
-                      fetch("https://formspree.io/f/mqaejebz", {
-                        method: "POST",
-                        body: formData,
-                        headers: {
-                          'Accept': 'application/json'
-                        }
-                      }).then(response => {
-                        if (response.ok) {
-                          form.reset();
-                          alert("Thank you for your message. We'll get back to you soon!");
-                        } else {
-                          alert("Oops! There was a problem submitting your form. All emails are sent to kabiangafarmers@gmail.com. Please ensure you've confirmed your email with Formspree.");
-                        }
-                      }).catch(error => {
-                        alert("There was an error connecting to the submission service. Please try again later.");
-                      });
-                    }}
+                    onSubmit={handleSubmit}
                 >
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-2">

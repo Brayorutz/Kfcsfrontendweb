@@ -77,6 +77,12 @@ export function Navbar() {
         </div>
 
         <div className="hidden lg:flex items-center space-x-4">
+          <Link href="https://play.google.com/store/apps/details?id=com.getfarmer.app" target="_blank" asChild>
+            <Button variant="ghost" size="sm" className="gap-2 text-secondary hover:text-secondary/80">
+              <img src="https://img.icons8.com/color/48/google-play.png" className="w-4 h-4" alt="Play Store" />
+              Get Farmer App
+            </Button>
+          </Link>
           <Link href="/portal" asChild>
             <Button variant="ghost" size="sm" className="gap-2">
               <User className="w-4 h-4" />

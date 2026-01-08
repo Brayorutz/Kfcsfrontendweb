@@ -1,77 +1,68 @@
+import { useRoute } from "wouter";
+import { newsItems } from "@/lib/news-data";
 import { Section } from "@/components/Section";
-import { useQuery } from "@tanstack/react-query";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Calendar, ArrowLeft } from "lucide-react";
-import { format } from "date-fns";
-import { Link, useRoute } from "wouter";
 import { Button } from "@/components/ui/button";
+import { Link } from "wouter";
+import { ArrowLeft, Calendar } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function NewsDetail() {
-  const [match, params] = useRoute("/news/:id");
-  const newsId = params?.id;
+  const [, params] = useRoute("/news/:id");
+  const id = params?.id ? parseInt(params.id) : null;
+  const article = newsItems.find((item) => item.id === id);
 
-  const { data: newsItem, isLoading } = useQuery({
-    queryKey: ["news", newsId],
-    queryFn: async () => {
-      const response = await fetch(`/api/news/${newsId}`);
-      if (!response.ok) throw new Error("Failed to fetch news");
-      return response.json();
-    },
-    enabled: !!newsId,
-  });
-
-  if (!match) return null;
+  if (!article) {
+    return (
+      <div className="pt-32 text-center">
+        <h1 className="text-2xl font-bold">Article not found</h1>
+        <Link href="/news">
+          <Button variant="link">Back to News</Button>
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="pt-20">
-      <div className="bg-primary py-16 md:py-24 text-white">
-        <div className="container mx-auto px-6">
-          <Link href="/news" asChild>
-            <Button variant="ghost" className="text-white hover:bg-white/20 mb-6">
-              <ArrowLeft className="w-4 h-4 mr-2" /> Back to News
-            </Button>
-          </Link>
-        </div>
-      </div>
+      <Section className="py-12">
+        <Link href="/news">
+          <Button variant="ghost" className="mb-8 hover:bg-pink-50 text-primary">
+            <ArrowLeft className="mr-2 h-4 w-4" /> Back to News
+          </Button>
+        </Link>
 
-      <Section>
-        {isLoading ? (
-          <div className="max-w-4xl mx-auto space-y-6">
-            <Skeleton className="h-96 w-full rounded-xl" />
-            <Skeleton className="h-8 w-3/4" />
-            <Skeleton className="h-4 w-1/3" />
-            <Skeleton className="h-4 w-full" />
+        <motion.div
+          initial={ { opacity: 0, y: 20 } }
+          animate={ { opacity: 1, y: 0 } }
+          transition={ { duration: 0.5 } }
+          className="max-w-4xl mx-auto"
+        >
+          <div className="flex items-center gap-2 text-muted-foreground mb-4">
+            <Calendar className="h-4 w-4" />
+            <span>{article.date}</span>
           </div>
-        ) : (
-          <div className="max-w-4xl mx-auto">
-            {newsItem?.image && (
-              <div className="mb-8 rounded-2xl overflow-hidden shadow-lg">
-                <img
-                  src={newsItem.image}
-                  alt={newsItem.title}
-                  className="w-full h-96 object-cover"
-                  data-testid="img-news-detail"
-                />
-              </div>
-            )}
 
-            <div className="mb-6">
-              <h1 className="text-5xl font-serif font-bold text-primary mb-4" data-testid="text-news-detail-title">
-                {newsItem?.title}
-              </h1>
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <Calendar className="w-4 h-4" />
-                <span>{newsItem?.publishedAt && format(new Date(newsItem.publishedAt), "MMMM d, yyyy")}</span>
-              </div>
-            </div>
+          <h1 className="text-4xl md:text-5xl font-serif font-bold text-primary mb-8 leading-tight">
+            {article.title}
+          </h1>
 
-            <div className="prose prose-lg max-w-none">
-              <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap text-lg" data-testid="text-news-detail-content">
-                {newsItem?.content}
-              </p>
+          <div className="rounded-2xl overflow-hidden shadow-2xl mb-12">
+            <img
+              src={article.image}
+              alt={article.title}
+              className="w-full h-auto object-cover max-h-[600px]"
+            />
+          </div>
+
+          <div className="prose prose-lg max-w-none prose-pink">
+            <p className="text-xl text-muted-foreground mb-8 leading-relaxed font-medium italic border-l-4 border-pink-200 pl-6">
+              {article.excerpt}
+            </p>
+            <div className="text-foreground text-lg leading-relaxed whitespace-pre-wrap">
+              {article.content}
             </div>
           </div>
-        )}
+        </motion.div>
       </Section>
     </div>
   );
