@@ -13,13 +13,6 @@ export default function Careers() {
   const { toast } = useToast();
 
   const jobOptions = [
-    "Dairy Technician",
-    "Farm Manager",
-    "Quality Assurance Officer",
-    "Marketing & Sales Executive",
-    "Finance Officer",
-    "Driver",
-    "Production Supervisor",
   ];
 
   const applyMutation = useMutation({

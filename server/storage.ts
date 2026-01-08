@@ -1,5 +1,5 @@
-import { 
-  users, 
+import {
+  users,
   members,
   memberStatements,
   loans,
@@ -7,9 +7,10 @@ import {
   orders,
   news,
   admins,
-  type User, 
+  contacts,
+  type User,
   type InsertUser,
-  type Member, 
+  type Member,
   type InsertMember,
   type Statement,
   type InsertStatement,
@@ -23,6 +24,8 @@ import {
   type InsertNews,
   type Admin,
   type InsertAdmin,
+  type Contact,
+  type InsertContact,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc } from "drizzle-orm";
@@ -72,6 +75,12 @@ export interface IStorage {
   // Admin methods
   getAdminByUsername(username: string): Promise<Admin | undefined>;
   createAdmin(admin: InsertAdmin): Promise<Admin>;
+
+  // Contact methods
+  getAllContacts(): Promise<Contact[]>;
+  getContact(id: number): Promise<Contact | undefined>;
+  createContact(contact: InsertContact): Promise<Contact>;
+  updateContactStatus(id: number, status: string): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -240,6 +249,28 @@ export class DatabaseStorage implements IStorage {
       .values(insertAdmin)
       .returning();
     return admin;
+  }
+
+  // Contact methods
+  async getAllContacts(): Promise<Contact[]> {
+    return db.select().from(contacts).orderBy(desc(contacts.createdAt));
+  }
+
+  async getContact(id: number): Promise<Contact | undefined> {
+    const [contact] = await db.select().from(contacts).where(eq(contacts.id, id));
+    return contact || undefined;
+  }
+
+  async createContact(insertContact: InsertContact): Promise<Contact> {
+    const [contact] = await db
+      .insert(contacts)
+      .values(insertContact)
+      .returning();
+    return contact;
+  }
+
+  async updateContactStatus(id: number, status: string): Promise<void> {
+    await db.update(contacts).set({ status }).where(eq(contacts.id, id));
   }
 }
 

@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS "contacts" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"name" text NOT NULL,
+	"email" text NOT NULL,
+	"subject" text NOT NULL,
+	"message" text NOT NULL,
+	"status" text NOT NULL DEFAULT 'unread',
+	"created_at" timestamp DEFAULT now() NOT NULL
+);
+

@@ -10,124 +10,75 @@ import { Link } from "wouter";
 
 export default function Membership() {
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
-  const applyMutation = useMutation({
-    mutationFn: async (formData: FormData) => {
-      // Extract form data
-      const data = {
-        firstName: formData.get("firstName") as string,
-        lastName: formData.get("lastName") as string,
-        nationalId: formData.get("idNumber") as string,
-        phone: formData.get("phone") as string,
-        email: formData.get("email") as string || undefined,
-        village: formData.get("village") as string,
-      };
-      
-      // Send to your backend API
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    
+    // Extract form data
+    const data = {
+      firstName: formData.get("firstName") as string,
+      lastName: formData.get("lastName") as string,
+      nationalId: formData.get("idNumber") as string,
+      phone: formData.get("phone") as string,
+      email: (formData.get("email") as string) || undefined,
+      village: formData.get("village") as string,
+    };
+
+    setIsSubmitting(true);
+
+    try {
+      // First, send to backend API
       const response = await fetch("/api/members/apply", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      
+
       if (!response.ok) {
         const error = await response.json();
         throw new Error(error.error || "Application failed");
       }
-      if (!response.ok) {
-        let message = "Application failed";
 
-        const contentType = response.headers.get("content-type");
-      if (contentType?.includes("application/json")) {
-        const error = await response.json();
-            message = error.error || message;
-      } 
-      else {
-        const text = await response.text();
-          console.error("Non-JSON error response:", text);
-      }
-
-        throw new Error(message);
-}
-
-      
-        return response.json();
-    },
-    onSuccess: () => {
-      setSubmitted(true);
-      toast({
-        title: "Application Received!",
-        description: "We have received your membership application. We will contact you shortly.",
-      });
-    },
-    onError: (error: Error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
-    },
-  });
-
-  const handleSubmit = async (e: React.FormEvent) => {
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    e.stopPropagation(); // Prevent any parent form submission
-    
-    const form = e.currentTarget as HTMLFormElement;
-    const formData = new FormData(form);
-    // First, send to your backend
-    try {
-      await applyMutation.mutateAsync(formData);
-      
       // After successful backend submission, send email notification
-      // Create data for email
       const emailData = {
-        firstName: formData.get("firstName") as string,
-        lastName: formData.get("lastName") as string,
-        nationalId: formData.get("idNumber") as string,
-        phone: formData.get("phone") as string,
-        email: formData.get("email") as string || "No email provided",
-        village: formData.get("village") as string,
-        to: "kabiangafarmerssacco@gmail.com", // Corrected email
+        firstName: data.firstName,
+        lastName: data.lastName,
+        nationalId: data.nationalId,
+        phone: data.phone,
+        email: data.email || "No email provided",
+        village: data.village,
+        to: "kabiangafarmerssacco@gmail.com",
         subject: "New Membership Application",
       };
-      
-      // Send email notification
+
+      // Send email notification (non-blocking, just log errors)
       await fetch("/api/send-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(emailData),
       }).catch(err => console.error("Email send error:", err));
-      
-    } catch (error) {
-      // Error is already handled by mutation's onError
-      console.error("Application submission failed:", error);
-    }
-    // Sending membership application to kabiangafarmerssacco@gmail.com using Formspree
-    fetch("https://formspree.io/f/mqaejebz", {
-      method: "POST",
-      body: formData,
-      headers: {
-        'Accept': 'application/json'
-      }
-    }).then(response => {
-      if (response.ok) {
-        setSubmitted(true);
-        toast({
-          title: "Application Received!",
-          description: "We have received your membership application. We will contact you at kabiangafarmerssacco@gmail.com shortly.",
-        });
-      } else {
-        throw new Error("Application failed");
-      }
-    }).catch(error => {
+
+      setSubmitted(true);
+      toast({
+        title: "Application Received!",
+        description: "We have received your membership application. We will contact you shortly.",
+      });
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "There was a problem submitting your application.";
       toast({
         title: "Error",
-        description: error.message || "There was a problem submitting your application.",
+        description: errorMessage,
         variant: "destructive",
       });
-    });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -212,8 +163,9 @@ export default function Membership() {
                                   type="submit" 
                                   className="w-full bg-primary hover:bg-primary/90 text-white h-12 text-lg"
                                   data-testid="button-submit-application"
+                                  disabled={isSubmitting}
                                 >
-                                    Submit Application
+                                    {isSubmitting ? "Submitting..." : "Submit Application"}
                                 </Button>
                                 <p className="text-xs text-center text-muted-foreground mt-4">
                                     By submitting this form, you agree to our terms and conditions. Membership is free.
@@ -228,3 +180,4 @@ export default function Membership() {
     </div>
   );
 }
+
