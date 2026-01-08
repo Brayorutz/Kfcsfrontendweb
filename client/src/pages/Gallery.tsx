@@ -1,23 +1,40 @@
-import { Section } from "@/components/Section";
 import { motion } from "framer-motion";
-import { X } from "lucide-react";
+import { Section } from "@/components/Section";
+import { Card, CardContent } from "@/components/ui/card";
 import { useState } from "react";
-import heroImage from "@assets/generated_images/cinematic_wide_shot_of_a_lush_green_dairy_farm_with_cows_grazing_under_a_bright_sky..png";
-import strawberryYoghurt from "@assets/generated_images/strawberry_yoghurt_bottle_professional_product_shot..png";
-import vanillaYoghurt from "@assets/generated_images/vanilla_yoghurt_bottle_professional_product_shot..png";
-import mangoYoghurt from "@assets/generated_images/mango_yoghurt_bottle_professional_product_shot..png";
-import processingPlant from "@assets/generated_images/modern_dairy_processing_plant_interior..png";
-import awardImage1 from "@assets/WhatsApp_Image_2025-12-19_at_20.42.35_1766218730971.jpeg";
-import awardImage2 from "@assets/WhatsApp_Image_2025-12-19_at_20.42.36_1766218742963.jpeg";
+import { X } from "lucide-react";
+
+// Importing user-uploaded images from attached_assets
+import feedLab from "@assets/feed_laboratory_1767871165290.jpg";
+import mournsSoi1 from "@assets/kabianga_fcs_mourns_the_death_of_Mr._Paul_Soi_1767871165290.jpg";
+import mournsSoi2 from "@assets/kabianga_fcs_mourns_the_death_of_Mr._Paul_Soi2_1767871165291.jpg";
+import bestCoop from "@assets/Kabianga_fcs_wins_best_cooperative_1767871165291.jpeg";
+import commPlate from "@assets/kfcs_commision_plate_1767871165292.jpg";
+import farmMach from "@assets/kfcs_farm_machinerary_1767871165315.jpg";
+import flagImg from "@assets/kfcs_flag_1767871165316.jpg";
+import restaurantImg from "@assets/kfcs_restaurant_1767871165317.jpg";
+import security2 from "@assets/kfcs_security_2_1767871165318.jpg";
+import security1 from "@assets/kfcs_security_1767871165319.jpg";
+import milkCoolers from "@assets/Milk_Coolers_1767871165320.jpg";
+import milkTransp from "@assets/Milk_Transportation_1767871165320.jpg";
+import wideAngle from "@assets/wide_angle_shot_of_kfcs_1767871165321.jpg";
+import yogurtProc from "@assets/yogurt_processing_1767871165321.jpg";
 
 const galleryImages = [
-  { src: heroImage, alt: "Kabianga Farm", category: "Farm" },
-  { src: strawberryYoghurt, alt: "Strawberry Yoghurt", category: "Products" },
-  { src: vanillaYoghurt, alt: "Vanilla Yoghurt", category: "Products" },
-  { src: mangoYoghurt, alt: "Mango Yoghurt", category: "Products" },
-  { src: processingPlant, alt: "Processing Plant", category: "Facility" },
-  { src: awardImage1, alt: "Award Ceremony", category: "Awards" },
-  { src: awardImage2, alt: "Cabinet Secretary Visit", category: "Awards" },
+  { url: feedLab, title: "Feed Laboratory", category: "Facilities" },
+  { url: wideAngle, title: "KFCS Facility Wide Angle", category: "Facilities" },
+  { url: yogurtProc, title: "Yogurt Processing Plant", category: "Production" },
+  { url: milkCoolers, title: "Milk Cooling Tanks", category: "Facilities" },
+  { url: milkTransp, title: "Milk Transportation", category: "Logistics" },
+  { url: farmMach, title: "Farm Machinery", category: "Equipment" },
+  { url: restaurantImg, title: "KFCS Restaurant", category: "Facilities" },
+  { url: bestCoop, title: "Best Cooperative Award", category: "Awards" },
+  { url: commPlate, title: "Commissioning Plate", category: "Events" },
+  { url: mournsSoi1, title: "Tribute to Paul Soi", category: "Events" },
+  { url: mournsSoi2, title: "Mourning Paul Soi", category: "Events" },
+  { url: security1, title: "Security Services", category: "Services" },
+  { url: security2, title: "Facility Security", category: "Services" },
+  { url: flagImg, title: "KFCS Flag", category: "Corporate" },
 ];
 
 export default function Gallery() {
@@ -26,65 +43,64 @@ export default function Gallery() {
   return (
     <div className="pt-20">
       <div className="bg-primary py-16 md:py-24 text-center text-white">
-        <h1 className="text-5xl md:text-6xl font-serif font-bold mb-4">Gallery</h1>
-        <p className="text-lg opacity-90">Glimpses of our journey, achievements, and operations</p>
+        <h1 className="text-5xl md:text-6xl font-serif font-bold mb-4">Our Gallery</h1>
+        <p className="text-lg opacity-90 max-w-2xl mx-auto px-6">
+          A visual journey through our facilities, events, and community impact.
+        </p>
       </div>
 
       <Section>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {galleryImages.map((image, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all cursor-pointer"
-              onClick={() => setSelectedImage(image.src)}
-              data-testid={`gallery-image-${index}`}
+              transition={{ delay: index * 0.1 }}
+              viewport={{ once: true }}
+              data-testid={`gallery-item-${index}`}
             >
-              <div className="aspect-square bg-muted overflow-hidden">
-                <img
-                  src={image.src}
-                  alt={image.alt}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end">
-                <div className="p-6 w-full">
-                  <p className="text-white font-medium mb-2">{image.category}</p>
-                  <p className="text-white/80 text-sm">{image.alt}</p>
-                </div>
-              </div>
+              <Card 
+                className="overflow-hidden cursor-pointer group border-none shadow-md hover:shadow-xl transition-shadow"
+                onClick={() => setSelectedImage(image.url)}
+              >
+                <CardContent className="p-0 relative aspect-[4/3]">
+                  <img
+                    src={image.url}
+                    alt={image.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    data-testid={`img-gallery-${index}`}
+                  />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
+                    <span className="text-white/80 text-xs font-bold uppercase tracking-wider mb-1">{image.category}</span>
+                    <h3 className="text-white font-bold text-lg">{image.title}</h3>
+                  </div>
+                </CardContent>
+              </Card>
             </motion.div>
           ))}
         </div>
       </Section>
 
-      {/* Lightbox Modal */}
+      {/* Lightbox */}
       {selectedImage && (
-        <div
-          className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
+        <div 
+          className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4"
           onClick={() => setSelectedImage(null)}
-          data-testid="gallery-lightbox"
         >
-          <div className="relative max-w-4xl w-full max-h-[90vh] flex items-center justify-center">
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setSelectedImage(null);
-              }}
-              className="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors"
-              aria-label="Close"
-            >
-              <X className="w-8 h-8" />
-            </button>
-            <img
-              src={selectedImage}
-              alt="Gallery full view"
-              className="max-w-full max-h-[80vh] object-contain rounded-xl"
-              onClick={(e) => e.stopPropagation()}
-            />
-          </div>
+          <button 
+            className="absolute top-6 right-6 text-white hover:text-secondary transition-colors"
+            onClick={() => setSelectedImage(null)}
+          >
+            <X className="w-8 h-8" />
+          </button>
+          <motion.img
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            src={selectedImage}
+            alt="Enlarged view"
+            className="max-w-full max-h-[90vh] object-contain rounded-lg"
+          />
         </div>
       )}
     </div>
