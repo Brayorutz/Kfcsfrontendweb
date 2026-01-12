@@ -2,9 +2,8 @@ import { Section } from "@/components/Section";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { MapPin, Phone, Mail, Clock, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
+import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { useState, useEffect } from "react";
 
 const locations = [
   {
@@ -14,15 +13,16 @@ const locations = [
     phone: "0743719091",
     email: "kabiangafarmerssacco@gmail.com",
     hours: "Mon - Fri: 8:00 AM - 5:00 PM, Sat: 8:00 AM - 1:00 PM",
+    mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3982.5739319449397!2d35.26938532346897!3d-0.34893226358521574!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1827a5f7f7f7f7f7%3A0x0!2sKabianga%20FCS%20Centre!5e0!3m2!1sen!2ske",
   },
   {
-    name: "Taplotin selling point",
+    name: "Taplotin Cooling Plant",
     address: "Kericho County, Kenya",
     poBox: "PO Box 456 - 20200",
     phone: "0743719091",
     email: "kabiangafarmerssacco@gmail.com",
     hours: "Mon - Fri: 6:00 AM - 6:00 PM, Sat - Sun: 8:00 AM - 4:00 PM",
-  
+    mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3982.573!2d35.27!3d-0.348!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sTaplotin%20Cooling%20Plant!5e0!3m2!1sen!2ske",
   },
   {
     name: "Nairobi Distribution Centre",
@@ -31,78 +31,50 @@ const locations = [
     phone: "0743719091",
     email: "kabiangafarmerssacco@gmail.com",
     hours: "Mon - Fri: 7:00 AM - 5:00 PM, Sat: 8:00 AM - 2:00 PM",
+    mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.812!2d36.751!3d-1.318!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sNairobi%20Distribution!5e0!3m2!1sen!2ske",
   },
 ];
 
 export default function Contact() {
   const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
-  const [emailStatus, setEmailStatus] = useState<{ configured: boolean } | null>(null);
-
-  // Check email configuration status on mount
-  useEffect(() => {
-    fetch("/api/email-status")
-      .then(res => res.json())
-      .then(data => setEmailStatus(data))
-      .catch(() => setEmailStatus({ configured: false }));
-  }, []);
-
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus("idle");
-    
     const form = e.currentTarget;
     const formData = new FormData(form);
-    const data = {
-      name: formData.get("name") as string,
-      email: formData.get("email") as string,
-      subject: formData.get("subject") as string,
-      message: formData.get("message") as string,
-    };
-
+    const data = Object.fromEntries(formData.entries());
+    
     try {
-      const response = await fetch("/api/contact", {
+      const response = await fetch("/api/send-email", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          subject: `Contact Form: ${data.subject}`,
+          text: `
+            Message from ${data.name} (${data.email}):
+            Subject: ${data.subject}
+            Message: ${data.message}
+          `,
+        }),
       });
-
-      // Try to parse response as JSON, but handle non-JSON responses
-      const contentType = response.headers.get("content-type");
-      if (!contentType || !contentType.includes("application/json")) {
-        const text = await response.text();
-        throw new Error(`Server error (status ${response.status}): ${text.substring(0, 100)}`);
-      }
-
-      const result = await response.json();
 
       if (response.ok) {
         form.reset();
-        setSubmitStatus("success");
         toast({
-          title: "Message Sent Successfully!",
-          description: result.message || "Thank you for your message. We'll get back to you soon!",
+          title: "Message Sent",
+          description: "Thank you for your message. We'll get back to you soon at kabiangafarmerssacco@gmail.com!",
         });
       } else {
-        setSubmitStatus("error");
-        throw new Error(result.error || "Failed to send message");
+        throw new Error("Submission failed");
       }
     } catch (error: any) {
-      setSubmitStatus("error");
       toast({
         title: "Error",
-        description: error.message || "There was a problem sending your message. Please try again.",
+        description: "There was a problem sending your message via email. Please try again.",
         variant: "destructive",
       });
-    } finally {
-      setIsSubmitting(false);
     }
   };
-
   return (
     <div className="pt-20">
        <div className="bg-primary py-16 md:py-24 text-center text-white">
@@ -114,33 +86,6 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-20">
             <div>
                 <h2 className="text-3xl font-serif font-bold text-primary mb-8">Get in Touch</h2>
-
-                {/* Success Message */}
-                {submitStatus === "success" && (
-                  <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-                    <div className="flex items-center gap-2 text-green-800">
-                      <CheckCircle className="w-5 h-5" />
-                      <span className="font-medium">Message Sent Successfully!</span>
-                    </div>
-                    <p className="text-green-700 text-sm mt-1">
-                      Thank you for contacting us. Our team will review your message and respond within 24-48 hours.
-                    </p>
-                  </div>
-                )}
-
-                {/* Error Message */}
-                {submitStatus === "error" && (
-                  <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-                    <div className="flex items-center gap-2 text-red-800">
-                      <AlertCircle className="w-5 h-5" />
-                      <span className="font-medium">Failed to Send Message</span>
-                    </div>
-                    <p className="text-red-700 text-sm mt-1">
-                      There was a problem sending your message. Please try again or contact us directly.
-                    </p>
-                  </div>
-                )}
-
                 <form 
                     className="space-y-6"
                     onSubmit={handleSubmit}
@@ -163,21 +108,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                         <label className="text-sm font-medium">Message</label>
                         <Textarea name="message" required placeholder="How can we help you?" className="min-h-[150px]" data-testid="textarea-contact-message" />
                     </div>
-                    <Button 
-                      type="submit" 
-                      className="w-full bg-primary text-white h-12" 
-                      disabled={isSubmitting}
-                      data-testid="button-contact-send"
-                    >
-                      {isSubmitting ? (
-                        <>
-                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                          Sending...
-                        </>
-                      ) : (
-                        "Send Message"
-                      )}
-                    </Button>
+                    <Button type="submit" className="w-full bg-primary text-white h-12" data-testid="button-contact-send">Send Message</Button>
                 </form>
             </div>
 
@@ -240,7 +171,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                     width="100%"
                     height="100%"
                     frameBorder="0"
-                   
+                    src={location.mapEmbed}
                     allowFullScreen
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
@@ -288,4 +219,3 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     </div>
   );
 }
-

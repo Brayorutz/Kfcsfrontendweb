@@ -8,77 +8,50 @@ import { CheckCircle2 } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "wouter";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function Membership() {
   const [submitted, setSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    e.stopPropagation();
-    
-    const form = e.currentTarget;
+    const form = e.currentTarget as HTMLFormElement;
     const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
     
-    // Extract form data
-    const data = {
-      firstName: formData.get("firstName") as string,
-      lastName: formData.get("lastName") as string,
-      nationalId: formData.get("idNumber") as string,
-      phone: formData.get("phone") as string,
-      email: (formData.get("email") as string) || undefined,
-      village: formData.get("village") as string,
-    };
-
-    setIsSubmitting(true);
-
     try {
-      // First, send to backend API
-      const response = await fetch("/api/members/apply", {
+      const response = await fetch("/api/send-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          subject: `New Membership Application: ${data.firstName} ${data.lastName}`,
+          text: `
+            Membership Application Received:
+            Name: ${data.firstName} ${data.lastName}
+            National ID: ${data.idNumber}
+            Phone: ${data.phone}
+            Email: ${data.email}
+            Village/Area: ${data.village}
+          `,
+        }),
       });
 
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || "Application failed");
+      if (response.ok) {
+        setSubmitted(true);
+        toast({
+          title: "Application Received!",
+          description: "We have received your membership application via email. We will contact you at kabiangafarmerssacco@gmail.com shortly.",
+        });
+      } else {
+        throw new Error("Application failed");
       }
-
-      // After successful backend submission, send email notification
-      const emailData = {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        nationalId: data.nationalId,
-        phone: data.phone,
-        email: data.email || "No email provided",
-        village: data.village,
-        to: "kabiangafarmerssacco@gmail.com",
-        subject: "New Membership Application",
-      };
-
-      // Send email notification (non-blocking, just log errors)
-      await fetch("/api/send-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(emailData),
-      }).catch(err => console.error("Email send error:", err));
-
-      setSubmitted(true);
-      toast({
-        title: "Application Received!",
-        description: "We have received your membership application. We will contact you shortly.",
-      });
-    } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : "There was a problem submitting your application.";
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: errorMessage,
+        description: error.message || "There was a problem submitting your application.",
         variant: "destructive",
       });
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -96,7 +69,7 @@ export default function Membership() {
                     <CheckCircle2 className="w-10 h-10 text-green-600" />
                 </div>
                 <h2 className="text-3xl font-bold text-primary mb-4">Thank You!</h2>
-                <p className="text-muted-foreground text-lg mb-8">Your application has been successfully submitted. Our team will review your details and get back to you within 48 hours.</p>
+                <p className="text-muted-foreground text-lg mb-8">Your application has been successfully submitted via email. Our team will review your details and get back to you within 48 hours.</p>
                 <Button onClick={() => setSubmitted(false)} variant="outline">Submit Another Application</Button>
             </div>
         ) : (
@@ -157,16 +130,24 @@ export default function Membership() {
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="village">Village / Area</Label>
-                                <Input id="village" name="village" required placeholder="Kabianga Centre" data-testid="input-village" />
+                                <Select name="village" required>
+                                  <SelectTrigger data-testid="select-village">
+                                    <SelectValue placeholder="Select a zone" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="Kamaso">Kamaso</SelectItem>
+                                    <SelectItem value="Kabianga">Kabianga</SelectItem>
+                                    <SelectItem value="Kibingei">Kibingei</SelectItem>
+                                  </SelectContent>
+                                </Select>
                             </div>
                             <div className="pt-4">
                                 <Button 
                                   type="submit" 
                                   className="w-full bg-primary hover:bg-primary/90 text-white h-12 text-lg"
                                   data-testid="button-submit-application"
-                                  disabled={isSubmitting}
                                 >
-                                    {isSubmitting ? "Submitting..." : "Submit Application"}
+                                    Submit Application
                                 </Button>
                                 <p className="text-xs text-center text-muted-foreground mt-4">
                                     By submitting this form, you agree to our terms and conditions. Membership is free.
@@ -181,4 +162,3 @@ export default function Membership() {
     </div>
   );
 }
-

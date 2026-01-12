@@ -1,15 +1,5 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
-import { storage } from "./storage";
-import { 
-  insertMemberSchema, 
-  insertProductSchema, 
-  insertOrderSchema,
-  insertNewsSchema,
-  insertLoanSchema,
-  insertContactSchema,
-} from "@shared/schema";
-import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
 import multer from "multer";
 
@@ -30,22 +20,11 @@ const upload = multer({
   },
 });
 
-// Create email transporter
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || "smtp.gmail.com",
-  port: parseInt(process.env.SMTP_PORT || "587", 10),
-  secure: false,
-  auth: {
-    user: process.env.SMTP_USER || "",
-    pass: process.env.SMTP_PASS || "",
-  },
-});
-
 export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
-  
+  feature/add-village-dropdown
   // Membership routes
   app.post("/api/members/apply", async (req, res) => {
     try {
@@ -405,165 +384,39 @@ export async function registerRoutes(
         <p><strong>Email:</strong> ${email || "Not provided"}</p>
         <p><strong>Village/Area:</strong> ${village}</p>
       `;
+  // Email route using SMTP
+  app.post("/api/send-email", async (req, res) => {
+    try {
+      const { subject, text } = req.body;
+      
+      if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+        console.warn("SMTP credentials missing. Email not sent.");
+        return res.status(200).json({ success: true, message: "Simulation: SMTP credentials missing." });
+      }
+
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.SMTP_USER,
+          pass: process.env.SMTP_PASS,
+        },
+      });
+    main
 
       const mailOptions = {
-        from: process.env.SMTP_FROM || "noreply@kfcs.co.ke",
-        to: to,
-        subject: subject,
-        html: emailContent,
+        from: process.env.SMTP_USER,
+        to: "kabiangafarmerssacco@gmail.com",
+        subject: subject || "Website Notification",
+        text: text || "No content provided.",
       };
 
       await transporter.sendMail(mailOptions);
-      res.json({ success: true, message: "Email sent successfully" });
+      res.json({ success: true });
     } catch (error: any) {
-      console.error("Email sending error:", error);
-      res.status(500).json({ error: "Failed to send email: " + error.message });
+      console.error("Email error:", error);
+      res.status(500).json({ error: error.message });
     }
-  });
-
-// Seed initial admin (for development)
-  app.post("/api/admin/seed", async (req, res) => {
-    try {
-      const existing = await storage.getAdminByUsername("admin");
-      if (existing) {
-        return res.json({ message: "Admin already exists" });
-      }
-
-      const passwordHash = await bcrypt.hash("admin123", 10);
-      await storage.createAdmin({ username: "admin", passwordHash });
-      res.json({ success: true, message: "Admin created with username: admin, password: admin123" });
-    } catch (error: any) {
-      res.status(400).json({ error: error.message });
-    }
-  });
-
-  // Contact form submission - sends message to manager and feedback to sender
-  app.post("/api/contact", async (req, res) => {
-    try {
-      const { name, email, subject, message } = req.body;
-
-      // Validate required fields
-      if (!name || !email || !subject || !message) {
-        return res.status(400).json({ error: "All fields are required" });
-      }
-
-      // Validate email format
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        return res.status(400).json({ error: "Invalid email format" });
-      }
-
-      // Save contact message to database
-      const contactData = insertContactSchema.parse({
-        name,
-        email,
-        subject,
-        message,
-      });
-      const contact = await storage.createContact(contactData);
-
-      // Manager email notification - sent to kabiangafarmerssacco@gmail.com
-      const managerEmailContent = `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #1a5f2a;">New Contact Message - KFCS Website</h2>
-          <p><strong>From:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Subject:</strong> ${subject}</p>
-          <p><strong>Date:</strong> ${new Date().toLocaleString()}</p>
-          <hr style="border: 1px solid #eee; margin: 20px 0;" />
-          <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px;">
-            <p style="white-space: pre-wrap;">${message}</p>
-          </div>
-          <p style="margin-top: 20px; color: #666; font-size: 12px;">
-            This message was sent from the KFCS website contact form.<br/>
-            Reply directly to this email to respond to ${name}.
-          </p>
-        </div>
-      `;
-
-      // Sender confirmation email
-      const senderEmailContent = `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #1a5f2a;">Thank You for Contacting Us!</h2>
-          <p>Dear ${name},</p>
-          <p>We have received your message and will get back to you as soon as possible.</p>
-          <p><strong>Your message details:</strong></p>
-          <ul>
-            <li><strong>Subject:</strong> ${subject}</li>
-            <li><strong>Date:</strong> ${new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</li>
-            <li><strong>Status:</strong> Received</li>
-          </ul>
-          <p style="margin-top: 20px; padding: 15px; background-color: #e8f5e9; border-radius: 5px;">
-            <strong>Next Steps:</strong> Our team will review your inquiry and respond within <strong>24-48 hours</strong>.
-          </p>
-          <hr style="border: 1px solid #eee; margin: 20px 0;" />
-          <p style="color: #666; font-size: 12px;">
-            Best regards,<br />
-            <strong>Kabianga Farmers Cooperative Society</strong><br />
-            PO Box 123 - 20200, Kericho, Kenya<br />
-            Phone: 0743719091<br />
-            Email: kabiangafarmerssacco@gmail.com
-          </p>
-        </div>
-      `;
-
-      // Check if SMTP is configured
-      const smtpConfigured = !!(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS);
-      
-      if (smtpConfigured) {
-        // Send email to manager (kabiangafarmerssacco@gmail.com)
-        const managerMailOptions = {
-          from: process.env.SMTP_FROM || "Kabianga Farmers Cooperative <noreply@kfcs.co.ke>",
-          to: "kabiangafarmerssacco@gmail.com",
-          subject: `[KFCS Contact] ${subject} - From: ${name}`,
-          html: managerEmailContent,
-        };
-
-        // Send confirmation email to sender
-        const senderMailOptions = {
-          from: process.env.SMTP_FROM || "Kabianga Farmers Cooperative <noreply@kfcs.co.ke>",
-          to: email,
-          subject: "Message Received - Kabianga Farmers Cooperative Society",
-          html: senderEmailContent,
-        };
-
-        // Send both emails
-        try {
-          await Promise.all([
-            transporter.sendMail(managerMailOptions),
-            transporter.sendMail(senderMailOptions),
-          ]);
-          console.log("Contact form emails sent: Manager notified, confirmation sent to " + email);
-        } catch (emailError: any) {
-          console.error("Email sending error:", emailError);
-          // Continue even if email fails - message is saved in database
-        }
-      } else {
-        console.log("SMTP not configured - Contact message saved to database but emails not sent");
-        console.log("Manager email would have been: kabiangafarmerssacco@gmail.com");
-      }
-
-      res.json({
-        success: true,
-        message: "Your message has been sent successfully! Our team will get back to you within 24-48 hours.",
-        contactId: contact.id,
-        emailSent: smtpConfigured,
-      });
-    } catch (error: any) {
-      console.error("Contact form error:", error);
-      res.status(500).json({ error: "Failed to process your message. Please try again later." });
-    }
-  });
-
-  // Email configuration status endpoint
-  app.get("/api/email-status", (req, res) => {
-    const smtpConfigured = !!(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS);
-    res.json({
-      configured: smtpConfigured,
-      host: process.env.SMTP_HOST || null,
-    });
   });
 
   return httpServer;
 }
-

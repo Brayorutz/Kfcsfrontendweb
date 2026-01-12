@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronDown, User, ShoppingCart } from "lucide-react";
+import { Menu, X, ChevronDown, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import kfcsLogo from "@assets/image_20251218_135629_0000_1766055489904.png";
@@ -9,7 +9,9 @@ import kfcsLogo from "@assets/image_20251218_135629_0000_1766055489904.png";
 const navItems = [
   { name: "Home", path: "/" },
   { name: "About Us", path: "/about", submenu: [{ name: "Board of Directors", path: "/about/board" }] },
-  { name: "Production", path: "/production" },  { name: "Gallery", path: "/gallery" },
+  { name: "Production", path: "/production" },
+  { name: "Future Projects", path: "/future-projects" },
+  { name: "Gallery", path: "/gallery" },
   { name: "Investors", path: "/investors" },
   { name: "Membership", path: "/membership" },
   { name: "Careers", path: "/careers" },
@@ -83,12 +85,6 @@ export function Navbar() {
               Get Farmer App
             </Button>
           </Link>
-          <Link href="/portal" asChild>
-            <Button variant="ghost" size="sm" className="gap-2">
-              <User className="w-4 h-4" />
-              Portal
-            </Button>
-          </Link>
           <Link href="/membership" asChild>
             <Button className="bg-primary hover:bg-primary/90 text-white rounded-full px-6">
               Join Now
@@ -141,12 +137,6 @@ export function Navbar() {
                 </div>
               ))}
               <div className="pt-4 flex flex-col space-y-3">
-                <Link href="/portal" asChild>
-                  <Button variant="outline" className="w-full justify-start gap-2">
-                    <User className="w-4 h-4" />
-                    Member Portal
-                  </Button>
-                </Link>
                 <Link href="/membership" asChild>
                   <Button className="w-full bg-primary text-white">
                     Become a Member

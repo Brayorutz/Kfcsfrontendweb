@@ -5,14 +5,14 @@ import strawberry250ml from "@assets/kabianga_strawberry_250ml_1767704465334.png
 import strawberry500ml from "@assets/Kabianga_Strawberry_yoghurt_500ml_1767704465335.png";
 import vanilla500ml from "@assets/kabianga_vanilla_500ml_1767704465336.png";
 import freshMilkPouch from "@assets/fresh_milk_500ml_1767704465332.png";
-import happyFamily from "@assets/happy_family_1767704465333.png";
+import happyFamily from "@assets/happy_family_1768206369042.png";
 
 // Facility Images
 import feedLab from "@assets/feed_laboratory_1767709443300.jpg";
 import milkCoolers from "@assets/Milk_Coolers_1767709504686.jpg";
 import yoghurtProduction from "@assets/yogurt_processing_1767709504687.jpg";
 import mursikProduction from "@assets/Kabianga_Mursik_5_liters_1767704465333.jpg"; // Using Mursik product image for production
-import feedProcessing from "@assets/kfcs_farm_machinerary_1767709504683.jpg";
+import feedProcessing from "@assets/feed_production_1768206601308.jpeg";
 
 export default function Production() {
   return (
