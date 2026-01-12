@@ -20,14 +20,18 @@ export async function registerRoutes(
         return res.status(200).json({ success: true, message: "Simulation: SMTP credentials missing." });
       }
 
-      // Using Gmail SMTP settings for info@kabiangafcs.co.ke
-      // Gmail is often the backend for many business emails
+      // Webmail SMTP configuration using cPanel/standard webmail settings
       const transporter = nodemailer.createTransport({
-        service: "gmail",
+        host: "mail.kabiangafcs.co.ke",
+        port: 465,
+        secure: true, 
         auth: {
           user: smtpUser,
           pass: smtpPass,
         },
+        tls: {
+          rejectUnauthorized: false
+        }
       });
 
       const mailOptions = {
