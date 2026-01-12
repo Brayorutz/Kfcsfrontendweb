@@ -14,7 +14,6 @@ import Production from "@/pages/Production";
 import Shop from "@/pages/Shop";
 import Investors from "@/pages/Investors";
 import Membership from "@/pages/Membership";
-import Portal from "@/pages/Portal";
 import Admin from "@/pages/Admin";
 import News from "@/pages/News";
 import NewsDetail from "@/pages/NewsDetail";
@@ -23,6 +22,7 @@ import Careers from "@/pages/Careers";
 import Gallery from "@/pages/Gallery";
 import CSR from "@/pages/CSR";
 import Sustainability from "@/pages/Sustainability";
+import FutureProjects from "@/pages/FutureProjects";
 import { useEffect } from "react";
 import { useLocation } from "wouter";
 
@@ -49,7 +49,7 @@ function Router() {
           <Route path="/production" component={Production} />
           <Route path="/investors" component={Investors} />
           <Route path="/membership" component={Membership} />
-          <Route path="/portal" component={Portal} />
+          <Route path="/future-projects" component={FutureProjects} />
           <Route path="/admin" component={Admin} />
           <Route path="/news/:id" component={NewsDetail} />
           <Route path="/news" component={News} />
