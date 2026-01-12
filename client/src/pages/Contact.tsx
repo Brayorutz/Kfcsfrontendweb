@@ -44,36 +44,30 @@ export default function Contact() {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
     
-    try {
-      const response = await fetch("/api/send-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          subject: `Contact Form: ${data.subject}`,
-          text: `
-            Message from ${data.name} (${data.email}):
-            Subject: ${data.subject}
-            Message: ${data.message}
-          `,
-        }),
-      });
-
+    // Using Formspree as a reliable alternative to custom SMTP
+    fetch("https://formspree.io/f/mqaejebz", {
+      method: "POST",
+      body: formData,
+      headers: {
+        'Accept': 'application/json'
+      }
+    }).then(response => {
       if (response.ok) {
         form.reset();
         toast({
           title: "Message Sent",
-          description: "Thank you for your message. We'll get back to you soon at info@kabiangafcs.co.ke!",
+          description: "Thank you for your message. We'll get back to you soon!",
         });
       } else {
         throw new Error("Submission failed");
       }
-    } catch (error: any) {
+    }).catch(error => {
       toast({
         title: "Error",
-        description: "There was a problem sending your message via email. Please try again.",
+        description: "There was a problem sending your message. Please try again.",
         variant: "destructive",
       });
-    }
+    });
   };
   return (
     <div className="pt-20">

@@ -19,39 +19,30 @@ export default function Membership() {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
     
-    try {
-      const response = await fetch("/api/send-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          subject: `New Membership Application: ${data.firstName} ${data.lastName}`,
-          text: `
-            Membership Application Received:
-            Name: ${data.firstName} ${data.lastName}
-            National ID: ${data.idNumber}
-            Phone: ${data.phone}
-            Email: ${data.email}
-            Village/Area: ${data.village}
-          `,
-        }),
-      });
-
+    // Using Formspree for reliable delivery
+    fetch("https://formspree.io/f/mqaejebz", {
+      method: "POST",
+      body: formData,
+      headers: {
+        'Accept': 'application/json'
+      }
+    }).then(response => {
       if (response.ok) {
         setSubmitted(true);
         toast({
           title: "Application Received!",
-          description: "We have received your membership application via email. We will contact you at info@kabiangafcs.co.ke shortly.",
+          description: "We have received your membership application. We will contact you shortly.",
         });
       } else {
         throw new Error("Application failed");
       }
-    } catch (error: any) {
+    }).catch(error => {
       toast({
         title: "Error",
         description: error.message || "There was a problem submitting your application.",
         variant: "destructive",
       });
-    }
+    });
   };
 
   return (
