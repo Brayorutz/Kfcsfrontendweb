@@ -18,7 +18,9 @@ export async function registerRoutes(
       }
 
       const transporter = nodemailer.createTransport({
-        service: "gmail",
+        host: "mail.kabiangafcs.co.ke",
+        port: 465,
+        secure: true,
         auth: {
           user: process.env.SMTP_USER,
           pass: process.env.SMTP_PASS,
@@ -27,7 +29,7 @@ export async function registerRoutes(
 
       const mailOptions = {
         from: process.env.SMTP_USER,
-        to: "kabiangafarmerssacco@gmail.com",
+        to: "info@kabiangafcs.co.ke",
         subject: subject || "Website Notification",
         text: text || "No content provided.",
       };

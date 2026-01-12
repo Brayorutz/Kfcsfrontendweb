@@ -64,12 +64,6 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  // Seed database in background (don't block API if it fails)
-  const { seedDatabase } = await import("./seed");
-  seedDatabase().catch(err => {
-    console.warn("Database seeding failed (continuing anyway):", err.message);
-  });
-  
   await registerRoutes(httpServer, app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {

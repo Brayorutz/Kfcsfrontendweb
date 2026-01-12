@@ -40,7 +40,7 @@ export default function Membership() {
         setSubmitted(true);
         toast({
           title: "Application Received!",
-          description: "We have received your membership application via email. We will contact you at kabiangafarmerssacco@gmail.com shortly.",
+          description: "We have received your membership application via email. We will contact you at info@kabiangafcs.co.ke shortly.",
         });
       } else {
         throw new Error("Application failed");

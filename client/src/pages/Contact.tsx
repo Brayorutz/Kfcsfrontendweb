@@ -62,7 +62,7 @@ export default function Contact() {
         form.reset();
         toast({
           title: "Message Sent",
-          description: "Thank you for your message. We'll get back to you soon at kabiangafarmerssacco@gmail.com!",
+          description: "Thank you for your message. We'll get back to you soon at info@kabiangafcs.co.ke!",
         });
       } else {
         throw new Error("Submission failed");
@@ -140,7 +140,7 @@ export default function Contact() {
                             </div>
                             <div>
                                 <h3 className="font-bold text-lg mb-1">Email</h3>
-                                <p className="text-muted-foreground">kabiangafarmerssacco@gmail.com</p>
+                                <p className="text-muted-foreground">info@kabiangafcs.co.ke</p>
                             </div>
                         </div>
                          <div className="flex items-start gap-4">
