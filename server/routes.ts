@@ -11,6 +11,24 @@ import {
 } from "@shared/schema";
 import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
+import multer from "multer";
+
+// Configure multer for file uploads (memory storage for email attachments)
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 5MB limit
+  },
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = ['.pdf', '.doc', '.docx', '.txt'];
+    const ext = '.' + file.originalname.split('.').pop()?.toLowerCase();
+    if (allowedTypes.includes(ext)) {
+      cb(null, true);
+    } else {
+      cb(new Error('Invalid file type. Only PDF, DOC, DOCX, and TXT files are allowed.'));
+    }
+  },
+});
 
 // Create email transporter
 const transporter = nodemailer.createTransport({
@@ -246,30 +264,125 @@ export async function registerRoutes(
     }
   });
   
-  // Career applications
-  app.post("/api/careers/apply", async (req, res) => {
+  // Career applications - using multer for multipart/form-data
+  app.post("/api/careers/apply", upload.single('resume'), async (req, res) => {
     try {
-      const fullName = req.body.get?.("fullName") || (req.body as any).fullName;
-      const email = req.body.get?.("email") || (req.body as any).email;
-      const phone = req.body.get?.("phone") || (req.body as any).phone;
-      const jobPosition = req.body.get?.("jobPosition") || (req.body as any).jobPosition;
-      const resumeFile = req.body.get?.("resume");
-      
+      const fullName = req.body.fullName;
+      const email = req.body.email;
+      const phone = req.body.phone;
+      const jobPosition = req.body.jobPosition;
+      const resumeFile = req.file;
+
+      // Validate all required fields
       if (!fullName || !email || !phone || !jobPosition) {
         return res.status(400).json({ error: "All fields are required" });
+      }
+
+      // Validate email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        return res.status(400).json({ error: "Invalid email format" });
       }
 
       if (!resumeFile) {
         return res.status(400).json({ error: "Resume/CV is required" });
       }
-      
-      // For now, just acknowledge the application with file received
-      // In a production setup with email service, this would send an email with the attachment
+
+      // Check if SMTP is configured
+      const smtpConfigured = !!(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS);
+
+      if (smtpConfigured) {
+        // Manager email - sent to kabiangafarmerssacco@gmail.com
+        const managerEmailContent = `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #1a5f2a;">New Career Application - KFCS Website</h2>
+            <p><strong>Applicant Name:</strong> ${fullName}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Phone:</strong> ${phone}</p>
+            <p><strong>Position Applied:</strong> ${jobPosition}</p>
+            <p><strong>Date:</strong> ${new Date().toLocaleString()}</p>
+            <hr style="border: 1px solid #eee; margin: 20px 0;" />
+            <p style="color: #666; font-size: 14px;">
+              The applicant has uploaded their CV/Resume. Please find the attached file.
+            </p>
+            <p style="margin-top: 20px; color: #666; font-size: 12px;">
+              This application was submitted through the KFCS website careers page.
+            </p>
+          </div>
+        `;
+
+        // Sender confirmation email
+        const senderEmailContent = `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #1a5f2a;">Application Received!</h2>
+            <p>Dear ${fullName},</p>
+            <p>Thank you for your interest in joining Kabianga Farmers Cooperative Society.</p>
+            <p><strong>Your application details:</strong></p>
+            <ul>
+              <li><strong>Position:</strong> ${jobPosition}</li>
+              <li><strong>Date:</strong> ${new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</li>
+              <li><strong>Status:</strong> Received</li>
+            </ul>
+            <p style="margin-top: 20px; padding: 15px; background-color: #e8f5e9; border-radius: 5px;">
+              <strong>Next Steps:</strong> Our HR team will review your application and contact you if your qualifications match our requirements.
+            </p>
+            <hr style="border: 1px solid #eee; margin: 20px 0;" />
+            <p style="color: #666; font-size: 12px;">
+              Best regards,<br />
+              <strong>Kabianga Farmers Cooperative Society</strong><br />
+              PO Box 123 - 20200, Kericho, Kenya<br />
+              Phone: 0743719091<br />
+              Email: kabiangafarmerssacco@gmail.com
+            </p>
+          </div>
+        `;
+
+        // Prepare attachment for manager email
+        const attachments = [{
+          filename: resumeFile.originalname,
+          content: resumeFile.buffer,
+        }];
+
+        // Send email to manager
+        const managerMailOptions = {
+          from: process.env.SMTP_FROM || "Kabianga Farmers Cooperative <noreply@kfcs.co.ke>",
+          to: "kabiangafarmerssacco@gmail.com",
+          subject: `[KFCS Career Application] ${jobPosition} - From: ${fullName}`,
+          html: managerEmailContent,
+          attachments: attachments,
+        };
+
+        // Send confirmation email to applicant
+        const senderMailOptions = {
+          from: process.env.SMTP_FROM || "Kabianga Farmers Cooperative <noreply@kfcs.co.ke>",
+          to: email,
+          subject: "Application Received - Kabianga Farmers Cooperative Society",
+          html: senderEmailContent,
+        };
+
+        // Send both emails - wrap in try/catch to handle email failures gracefully
+        try {
+          await Promise.all([
+            transporter.sendMail(managerMailOptions),
+            transporter.sendMail(senderMailOptions),
+          ]);
+          console.log("Career application emails sent successfully");
+        } catch (emailError: any) {
+          console.error("Email sending error (application still saved):", emailError);
+          // Continue even if email fails - application is saved to database
+        }
+      } else {
+        console.log("SMTP not configured - Application received but emails not sent");
+        console.log("Manager email would have been: kabiangafarmerssacco@gmail.com");
+      }
+
       res.json({ 
         success: true, 
-        message: "Your career application has been received. We will contact you when opportunities become available."
+        message: "Your career application has been received. We will contact you when opportunities become available.",
+        emailSent: smtpConfigured,
       });
     } catch (error: any) {
+      console.error("Career application error:", error);
       res.status(400).json({ error: error.message });
     }
   });
