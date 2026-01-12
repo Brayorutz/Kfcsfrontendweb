@@ -7,7 +7,6 @@ export async function registerRoutes(
   app: Express
 ): Promise<Server> {
   
-  // Email route using SMTP
   app.post("/api/send-email", async (req, res) => {
     try {
       const { subject, text } = req.body;
@@ -20,7 +19,9 @@ export async function registerRoutes(
         return res.status(200).json({ success: true, message: "Simulation: SMTP credentials missing." });
       }
 
-      // Webmail SMTP configuration using cPanel/standard webmail settings
+      // Updated based on user instructions:
+      // Host: mail.kabiangafcs.co.ke
+      // Outgoing Port: 465 (Secure SMTP)
       const transporter = nodemailer.createTransport({
         host: "mail.kabiangafcs.co.ke",
         port: 465,
