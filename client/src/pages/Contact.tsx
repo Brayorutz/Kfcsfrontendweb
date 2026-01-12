@@ -45,7 +45,7 @@ export default function Contact() {
     const data = Object.fromEntries(formData.entries());
     
     // Using Formspree as a reliable alternative to custom SMTP
-    fetch("https://formspree.io/f/mqaejebz", {
+    fetch("https://formspree.io/f/mwvvkvze", {
       method: "POST",
       body: formData,
       headers: {

@@ -20,7 +20,7 @@ export default function Membership() {
     const data = Object.fromEntries(formData.entries());
     
     // Using Formspree for reliable delivery
-    fetch("https://formspree.io/f/mqaejebz", {
+    fetch("https://formspree.io/f/mwvvkvze", {
       method: "POST",
       body: formData,
       headers: {
