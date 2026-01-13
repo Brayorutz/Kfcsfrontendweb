@@ -13,18 +13,21 @@ export default function Careers() {
   const { toast } = useToast();
 
   const jobOptions = [
+    "Tuktuk Driver",
   ];
 
   const applyMutation = useMutation({
     mutationFn: async (formData: FormData) => {
-      const response = await fetch("/api/careers/apply", {
+      const response = await fetch("https://formspree.io/f/mwvvkvze", {
         method: "POST",
         body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
       });
 
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || "Application failed");
+        throw new Error("Application failed");
       }
 
       return response.json();
@@ -50,16 +53,7 @@ export default function Careers() {
     const form = e.currentTarget as HTMLFormElement;
     const formData = new FormData(form);
     
-    // Also send to Gmail as requested by user
-    fetch("https://formspree.io/f/mqaejebz", {
-      method: "POST",
-      body: formData,
-      headers: {
-        'Accept': 'application/json'
-      }
-    }).catch(err => console.error("Formspree error:", err));
-
-    // Note: All emails are sent to kabiangafarmers@gmail.com
+    // Submit to our API endpoint
     applyMutation.mutate(formData);
   };
 
@@ -90,9 +84,9 @@ export default function Careers() {
             <div className="bg-amber-50 border border-amber-200 rounded-xl p-6 flex gap-4">
               <AlertCircle className="w-6 h-6 text-amber-600 shrink-0 mt-0.5" />
               <div>
-                <h3 className="font-bold text-amber-900 mb-1">Currently there are no job openings.</h3>
+                <h3 className="font-bold text-amber-900 mb-1">Here are our job openings.</h3>
                 <p className="text-amber-800 text-sm">
-                  Please submit your information below and we will notify you as soon as positions become available.
+                  Please submit your information below and we will notify you as soon as possible.
                 </p>
               </div>
             </div>

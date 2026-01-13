@@ -44,14 +44,16 @@ export default function Contact() {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
     
-    // Using Formspree as a reliable alternative to custom SMTP
-    fetch("https://formspree.io/f/mwvvkvze", {
-      method: "POST",
-      body: formData,
-      headers: {
-        'Accept': 'application/json'
-      }
-    }).then(response => {
+    try {
+      const response = await fetch("https://formspree.io/f/mwvvkvze", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          subject: `Contact Form: ${data.subject}`,
+          ...data
+        }),
+      });
+
       if (response.ok) {
         form.reset();
         toast({
@@ -61,13 +63,13 @@ export default function Contact() {
       } else {
         throw new Error("Submission failed");
       }
-    }).catch(error => {
+    } catch (error: any) {
       toast({
         title: "Error",
         description: "There was a problem sending your message. Please try again.",
         variant: "destructive",
       });
-    });
+    }
   };
   return (
     <div className="pt-20">

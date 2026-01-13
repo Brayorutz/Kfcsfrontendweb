@@ -20,7 +20,23 @@ import milkTransp from "@assets/Milk_Transportation_1767871165320.jpg";
 import wideAngle from "@assets/wide_angle_shot_of_kfcs_1767871165321.jpg";
 import yogurtProc from "@assets/yogurt_processing_1767871165321.jpg";
 
+// New images from KJET Training
+import kjet1 from "@assets/IMG_20260113_105729_299_1768302297137.jpg";
+import kjet2 from "@assets/IMG_20260113_105807_651_1768302297138.jpg";
+import kjet3 from "@assets/IMG_20260113_105903_836_1768302297139.jpg";
+import kjet4 from "@assets/IMG_20260113_112710_112_1768302297139.jpg";
+import kjet5 from "@assets/IMG_20260113_122903_308_1768302297140.jpg";
+import kjet6 from "@assets/IMG_20260113_122905_986_1768302297142.jpg";
+import kjet7 from "@assets/IMG_20260113_122935_437_1768302297142.jpg";
+
 const galleryImages = [
+  { url: kjet1, title: "KJET Farmers Mentorship Training", category: "Events" },
+  { url: kjet2, title: "Farmer Capacity Building Session", category: "Events" },
+  { url: kjet3, title: "Modern Agribusiness Training", category: "Events" },
+  { url: kjet4, title: "Cooperative Stakeholder Meeting", category: "Events" },
+  { url: kjet5, title: "Dairy Value Chain Workshop", category: "Events" },
+  { url: kjet6, title: "KJET Programme Mentorship", category: "Events" },
+  { url: kjet7, title: "Sustainable Agribusiness Growth", category: "Events" },
   { url: feedLab, title: "Feed Laboratory", category: "Facilities" },
   { url: wideAngle, title: "KFCS Facility Wide Angle", category: "Facilities" },
   { url: yogurtProc, title: "Yogurt Processing Plant", category: "Production" },

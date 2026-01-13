@@ -11,7 +11,7 @@ export function Footer() {
               KFCS<span className="text-secondary">.</span>
             </h3>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              Empowering farmers through dairy excellence since 1995. We are committed to quality, sustainability, and community growth.
+              Empowering farmers through dairy excellence since 1964. We are committed to quality, sustainability, and community growth.
             </p>
           </div>
 

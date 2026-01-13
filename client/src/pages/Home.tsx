@@ -45,6 +45,7 @@ import allProductsHero from "@assets/All_products_Showcase_1767703540586.jpg";
 import paulSoiPortrait from "@assets/Paul_Soi,_Director,_Supervisory_1767771550713.png";
 import kabiangaMourns from "@assets/kabianga_fcs_mourns_the_death_of_Mr._Paul_Soi_1767771678452.jpg";
 import bestCoopAward from "@assets/Kabianga_fcs_wins_best_cooperative_1767771788350.jpeg";
+import launchVideo from "@assets/Kabianga_farmers_dairy_cooperative_society_launches_value_addi_1768303223059.mp4";
 
 import { newsItems } from "@/lib/news-data";
 
@@ -108,7 +109,7 @@ export default function Home() {
                 </button>
 
                 {/* Carousel Indicators */}
-                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-3">
+                <div className="absolute bottom-16 md:bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-3">
                   {heroSlides.map((_, index) => (
                     <button
                       key={index}
@@ -141,7 +142,7 @@ export default function Home() {
                           <span className="bg-gradient-to-r from-green-400 to-emerald-300 bg-clip-text text-transparent">Excellence.</span>
                         </h1>
                         <p className="text-xl md:text-2xl text-white/80 mb-12 max-w-2xl leading-relaxed font-light">
-                          Join over 5,000 farmers in Kabianga's premier dairy cooperative. We're reshaping the future of agriculture with technology and tradition.
+                          Join over 6,000 farmers in Kabianga's premier dairy cooperative. We're reshaping the future of agriculture with technology and tradition.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-6">
                         <Link href="/membership" asChild>
@@ -161,7 +162,7 @@ export default function Home() {
         </MilkRevealWrapper>
         
         {/* Carousel Indicators */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-3">
+        <div className="absolute bottom-16 md:bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-3">
           {heroSlides.map((_, index) => (
             <button
               key={index}
@@ -181,7 +182,7 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 divide-y md:divide-y-0 md:divide-x divide-border">
           <div className="p-6 text-center">
             <Users className="w-10 h-10 text-secondary mx-auto mb-4" />
-            <h3 className="text-4xl font-bold text-primary mb-2">5,000+</h3>
+            <h3 className="text-4xl font-bold text-primary mb-2">6,000+</h3>
             <p className="text-muted-foreground font-medium">Active Farmers</p>
           </div>
           <div className="p-6 text-center">
@@ -205,14 +206,16 @@ export default function Home() {
             Witness our commitment to hygiene, quality, and modern processing standards. From the lush pastures of Kericho to your breakfast table.
           </p>
         </div>
-        <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl group cursor-pointer">
-          {/* Mock Video Placeholder */}
-          <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors flex items-center justify-center z-10">
-            <div className="w-20 h-20 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/50 group-hover:scale-110 transition-transform">
-              <div className="w-0 h-0 border-t-[12px] border-t-transparent border-l-[24px] border-l-white border-b-[12px] border-b-transparent ml-2" />
-            </div>
-          </div>
-          <img src={farmMachinery} className="w-full h-full object-cover" alt="Video thumbnail" />
+        <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl group">
+          <video 
+            src={launchVideo} 
+            className="w-full h-full object-cover" 
+            controls 
+            poster={farmMachinery}
+            data-testid="video-farm-transparency"
+          >
+            Your browser does not support the video tag.
+          </video>
         </div>
       </Section>
 
@@ -227,7 +230,7 @@ export default function Home() {
             <span className="text-secondary font-bold tracking-wider uppercase text-sm mb-2 block">Who We Are</span>
             <h2 className="text-4xl font-serif font-bold text-primary mb-6">Kabianga Farmers Cooperative</h2>
             <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-              Founded in 1964 and registered with the Ministry of Cooperatives and Social Services, we are a cooperative of over 5,000 farmers dedicated to transforming dairy farming in Kericho. We believe in sustainable practices, fair pricing, and uncompromising quality that empowers our farmers and nourishes our communities.
+              Founded in 1964 and registered with the Ministry of Cooperatives and Social Services, we are a cooperative of over 6,000 farmers dedicated to transforming dairy farming in Kericho. We believe in sustainable practices, fair pricing, and uncompromising quality that empowers our farmers and nourishes our communities.
             </p>
             <Link href="/about" asChild>
               <Button variant="link" className="text-primary text-lg group p-0">

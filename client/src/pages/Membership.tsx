@@ -19,14 +19,16 @@ export default function Membership() {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
     
-    // Using Formspree for reliable delivery
-    fetch("https://formspree.io/f/mwvvkvze", {
-      method: "POST",
-      body: formData,
-      headers: {
-        'Accept': 'application/json'
-      }
-    }).then(response => {
+    try {
+      const response = await fetch("https://formspree.io/f/mwvvkvze", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          subject: `New Membership Application: ${data.firstName} ${data.lastName}`,
+          ...data
+        }),
+      });
+
       if (response.ok) {
         setSubmitted(true);
         toast({
@@ -36,20 +38,20 @@ export default function Membership() {
       } else {
         throw new Error("Application failed");
       }
-    }).catch(error => {
+    } catch (error: any) {
       toast({
         title: "Error",
         description: error.message || "There was a problem submitting your application.",
         variant: "destructive",
       });
-    });
+    }
   };
 
   return (
     <div className="pt-20">
        <div className="bg-primary py-16 md:py-24 text-center text-white">
         <h1 className="text-4xl md:text-5xl font-serif font-bold mb-4">Become a Member</h1>
-        <p className="text-lg opacity-90">Join 5,000+ farmers in the success story.</p>
+        <p className="text-lg opacity-90">Join 6,000+ farmers in the success story.</p>
       </div>
 
       <Section className="max-w-4xl mx-auto">
