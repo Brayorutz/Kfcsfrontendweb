@@ -13,6 +13,7 @@ const navItems = [
   { name: "Future Projects", path: "/future-projects" },
   { name: "Gallery", path: "/gallery" },
   { name: "Investors", path: "/investors" },
+  { name: "Shop", path: "/shop" },
   { name: "Membership", path: "/membership" },
   { name: "Careers", path: "/careers" },
   { name: "News", path: "/news" },

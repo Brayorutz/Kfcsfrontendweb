@@ -300,8 +300,8 @@ export default function Home() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {newsItems.map((item) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {newsItems.slice(0, 4).map((item) => (
             <motion.div
               key={item.id}
               initial={ { opacity: 0, y: 20 } }
