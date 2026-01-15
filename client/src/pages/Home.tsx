@@ -77,17 +77,25 @@ export default function Home() {
                 {/* Carousel Container */}
                 <div className="absolute inset-0 z-0">
                   {heroSlides.map((slide, index) => (
-                    <motion.img
+                    <motion.div
                       key={index}
-                      src={slide.image}
-                      alt={slide.alt}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: currentSlide === index ? 1 : 0 }}
-                      transition={{ duration: 1 }}
-                      className="absolute w-full h-full object-cover brightness-[0.85]"
-                    />
+                      initial={{ opacity: 0, scale: 1.1 }}
+                      animate={{ 
+                        opacity: currentSlide === index ? 1 : 0,
+                        scale: currentSlide === index ? 1 : 1.1
+                      }}
+                      transition={{ duration: 1.5, ease: "easeOut" }}
+                      className="absolute inset-0"
+                    >
+                      <img
+                        src={slide.image}
+                        alt={slide.alt}
+                        className="w-full h-full object-cover brightness-[0.75] contrast-[1.1]"
+                      />
+                    </motion.div>
                   ))}
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent" />
                 </div>
 
                 {/* Carousel Navigation Buttons */}
@@ -139,19 +147,19 @@ export default function Home() {
                         </motion.span>
                         <h1 className="text-6xl md:text-8xl font-serif font-bold text-white mb-8 leading-[1.1] tracking-tight">
                           Modern Dairy <br />
-                          <span className="bg-gradient-to-r from-green-400 to-emerald-300 bg-clip-text text-transparent">Excellence.</span>
+                          <span className="bg-gradient-to-r from-green-400 via-emerald-400 to-teal-400 bg-clip-text text-transparent drop-shadow-sm">Excellence.</span>
                         </h1>
-                        <p className="text-xl md:text-2xl text-white/80 mb-12 max-w-2xl leading-relaxed font-light">
+                        <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-2xl leading-relaxed font-light drop-shadow-md">
                           Join over 6,000 farmers in Kabianga's premier dairy cooperative. We're reshaping the future of agriculture with technology and tradition.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-6">
                         <Link href="/membership" asChild>
-                            <Button size="lg" className="bg-primary hover:bg-primary/90 text-white text-xl h-16 px-10 rounded-full shadow-2xl shadow-primary/20 transition-all hover:scale-105">
+                            <Button size="lg" className="bg-primary hover:bg-primary/90 text-white text-xl h-16 px-10 rounded-full shadow-[0_0_20px_rgba(34,197,94,0.3)] transition-all hover:scale-105 active:scale-95">
                                 Join the Movement
                             </Button>
                         </Link>
                         <Link href="/about" asChild>
-                            <Button size="lg" variant="outline" className="bg-white/10 backdrop-blur-md border-white/30 text-white hover:bg-white hover:text-primary text-xl h-16 px-10 rounded-full transition-all">
+                            <Button size="lg" variant="outline" className="bg-white/5 backdrop-blur-md border-white/20 text-white hover:bg-white hover:text-primary text-xl h-16 px-10 rounded-full transition-all hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]">
                                 Discover Our Story
                             </Button>
                         </Link>
