@@ -1,7 +1,6 @@
 import paulSoiPortrait from "@assets/Paul_Soi,_Director,_Supervisory_1767771550713.png";
 import kabiangaMourns from "@assets/kabianga_fcs_mourns_the_death_of_Mr._Paul_Soi_1767771678452.jpg";
-import bestCoopAward from "@assets/Kabianga_fcs_wins_best_cooperative_1767771788350.jpeg";
-import kjetTraining from "@assets/IMG_20260113_105659_599_1768302297136.jpg";
+import kfcsNews from "@assets/kfcs_on_the_news_1768465015306.png";
 
 export const newsItems = [
   {
@@ -21,7 +20,7 @@ Officials from Kabianga Farmers Cooperative Society welcomed the initiative, not
 The partnership between KJET, the Ministry of Trade and MSEA, and Edmany Consultancy underscores a shared commitment to empowering farmers with knowledge, skills, and networks needed to thrive in a competitive agricultural economy.
 
 As the training continues, participating farmers are expected to apply the acquired skills on their farms, contributing to increased productivity, improved livelihoods, and sustainable economic transformation in Kericho County and beyond.`,
-    image: kjetTraining,
+    image: kfcsNews,
     date: "January 13, 2026"
   },
   {

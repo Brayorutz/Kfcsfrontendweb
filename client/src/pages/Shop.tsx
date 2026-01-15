@@ -7,33 +7,42 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
-import freshMilk from "@assets/All_products_Showcase_1767703540586.jpg";
-import yogurt from "@assets/yogurt_processing_1767871165321.jpg";
+import freshMilk500ml from "@assets/fresh_milk_500ml_1768464623059.png";
+import mursik5l from "@assets/Kabianga_Mursik_5liters_1768464623061.png";
+import strawberry250ml from "@assets/kabianga_strawberry_250ml_1768464622.png";
+import strawberry500ml from "@assets/Kabianga_Strawberry_yoghurt_500ml_1768464623063.png";
+import vanilla500ml from "@assets/kabianga_vanilla_500ml_1768464623074.png";
 
 const products = [
   {
     id: 1,
-    name: "Kabianga Fresh Milk",
-    description: "Farm-fresh, pasteurized whole milk from our cooperative members.",
-    image: freshMilk,
+    name: "Kabianga Fresh Whole Milk (500ML)",
+    description: "Naturally nutritious, farm-fresh pasteurized whole milk.",
+    image: freshMilk500ml,
   },
   {
     id: 2,
-    name: "Kabianga Premium Yogurt",
-    description: "Creamy, delicious yogurt available in various natural flavors.",
-    image: yogurt,
+    name: "Kabianga Mursik / Lala (5 Liters)",
+    description: "Traditional cultured milk, rich in flavor and energy. A sip of energy.",
+    image: mursik5l,
   },
   {
     id: 3,
-    name: "Kabianga Lala",
-    description: "Traditional cultured milk, rich in probiotics and flavor.",
-    image: freshMilk,
+    name: "Kabianga Strawberry Yoghurt (250ML)",
+    description: "Creamy strawberry flavored yoghurt in a convenient 250ml cup.",
+    image: strawberry250ml,
   },
   {
     id: 4,
-    name: "Kabianga Ghee",
-    description: "Pure, aromatic cow ghee made using traditional methods.",
-    image: yogurt,
+    name: "Kabianga Strawberry Yoghurt (500ML)",
+    description: "Delicious strawberry flavored yoghurt in a 500ml family size.",
+    image: strawberry500ml,
+  },
+  {
+    id: 5,
+    name: "Kabianga Vanilla Yoghurt (500ML)",
+    description: "Smooth and creamy vanilla flavored yoghurt in a 500ml cup.",
+    image: vanilla500ml,
   },
 ];
 
