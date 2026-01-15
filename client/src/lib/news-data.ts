@@ -25,6 +25,15 @@ As the training continues, participating farmers are expected to apply the acqui
     date: "January 13, 2026"
   },
   {
+    id: 5,
+    title: "Kabianga Farmers Cooperative Society: A Legacy of Quality and Innovation",
+    excerpt: "Watch our latest feature on how Kabianga Farmers Cooperative Society is transforming the dairy landscape in Kericho.",
+    content: "We are proud to share a special video feature highlighting our journey, our farmers, and our commitment to excellence in the dairy industry. Kabianga Farmers Cooperative Society continues to lead with innovation while staying true to our roots of supporting local farmers.\n\nWatch the full video below to learn more about our impact and future goals.",
+    videoUrl: "https://www.youtube.com/embed/osV7hoACOqc",
+    image: kjetTraining, // Using existing image as fallback
+    date: "January 14, 2026"
+  },
+  {
     id: 1,
     title: "Kabianga Farmers Announces the Death of Director Mr. Paul Soi",
     excerpt: "The Kabianga Farmers Cooperative Society family is deeply saddened to announce the passing of one of our dedicated directors, Mr. Paul Soi.",

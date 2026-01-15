@@ -99,11 +99,24 @@ export default function NewsDetail() {
           </div>
 
           <div className="rounded-2xl overflow-hidden shadow-2xl mb-12">
-            <img
-              src={article.image}
-              alt={article.title}
-              className="w-full h-auto object-cover max-h-[600px]"
-            />
+            {article.videoUrl ? (
+              <div className="aspect-video w-full">
+                <iframe
+                  className="w-full h-full"
+                  src={article.videoUrl}
+                  title={article.title}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
+            ) : (
+              <img
+                src={article.image}
+                alt={article.title}
+                className="w-full h-auto object-cover max-h-[600px]"
+              />
+            )}
           </div>
 
           <div className="prose prose-lg max-w-none prose-pink">
