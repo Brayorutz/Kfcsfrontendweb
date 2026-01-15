@@ -9,7 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 
 import freshMilk500ml from "@assets/fresh_milk_500ml_1768464623059.png";
 import mursik5l from "@assets/Kabianga_Mursik_5liters_1768464623061.png";
-import strawberry250ml from "@assets/kabianga_strawberry_250ml_1768464622.png";
+import strawberry250ml from "@assets/kabianga_strawberry_250ml_1768464623062.png";
 import strawberry500ml from "@assets/Kabianga_Strawberry_yoghurt_500ml_1768464623063.png";
 import vanilla500ml from "@assets/kabianga_vanilla_500ml_1768464623074.png";
 

@@ -29,7 +29,7 @@ As the training continues, participating farmers are expected to apply the acqui
     excerpt: "Watch our latest feature on how Kabianga Farmers Cooperative Society is transforming the dairy landscape in Kericho.",
     content: "We are proud to share a special video feature highlighting our journey, our farmers, and our commitment to excellence in the dairy industry. Kabianga Farmers Cooperative Society continues to lead with innovation while staying true to our roots of supporting local farmers.\n\nWatch the full video below to learn more about our impact and future goals.",
     videoUrl: "https://www.youtube.com/embed/osV7hoACOqc",
-    image: kjetTraining, // Using existing image as fallback
+    image: kfcsNews,
     date: "January 14, 2026"
   },
   {
@@ -53,7 +53,7 @@ As the training continues, participating farmers are expected to apply the acqui
     title: "Kabianga FCS Wins Best Cooperative in Kenya",
     excerpt: "In a prestigious recognition of excellence, Kabianga Farmers Cooperative Society has been awarded the Best Cooperative in Kenya.",
     content: "In a prestigious recognition of excellence, Kabianga Farmers Cooperative Society has been awarded the Best Cooperative in Kenya at the National Awards. This honor reflects our unwavering commitment to quality, innovation, and member prosperity. The award represents the dedication of our entire community, from our farmers to our board members, in building a cooperative that truly serves its members.",
-    image: bestCoopAward,
+    image: kfcsNews,
     date: "January 5, 2026"
   }
 ];

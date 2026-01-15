@@ -11,7 +11,7 @@ export default function NewsDetail() {
   const { toast } = useToast();
   const [, params] = useRoute("/news/:id");
   const id = params?.id ? parseInt(params.id) : null;
-  const article = newsItems.find((item) => item.id === id);
+  const article = newsItems.find((item) => item.id === id) as any;
 
   const shareUrl = window.location.href;
   const shareTitle = article?.title || "";
