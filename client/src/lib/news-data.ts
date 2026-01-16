@@ -2,8 +2,27 @@ import paulSoiPortrait from "@assets/Paul_Soi,_Director,_Supervisory_17677715507
 import kabiangaMourns from "@assets/kabianga_fcs_mourns_the_death_of_Mr._Paul_Soi_1767771678452.jpg";
 import kjetTraining from "@assets/IMG_20260113_105659_599_1768302297136.jpg";
 import kfcsNews from "@assets/kfcs_on_the_news_1768465015306.png";
+import tukTukNews from "@assets/IMG-20260114-WA0008_1768555858615.jpg";
 
 export const newsItems = [
+  {
+    id: 6,
+    title: "Kabianga Farmers Cooperative Society Acquires Tuk Tuk to Enhance Milk and Feed Transport",
+    excerpt: "Kabianga Farmers Cooperative Society has acquired a tuk tuk to support the transportation of milk and animal feeds, marking a significant step towards improving efficiency in dairy farming operations.",
+    content: `Kabianga, Kericho County — Kabianga Farmers Cooperative Society has acquired a tuk tuk to support the transportation of milk and animal feeds, marking a significant step towards improving efficiency in dairy farming operations.
+
+The new tuk tuk will be used to collect milk from farmers and deliver it to designated collection and cooling points, ensuring timely delivery and reducing post-harvest losses. In addition, the vehicle will play a key role in distributing animal feeds to farmers, especially in areas where access has previously been a challenge.
+
+The acquisition is part of the cooperative’s broader strategy to strengthen service delivery to its members by reducing transport costs, improving reliability, and enhancing overall productivity within the dairy value chain.
+
+Previously, farmers relied on costly and sometimes unreliable transport options, which affected timely milk delivery and feed supply. The tuk tuk, known for its fuel efficiency and ability to navigate rural roads, is expected to provide a practical and sustainable transport solution.
+
+Members of the cooperative have welcomed the development, noting that improved logistics will contribute to better milk quality, reduced spoilage, and increased farmer incomes.
+
+Kabianga Farmers Cooperative Society continues to invest in infrastructure and assets that support farmers, reaffirming its commitment to empowering dairy producers and promoting sustainable agricultural growth in the region.`,
+    image: tukTukNews,
+    date: "January 14, 2026"
+  },
   {
     id: 4,
     title: "Kenya Jobs & Economic Transformation Programme Trains Farmers at Kabianga Farmers Cooperative Society",
