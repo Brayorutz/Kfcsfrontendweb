@@ -41,6 +41,8 @@ import farmMachinery from "@assets/kfcs_farm_machinerary_1767709504683.jpg";
 import awardImage1 from "@assets/WhatsApp_Image_2025-12-19_at_20.42.35_1766218730971.jpeg";
 import awardImage2 from "@assets/WhatsApp_Image_2025-12-19_at_20.42.36_1766218742963.jpeg";
 import allProductsHero from "@assets/All_products_Showcase_1767703540586.jpg";
+import bodaBoda1 from "@assets/IMG_20240803_122239_1768551934236.jpg";
+import bodaBoda2 from "@assets/IMG_20240803_122334_1768551934327.jpg";
 
 import paulSoiPortrait from "@assets/Paul_Soi,_Director,_Supervisory_1767771550713.png";
 import kabiangaMourns from "@assets/kabianga_fcs_mourns_the_death_of_Mr._Paul_Soi_1767771678452.jpg";
@@ -254,6 +256,59 @@ export default function Home() {
           >
             <img src={wideAngleFarm} alt="KFCS Farm" className="w-full h-96 object-cover" />
           </motion.div>
+        </div>
+      </Section>
+
+      {/* Community Impact Section */}
+      <Section className="py-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div className="order-2 lg:order-1 relative">
+            <div className="grid grid-cols-2 gap-4">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                className="rounded-2xl overflow-hidden shadow-xl mt-8"
+              >
+                <img src={bodaBoda1} alt="Boda Boda Milk Transport" className="w-full h-80 object-cover" />
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2 }}
+                className="rounded-2xl overflow-hidden shadow-xl"
+              >
+                <img src={bodaBoda2} alt="Milk Collection" className="w-full h-80 object-cover" />
+              </motion.div>
+            </div>
+            <div className="absolute -bottom-6 -right-6 bg-secondary text-white p-8 rounded-2xl shadow-2xl z-10 hidden md:block max-w-xs">
+              <p className="font-bold text-2xl mb-2">Creating Jobs</p>
+              <p className="text-white/80 text-sm">Empowering local youth through our milk transportation network.</p>
+            </div>
+          </div>
+          
+          <div className="order-1 lg:order-2">
+            <span className="text-secondary font-bold tracking-wider uppercase text-sm mb-4 block">Community Impact</span>
+            <h2 className="text-4xl md:text-5xl font-serif font-bold text-primary mb-8 leading-tight">
+              Beyond Dairy: <br />
+              <span className="text-secondary">Empowering Local Youth</span>
+            </h2>
+            <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
+              <p>
+                Kabianga Farmers Cooperative Society Limited has extended its impact beyond the farm gate by creating sustainable employment for local boda boda riders.
+              </p>
+              <p>
+                These dedicated transporters navigate the remotest parts of our region, ensuring that every drop of milk from our 6,000+ members reaches our processing facility in its freshest state.
+              </p>
+              <p>
+                By integrating local youth into our supply chain, we are not just collecting milk; we are building livelihoods and strengthening the economic fabric of Kericho County.
+              </p>
+            </div>
+            <Link href="/membership" asChild>
+              <Button className="mt-10 bg-primary hover:bg-primary/90 text-white rounded-full px-10 h-14 text-lg">
+                Join Our Success Story
+              </Button>
+            </Link>
+          </div>
         </div>
       </Section>
 
