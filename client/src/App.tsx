@@ -7,6 +7,24 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PageLoader } from "@/components/PageLoader";
 import NotFound from "@/pages/not-found";
+
+import Home from "@/pages/Home";
+import About from "@/pages/About";
+import BoardOfDirectors from "@/pages/BoardOfDirectors";
+import Production from "@/pages/Production";
+import Shop from "@/pages/Shop";
+import Investors from "@/pages/Investors";
+import Membership from "@/pages/Membership";
+import Admin from "@/pages/Admin";
+import News from "@/pages/News";
+import NewsDetail from "@/pages/NewsDetail";
+import Contact from "@/pages/Contact";
+import Careers from "@/pages/Careers";
+import Gallery from "@/pages/Gallery";
+import CSR from "@/pages/CSR";
+import Sustainability from "@/pages/Sustainability";
+import FutureProjects from "@/pages/FutureProjects";
+
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { AnimatePresence } from "framer-motion";
