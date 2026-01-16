@@ -126,7 +126,7 @@ export default function Careers() {
                         name="phone"
                         type="tel"
                         required
-                        placeholder="0700 000 000"
+                        placeholder="0743719091"
                         data-testid="input-phone"
                       />
                     </div>

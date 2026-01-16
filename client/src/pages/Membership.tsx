@@ -114,7 +114,7 @@ export default function Membership() {
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="phone">Phone Number</Label>
-                                <Input id="phone" name="phone" type="tel" required placeholder="0700 000 000" data-testid="input-phone" />
+                                <Input id="phone" name="phone" type="tel" required placeholder="0743719091" data-testid="input-phone" />
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="email">Email Address</Label>
