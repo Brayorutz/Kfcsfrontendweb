@@ -12,6 +12,7 @@ import mursik5l from "@assets/Kabianga_Mursik_5liters_1768464623061.png";
 import strawberry250ml from "@assets/kabianga_strawberry_250ml_1768464623062.png";
 import strawberry500ml from "@assets/Kabianga_Strawberry_yoghurt_500ml_1768464623063.png";
 import vanilla500ml from "@assets/kabianga_vanilla_500ml_1768464623074.png";
+import mursik500ml from "@assets/IMG_20260116_115932_1768554104080.png";
 
 const products = [
   {
@@ -19,6 +20,12 @@ const products = [
     name: "Kabianga Fresh Whole Milk (500ML)",
     description: "Naturally nutritious, farm-fresh pasteurized whole milk.",
     image: freshMilk500ml,
+  },
+  {
+    id: 6,
+    name: "Kabianga Mursik / Lala (500ML)",
+    description: "Traditional fermented milk in a convenient 500ml pouch. A sip of energy.",
+    image: mursik500ml,
   },
   {
     id: 2,
