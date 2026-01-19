@@ -149,6 +149,11 @@ export default function About() {
         <p className="text-muted-foreground text-lg max-w-2xl mx-auto mb-8">
           Our experienced Board of Directors provides strategic leadership and ensures transparent governance aligned with our mission to serve farmers and communities.
         </p>
+        <Link href="/about/awards" asChild>
+          <Button size="lg" variant="outline" className="rounded-full px-8 ml-4">
+            View Our Awards <Award className="ml-2 w-4 h-4" />
+          </Button>
+        </Link>
         <Link href="/about/board" asChild>
           <Button size="lg" className="bg-primary hover:bg-primary/90 text-white rounded-full px-8">
             View Full Board <ArrowRight className="ml-2 w-4 h-4" />

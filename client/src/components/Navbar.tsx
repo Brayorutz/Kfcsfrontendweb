@@ -8,7 +8,10 @@ import kfcsLogo from "@assets/image_20251218_135629_0000_1766055489904.png";
 
 const navItems = [
   { name: "Home", path: "/" },
-  { name: "About Us", path: "/about", submenu: [{ name: "Board of Directors", path: "/about/board" }] },
+  { name: "About Us", path: "/about", submenu: [
+    { name: "Our Awards", path: "/about/awards" },
+    { name: "Board of Directors", path: "/about/board" }
+  ] },
   { name: "Production", path: "/production" },
   { name: "Future Projects", path: "/future-projects" },
   { name: "Gallery", path: "/gallery" },
