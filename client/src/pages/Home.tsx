@@ -41,8 +41,8 @@ import farmMachinery from "@assets/kfcs_farm_machinerary_1767709504683.jpg";
 import awardImage1 from "@assets/WhatsApp_Image_2025-12-19_at_20.42.35_1766218730971.jpeg";
 import awardImage2 from "@assets/WhatsApp_Image_2025-12-19_at_20.42.36_1766218742963.jpeg";
 import allProductsHero from "@assets/All_products_Showcase_1767703540586.jpg";
-import bodaBoda1 from "@assets/IMG_20240803_122239_1768551934236.jpg";
-import bodaBoda2 from "@assets/IMG_20240803_122334_1768551934327.jpg";
+import communityImpact1 from "@assets/wmremove-transformed_(2)_1768828782906.jpeg";
+import communityImpact2 from "@assets/wmremove-transformed_(1)_1768828783003.jpeg";
 
 import paulSoiPortrait from "@assets/Paul_Soi,_Director,_Supervisory_1767771550713.png";
 import kabiangaMourns from "@assets/kabianga_fcs_mourns_the_death_of_Mr._Paul_Soi_1767771678452.jpg";
@@ -305,7 +305,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 className="rounded-2xl overflow-hidden shadow-xl mt-8"
               >
-                <img src={bodaBoda1} alt="Boda Boda Milk Transport" className="w-full h-80 object-cover" />
+                <img src={communityImpact1} alt="Boda Boda Milk Transport" className="w-full h-80 object-cover" />
               </motion.div>
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -313,7 +313,7 @@ export default function Home() {
                 transition={{ delay: 0.2 }}
                 className="rounded-2xl overflow-hidden shadow-xl"
               >
-                <img src={bodaBoda2} alt="Milk Collection" className="w-full h-80 object-cover" />
+                <img src={communityImpact2} alt="Milk Collection" className="w-full h-80 object-cover" />
               </motion.div>
             </div>
             <div className="absolute -bottom-6 -right-6 bg-secondary text-white p-8 rounded-2xl shadow-2xl z-10 hidden md:block max-w-xs">
