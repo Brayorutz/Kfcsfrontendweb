@@ -25,6 +25,15 @@ const locations = [
     mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3982.5760822184136!2d35.2676839!3d-0.3473138!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182a5732958f6971%3A0xe5305118742d45b4!2sKericho!5e0!3m2!1sen!2ske!4v1737035650000!5m2!1sen!2ske",
   },
   {
+    name: "Chepnyogaa Distribution",
+    address: "Chepnyogaa, Kericho County",
+    poBox: "PO Box 123 - 20200, Kericho",
+    phone: "0743719091",
+    email: "info@kabiangafcs.co.ke",
+    hours: "Mon - Sat: 8:00 AM - 6:00 PM",
+    mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3982.5!2d35.15!3d-0.4!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182b070000000000%3A0x0!2sChepnyogaa!5e0!3m2!1sen!2ske!4v1737035900000!5m2!1sen!2ske",
+  },
+  {
     name: "Kiptere Distribution",
     address: "Kiptere, Kericho County",
     poBox: "PO Box 123 - 20200, Kericho",
@@ -41,15 +50,6 @@ const locations = [
     email: "info@kabiangafcs.co.ke",
     hours: "Mon - Sat: 7:00 AM - 7:00 PM",
     mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3982.575!2d35.285!3d-0.368!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182a57193f5451bf%3A0xa5862088f17a942a!2sMwananchi%20Hotel!5e0!3m2!1sen!2ske!4v1737035750000!5m2!1sen!2ske",
-  },
-  {
-    name: "Kericho Distribution (Next to Main Stage)",
-    address: "Kericho Town, Near Main Bus Stage",
-    poBox: "PO Box 123 - 20200, Kericho",
-    phone: "0743719091",
-    email: "info@kabiangafcs.co.ke",
-    hours: "Mon - Sat: 7:00 AM - 8:00 PM",
-    mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3982.576!2d35.283!3d-0.369!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182a5732958f6971%3A0xe5305118742d45b4!2sKericho%20Main%20Stage!5e0!3m2!1sen!2ske!4v1737035800000!5m2!1sen!2ske",
   },
 ];
 
