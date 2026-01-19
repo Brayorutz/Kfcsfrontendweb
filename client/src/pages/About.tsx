@@ -2,7 +2,7 @@ import { Section } from "@/components/Section";
 import { Users, Target, Heart, Award, ArrowRight, Truck, Microscope, FlaskConical, Store, Tractor, Headphones, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import aboutImage from "@assets/wmremove-transformed_1768820169118.jpeg";
+import aboutImage from "@assets/wmremove-transformed_1768821427059.jpeg";
 import trophyImage from "@assets/IMG_20251219_144012_1766147245755.jpg";
 import wideAngleFarm from "@assets/wide_angle_shot_of_kfcs_1767709504687.jpg";
 import farmMachinery from "@assets/kfcs_farm_machinerary_1767709504683.jpg";
