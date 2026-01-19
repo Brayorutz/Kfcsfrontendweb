@@ -53,6 +53,8 @@ import kabiangaMourns from "@assets/kabianga_fcs_mourns_the_death_of_Mr._Paul_So
 import bestCoopAward from "@assets/Kabianga_fcs_wins_best_cooperative_1767771788350.jpeg";
 import launchVideo from "@assets/Kabianga_farmers_dairy_cooperative_society_launches_value_addi_1768303223059.mp4";
 
+import yogurtPoster from "@assets/1765823139583_1768829902307.jpg";
+
 import { newsItems } from "@/lib/news-data";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus, Minus, MessageSquare } from "lucide-react";
@@ -261,7 +263,7 @@ export default function Home() {
             src={launchVideo} 
             className="w-full h-full object-cover" 
             controls 
-            poster={farmMachinery}
+            poster={yogurtPoster}
             data-testid="video-farm-transparency"
           >
             Your browser does not support the video tag.
