@@ -2,6 +2,7 @@ import { Section } from "@/components/Section";
 import { Users, Target, Heart, Award, ArrowRight, Truck, Microscope, FlaskConical, Store, Tractor, Headphones, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
+import aboutImage from "@assets/wmremove-transformed_1768820169118.jpeg";
 import trophyImage from "@assets/IMG_20251219_144012_1766147245755.jpg";
 import wideAngleFarm from "@assets/wide_angle_shot_of_kfcs_1767709504687.jpg";
 import farmMachinery from "@assets/kfcs_farm_machinerary_1767709504683.jpg";
@@ -11,7 +12,7 @@ export default function About() {
     <div className="pt-20">
       <div className="bg-primary py-20 md:py-32 text-center text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-20">
-             <img src={wideAngleFarm} className="w-full h-full object-cover grayscale" alt="Background" />
+             <img src={aboutImage} className="w-full h-full object-cover grayscale" alt="Background" />
         </div>
         <div className="relative z-10 container mx-auto px-6">
             <h1 className="text-5xl md:text-7xl font-serif font-bold mb-6">Our Story</h1>
@@ -35,7 +36,7 @@ export default function About() {
           </div>
           <div className="relative">
             <div className="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
-              <img src={wideAngleFarm} alt="KFCS Facility" className="w-full h-full object-cover" />
+              <img src={aboutImage} alt="KFCS Facility" className="w-full h-full object-cover" />
             </div>
             <div className="absolute -bottom-10 -left-10 bg-white p-8 rounded-xl shadow-xl max-w-xs hidden md:block border border-border">
               <p className="font-serif italic text-xl text-primary mb-4">"Our strength lies in our unity and our shared commitment to quality."</p>
