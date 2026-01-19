@@ -35,7 +35,7 @@ const partners = [
   { name: "Promaco", logo: promacoLogo },
 ];
 
-import wideAngleFarm from "@assets/wide_angle_shot_of_kfcs_1767709504687.jpg";
+import wideAngleFarm from "@assets/wmremove-transformed_1768821427059.jpeg";
 import commisionPlate from "@assets/kfcs_commision_plate_1767709504683.jpg";
 import farmMachinery from "@assets/kfcs_farm_machinerary_1767709504683.jpg";
 import awardImage1 from "@assets/WhatsApp_Image_2025-12-19_at_20.42.35_1766218730971.jpeg";
