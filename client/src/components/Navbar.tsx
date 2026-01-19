@@ -15,7 +15,6 @@ const navItems = [
   { name: "Production", path: "/production" },
   { name: "Future Projects", path: "/future-projects" },
   { name: "Gallery", path: "/gallery" },
-  { name: "Investors", path: "/investors" },
   { name: "Shop", path: "/shop" },
   { name: "Membership", path: "/membership" },
   { name: "Downloads", path: "/downloads" },
