@@ -20,6 +20,7 @@ import Admin from "@/pages/Admin";
 import News from "@/pages/News";
 import NewsDetail from "@/pages/NewsDetail";
 import Contact from "@/pages/Contact";
+import Downloads from "@/pages/Downloads";
 import Careers from "@/pages/Careers";
 import Gallery from "@/pages/Gallery";
 import CSR from "@/pages/CSR";
@@ -54,6 +55,7 @@ function Router() {
           <Route path="/production" component={Production} />
           <Route path="/investors" component={Investors} />
           <Route path="/membership" component={Membership} />
+          <Route path="/downloads" component={Downloads} />
           <Route path="/shop" component={Shop} />
           <Route path="/future-projects" component={FutureProjects} />
           <Route path="/admin" component={Admin} />

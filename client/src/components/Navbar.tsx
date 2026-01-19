@@ -18,6 +18,7 @@ const navItems = [
   { name: "Investors", path: "/investors" },
   { name: "Shop", path: "/shop" },
   { name: "Membership", path: "/membership" },
+  { name: "Downloads", path: "/downloads" },
   { name: "Careers", path: "/careers" },
   { name: "News", path: "/news" },
   { name: "Contact", path: "/contact" },
