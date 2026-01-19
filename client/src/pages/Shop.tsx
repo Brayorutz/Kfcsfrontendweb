@@ -13,6 +13,7 @@ import strawberry250ml from "@assets/kabianga_strawberry_250ml_1768464623062.png
 import strawberry500ml from "@assets/Kabianga_Strawberry_yoghurt_500ml_1768464623063.png";
 import vanilla500ml from "@assets/kabianga_vanilla_500ml_1768464623074.png";
 import mursik500ml from "@assets/IMG_20260116_115932_1768554104080.png";
+import mangoYoghurt from "@assets/1768832234206_1768832259392.jpg";
 
 const products = [
   {
@@ -44,6 +45,18 @@ const products = [
     name: "Kabianga Strawberry Yoghurt (500ML)",
     description: "Delicious strawberry flavored yoghurt in a 500ml family size.",
     image: strawberry500ml,
+  },
+  {
+    id: 7,
+    name: "Kabianga Mango Yoghurt (250ML)",
+    description: "Rich and creamy mango flavored yoghurt in a 250ml cup.",
+    image: mangoYoghurt,
+  },
+  {
+    id: 8,
+    name: "Kabianga Mango Yoghurt (500ML)",
+    description: "Delicious mango flavored yoghurt in a 500ml family size.",
+    image: mangoYoghurt,
   },
   {
     id: 5,
