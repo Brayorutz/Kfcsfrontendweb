@@ -50,8 +50,52 @@ import bestCoopAward from "@assets/Kabianga_fcs_wins_best_cooperative_1767771788
 import launchVideo from "@assets/Kabianga_farmers_dairy_cooperative_society_launches_value_addi_1768303223059.mp4";
 
 import { newsItems } from "@/lib/news-data";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Plus, Minus, MessageSquare } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
+import freshMilk500ml from "@assets/fresh_milk_500ml_1768464623059.png";
+import mursik5l from "@assets/Kabianga_Mursik_5liters_1768464623061.png";
+import strawberry250ml from "@assets/kabianga_strawberry_250ml_1768464623062.png";
+
+const previewProducts = [
+  {
+    id: 1,
+    name: "Kabianga Fresh Whole Milk (500ML)",
+    image: freshMilk500ml,
+  },
+  {
+    id: 2,
+    name: "Kabianga Mursik / Lala (5 Liters)",
+    image: mursik5l,
+  },
+  {
+    id: 3,
+    name: "Kabianga Strawberry Yoghurt (250ML)",
+    image: strawberry250ml,
+  },
+];
 
 export default function Home() {
+  const { toast } = useToast();
+  const [quantities, setQuantities] = useState<Record<number, number>>({ 1: 1, 2: 1, 3: 1 });
+  const [notes, setNotes] = useState<Record<number, string>>({});
+
+  const updateQuantity = (id: number, delta: number) => {
+    setQuantities(prev => ({
+      ...prev,
+      [id]: Math.max(1, (prev[id] || 1) + delta)
+    }));
+  };
+
+  const handleOrder = (productName: string, id: number) => {
+    toast({
+      title: "Opening Shop",
+      description: `Redirecting to place your order for ${quantities[id]} ${productName}(s).`,
+    });
+    // In a real app, this might add to cart, but here we'll just link to shop
+    window.location.href = "/shop";
+  };
   const [currentSlide, setCurrentSlide] = useState(0);
   
   const heroSlides = [
@@ -399,6 +443,85 @@ export default function Home() {
                 </div>
               </div>
             </motion.div>
+          ))}
+        </div>
+      </Section>
+
+      {/* Shop Preview Section */}
+      <Section background="muted" className="py-20">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+          <div className="max-w-2xl">
+            <span className="text-secondary font-bold tracking-wider uppercase text-sm mb-2 block">Our Shop</span>
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary mb-4">Fresh from the Farm</h2>
+            <p className="text-muted-foreground text-lg">Order our premium dairy products directly to your doorstep. Pure, fresh, and nutritious.</p>
+          </div>
+          <Link href="/shop">
+            <Button variant="outline" className="rounded-full border-primary/20 hover:bg-primary/5 px-8">
+              View All Products
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {previewProducts.map((product) => (
+            <Card key={product.id} className="overflow-hidden bg-white border-border/50 hover:shadow-lg transition-all">
+              <div className="aspect-square overflow-hidden relative group">
+                <img 
+                  src={product.image} 
+                  alt={product.name} 
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+              </div>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-lg text-primary line-clamp-1">{product.name}</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-center justify-between bg-muted/50 p-2 rounded-lg">
+                  <span className="text-sm font-medium text-muted-foreground">Quantity</span>
+                  <div className="flex items-center gap-3">
+                    <Button 
+                      size="icon" 
+                      variant="outline" 
+                      className="h-8 w-8 rounded-full"
+                      onClick={() => updateQuantity(product.id, -1)}
+                    >
+                      <Minus className="h-4 w-4" />
+                    </Button>
+                    <span className="w-8 text-center font-bold text-primary">{quantities[product.id] || 1}</span>
+                    <Button 
+                      size="icon" 
+                      variant="outline" 
+                      className="h-8 w-8 rounded-full"
+                      onClick={() => updateQuantity(product.id, 1)}
+                    >
+                      <Plus className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+                    <MessageSquare className="h-4 w-4" />
+                    <span>Order Notes</span>
+                  </div>
+                  <Textarea 
+                    placeholder="Any special instructions?" 
+                    className="resize-none h-20 bg-muted/30 border-muted focus-visible:ring-secondary"
+                    value={notes[product.id] || ""}
+                    onChange={(e) => setNotes(prev => ({ ...prev, [product.id]: e.target.value }))}
+                  />
+                </div>
+
+                <Button 
+                  className="w-full bg-secondary hover:bg-secondary/90 text-white font-bold h-12 rounded-xl group"
+                  onClick={() => handleOrder(product.name, product.id)}
+                >
+                  Order Now
+                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </Section>
