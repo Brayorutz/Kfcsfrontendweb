@@ -47,48 +47,42 @@ export default function About() {
       </Section>
 
       <Section>
-        <h2 className="text-4xl font-serif font-bold text-primary mb-12 text-center">Our Departments</h2>
+        <h2 className="text-4xl font-serif font-bold text-primary mb-12 text-center">Our Services</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div className="bg-white p-8 rounded-xl shadow-sm border border-border hover:shadow-md transition-all">
-            <Truck className="w-12 h-12 text-secondary mb-6" />
-            <h3 className="text-2xl font-serif font-bold mb-4">1. Milk Collection & Transport</h3>
-            <p className="text-muted-foreground">Efficiently coordinating the collection of high-quality milk from our member farmers and ensuring safe, timely transport to our processing facilities.</p>
+            <Store className="w-12 h-12 text-secondary mb-6" />
+            <h3 className="text-2xl font-serif font-bold mb-4">Farm Inputs & Rationed Meal</h3>
+            <p className="text-muted-foreground">The society stocks and supplies farmers with farm inputs on credit, as well as producing its own high-quality rationed dairy meal.</p>
           </div>
 
           <div className="bg-white p-8 rounded-xl shadow-sm border border-border hover:shadow-md transition-all">
             <Microscope className="w-12 h-12 text-secondary mb-6" />
-            <h3 className="text-2xl font-serif font-bold mb-4">2. Reception, Grading, Bulking & Chilling</h3>
-            <p className="text-muted-foreground">Rigorous quality testing and grading upon reception, followed by professional bulking and immediate chilling to maintain maximum freshness.</p>
+            <h3 className="text-2xl font-serif font-bold mb-4">Artificial Insemination</h3>
+            <p className="text-muted-foreground">We provide professional artificial insemination services to help farmers improve their livestock breeds and enhance productivity.</p>
           </div>
 
           <div className="bg-white p-8 rounded-xl shadow-sm border border-border hover:shadow-md transition-all">
-            <FlaskConical className="w-12 h-12 text-secondary mb-6" />
-            <h3 className="text-2xl font-serif font-bold mb-4">3. Milk Value Addition</h3>
-            <p className="text-muted-foreground">Transforming raw milk into premium products including Fresh Milk, traditional Mursik, and specialized Chilling services for diverse market needs.</p>
+            <Truck className="w-12 h-12 text-secondary mb-6" />
+            <h3 className="text-2xl font-serif font-bold mb-4">Milk Collection & Marketing</h3>
+            <p className="text-muted-foreground">Collecting and marketing milk on behalf of our farmers, handling both raw and processed milk to ensure the best market reach.</p>
           </div>
 
           <div className="bg-white p-8 rounded-xl shadow-sm border border-border hover:shadow-md transition-all">
-            <Store className="w-12 h-12 text-secondary mb-6" />
-            <h3 className="text-2xl font-serif font-bold mb-4">4. Agrovet & Stores</h3>
-            <p className="text-muted-foreground">Providing essential farming inputs, high-quality animal feeds, and veterinary supplies through our well-stocked stores at competitive prices.</p>
+            <Users className="w-12 h-12 text-secondary mb-6" />
+            <h3 className="text-2xl font-serif font-bold mb-4">Training & Capacity Building</h3>
+            <p className="text-muted-foreground">We organize regular farmer and management training sessions to keep our community updated on modern agricultural best practices.</p>
+          </div>
+
+          <div className="bg-white p-8 rounded-xl shadow-sm border border-border hover:shadow-md transition-all">
+            <BarChart3 className="w-12 h-12 text-secondary mb-6" />
+            <h3 className="text-2xl font-serif font-bold mb-4">Financial Support (Loans)</h3>
+            <p className="text-muted-foreground">Providing essential financial services including loans to farmers to support their operational needs and expansion projects.</p>
           </div>
 
           <div className="bg-white p-8 rounded-xl shadow-sm border border-border hover:shadow-md transition-all">
             <Tractor className="w-12 h-12 text-secondary mb-6" />
-            <h3 className="text-2xl font-serif font-bold mb-4">5. Extension Services</h3>
-            <p className="text-muted-foreground">Comprehensive support including Artificial Insemination (AI) and Tractor services for professional ploughing and high-quality silage making.</p>
-          </div>
-
-          <div className="bg-white p-8 rounded-xl shadow-sm border border-border hover:shadow-md transition-all">
-            <Headphones className="w-12 h-12 text-secondary mb-6" />
-            <h3 className="text-2xl font-serif font-bold mb-4">6. Office & Customer Service</h3>
-            <p className="text-muted-foreground">Dedicated administrative support and responsive customer service to address member inquiries and ensure smooth cooperative operations.</p>
-          </div>
-
-          <div className="bg-white p-8 rounded-xl shadow-sm border border-border hover:shadow-md transition-all lg:col-span-3 lg:max-w-md lg:mx-auto lg:w-full">
-            <BarChart3 className="w-12 h-12 text-secondary mb-6" />
-            <h3 className="text-2xl font-serif font-bold mb-4">7. Marketing & Distribution</h3>
-            <p className="text-muted-foreground">Strategically connecting our dairy products to markets across the region through a robust distribution network and active brand promotion.</p>
+            <h3 className="text-2xl font-serif font-bold mb-4">Silage & Ploughing Services</h3>
+            <p className="text-muted-foreground">We provide professional silage making and ploughing services to our members to ensure high-quality feed and land preparation.</p>
           </div>
         </div>
       </Section>
