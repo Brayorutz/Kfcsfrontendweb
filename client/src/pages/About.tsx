@@ -1,5 +1,5 @@
 import { Section } from "@/components/Section";
-import { Users, Target, Heart, Award, ArrowRight } from "lucide-react";
+import { Users, Target, Heart, Award, ArrowRight, Truck, Microscope, FlaskConical, Store, Tractor, Headphones, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import trophyImage from "@assets/IMG_20251219_144012_1766147245755.jpg";
@@ -41,6 +41,53 @@ export default function About() {
               <p className="font-serif italic text-xl text-primary mb-4">"Our strength lies in our unity and our shared commitment to quality."</p>
               <p className="font-bold text-sm text-foreground">- Chairman</p>
             </div>
+          </div>
+        </div>
+      </Section>
+
+      <Section>
+        <h2 className="text-4xl font-serif font-bold text-primary mb-12 text-center">Our Departments</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="bg-white p-8 rounded-xl shadow-sm border border-border hover:shadow-md transition-all">
+            <Truck className="w-12 h-12 text-secondary mb-6" />
+            <h3 className="text-2xl font-serif font-bold mb-4">1. Milk Collection & Transport</h3>
+            <p className="text-muted-foreground">Efficiently coordinating the collection of high-quality milk from our member farmers and ensuring safe, timely transport to our processing facilities.</p>
+          </div>
+
+          <div className="bg-white p-8 rounded-xl shadow-sm border border-border hover:shadow-md transition-all">
+            <Microscope className="w-12 h-12 text-secondary mb-6" />
+            <h3 className="text-2xl font-serif font-bold mb-4">2. Reception, Grading, Bulking & Chilling</h3>
+            <p className="text-muted-foreground">Rigorous quality testing and grading upon reception, followed by professional bulking and immediate chilling to maintain maximum freshness.</p>
+          </div>
+
+          <div className="bg-white p-8 rounded-xl shadow-sm border border-border hover:shadow-md transition-all">
+            <FlaskConical className="w-12 h-12 text-secondary mb-6" />
+            <h3 className="text-2xl font-serif font-bold mb-4">3. Milk Value Addition</h3>
+            <p className="text-muted-foreground">Transforming raw milk into premium products including Fresh Milk, traditional Mursik, and specialized Chilling services for diverse market needs.</p>
+          </div>
+
+          <div className="bg-white p-8 rounded-xl shadow-sm border border-border hover:shadow-md transition-all">
+            <Store className="w-12 h-12 text-secondary mb-6" />
+            <h3 className="text-2xl font-serif font-bold mb-4">4. Agrovet & Stores</h3>
+            <p className="text-muted-foreground">Providing essential farming inputs, high-quality animal feeds, and veterinary supplies through our well-stocked stores at competitive prices.</p>
+          </div>
+
+          <div className="bg-white p-8 rounded-xl shadow-sm border border-border hover:shadow-md transition-all">
+            <Tractor className="w-12 h-12 text-secondary mb-6" />
+            <h3 className="text-2xl font-serif font-bold mb-4">5. Extension Services</h3>
+            <p className="text-muted-foreground">Comprehensive support including Artificial Insemination (AI) and Tractor services for professional ploughing and high-quality silage making.</p>
+          </div>
+
+          <div className="bg-white p-8 rounded-xl shadow-sm border border-border hover:shadow-md transition-all">
+            <Headphones className="w-12 h-12 text-secondary mb-6" />
+            <h3 className="text-2xl font-serif font-bold mb-4">6. Office & Customer Service</h3>
+            <p className="text-muted-foreground">Dedicated administrative support and responsive customer service to address member inquiries and ensure smooth cooperative operations.</p>
+          </div>
+
+          <div className="bg-white p-8 rounded-xl shadow-sm border border-border hover:shadow-md transition-all lg:col-span-3 lg:max-w-md lg:mx-auto lg:w-full">
+            <BarChart3 className="w-12 h-12 text-secondary mb-6" />
+            <h3 className="text-2xl font-serif font-bold mb-4">7. Marketing & Distribution</h3>
+            <p className="text-muted-foreground">Strategically connecting our dairy products to markets across the region through a robust distribution network and active brand promotion.</p>
           </div>
         </div>
       </Section>
