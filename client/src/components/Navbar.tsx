@@ -43,24 +43,31 @@ export function Navbar() {
       animate={{ y: 0 }}
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        scrolled ? "bg-white/90 backdrop-blur-md shadow-sm py-4" : "bg-white/80 backdrop-blur-sm py-6"
+        scrolled 
+          ? "bg-white/95 backdrop-blur-md shadow-md py-3" 
+          : "bg-transparent py-5"
       )}
     >
-      <div className="container mx-auto px-6 flex items-center justify-between">
+      <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-          <img src={kfcsLogo} alt="KFCS Logo" className="h-12 w-12" data-testid="logo-kfcs" />
-          <span className="text-lg font-bold text-primary hidden sm:inline">KFCS</span>
+          <img src={kfcsLogo} alt="KFCS Logo" className="h-10 w-10 md:h-12 md:w-12" data-testid="logo-kfcs" />
+          <span className={cn(
+            "text-lg font-bold transition-colors",
+            scrolled ? "text-primary" : "text-white"
+          )}>KFCS</span>
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden lg:flex items-center space-x-8">
+        <div className="hidden lg:flex items-center space-x-6 xl:space-x-8">
           {navItems.map((item) => (
             <div key={item.path} className="relative group">
               <Link 
                 href={item.path}
                 className={cn(
-                  "text-sm font-medium transition-colors hover:text-secondary flex items-center gap-1",
-                  location === item.path ? "text-secondary font-bold" : "text-foreground/80"
+                  "text-sm font-semibold transition-colors flex items-center gap-1 px-2 py-1 rounded-md",
+                  location === item.path 
+                    ? "text-secondary" 
+                    : scrolled ? "text-foreground/80 hover:text-secondary hover:bg-secondary/5" : "text-white/90 hover:text-white hover:bg-white/10"
                 )}
               >
                 {item.name}
@@ -84,12 +91,20 @@ export function Navbar() {
         </div>
 
         <div className="hidden lg:flex items-center space-x-4">
-          <a href="https://play.google.com/store/apps/details?id=com.getfarmer.app" target="_blank" rel="noopener noreferrer" className="gap-2 text-secondary hover:text-secondary/80 flex items-center text-sm font-medium">
+          <a href="https://play.google.com/store/apps/details?id=com.getfarmer.app" target="_blank" rel="noopener noreferrer" className={cn(
+            "gap-2 hover:text-secondary flex items-center text-sm font-semibold transition-colors",
+            scrolled ? "text-secondary" : "text-white"
+          )}>
             <img src="https://img.icons8.com/color/48/google-play.png" className="w-4 h-4" alt="Play Store" />
-            Get Farmer App
+            Get App
           </a>
           <Link href="/membership" asChild>
-            <Button className="bg-primary hover:bg-primary/90 text-white rounded-full px-6">
+            <Button className={cn(
+              "rounded-full px-6 font-bold transition-all shadow-md hover:shadow-lg",
+              scrolled 
+                ? "bg-primary hover:bg-primary/90 text-white" 
+                : "bg-white text-primary hover:bg-white/90"
+            )}>
               Join Now
             </Button>
           </Link>
@@ -97,10 +112,13 @@ export function Navbar() {
 
         {/* Mobile Toggle */}
         <button
-          className="lg:hidden p-2 text-foreground"
+          className={cn(
+            "lg:hidden p-2 rounded-lg transition-colors",
+            scrolled ? "text-foreground hover:bg-gray-100" : "text-white hover:bg-white/10"
+          )}
           onClick={() => setIsOpen(!isOpen)}
         >
-          {isOpen ? <X /> : <Menu />}
+          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
 

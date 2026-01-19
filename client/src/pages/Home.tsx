@@ -169,36 +169,36 @@ export default function Home() {
                   ))}
                 </div>
                 
-                <div className="container mx-auto px-6 relative z-10 pt-20">
+                <div className="container mx-auto px-6 relative z-10 py-20 md:py-32">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.5, duration: 1 }}
-                        className="max-w-4xl"
+                        className="max-w-4xl mx-auto text-center md:text-left"
                     >
                         <motion.span 
                           initial={{ opacity: 0, scale: 0.9 }}
                           animate={{ opacity: 1, scale: 1 }}
-                          className="inline-block py-2 px-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-bold tracking-widest mb-8 uppercase"
+                          className="inline-block py-2 px-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs md:text-sm font-bold tracking-widest mb-6 md:mb-8 uppercase"
                         >
                           Empowering Farmers Since 1964
                         </motion.span>
-                        <h1 className="text-6xl md:text-8xl font-serif font-bold text-white mb-8 leading-[1.1] tracking-tight">
-                          Modern Dairy <br />
+                        <h1 className="text-4xl sm:text-6xl md:text-8xl font-serif font-bold text-white mb-6 md:mb-8 leading-tight tracking-tight">
+                          Modern Dairy <br className="hidden md:block" />
                           <span className="bg-gradient-to-r from-green-400 via-emerald-400 to-teal-400 bg-clip-text text-transparent drop-shadow-sm">Excellence.</span>
                         </h1>
-                        <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-2xl leading-relaxed font-light drop-shadow-md">
+                        <p className="text-lg md:text-2xl text-white/90 mb-8 md:mb-12 max-w-2xl mx-auto md:mx-0 leading-relaxed font-light drop-shadow-md">
                           Join over 6,000 farmers in Kabianga's premier dairy cooperative. We're reshaping the future of agriculture with technology and tradition.
                         </p>
-                        <div className="flex flex-col sm:flex-row gap-6">
+                        <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center md:justify-start">
                         <Link href="/membership" asChild>
-                            <Button size="lg" className="bg-primary hover:bg-primary/90 text-white text-xl h-16 px-10 rounded-full shadow-[0_0_20px_rgba(34,197,94,0.3)] transition-all hover:scale-105 active:scale-95">
-                                Join the Movement
+                            <Button size="lg" className="bg-primary hover:bg-primary/90 text-white text-lg md:text-xl h-14 md:h-16 px-8 md:px-10 rounded-full shadow-[0_0_20px_rgba(34,197,94,0.3)] transition-all hover:scale-105 active:scale-95">
+                                Join Now
                             </Button>
                         </Link>
                         <Link href="/about" asChild>
-                            <Button size="lg" variant="outline" className="bg-white/5 backdrop-blur-md border-white/20 text-white hover:bg-white hover:text-primary text-xl h-16 px-10 rounded-full transition-all hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]">
-                                Discover Our Story
+                            <Button size="lg" variant="outline" className="bg-white/5 backdrop-blur-md border-white/20 text-white hover:bg-white hover:text-primary text-lg md:text-xl h-14 md:h-16 px-8 md:px-10 rounded-full transition-all">
+                                Our Story
                             </Button>
                         </Link>
                         </div>
@@ -224,25 +224,25 @@ export default function Home() {
       </div>
 
       {/* Stats Section */}
-      <Section className="py-12 bg-white -mt-10 relative z-20 mx-4 md:mx-auto max-w-6xl rounded-2xl shadow-xl border border-border/50">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 divide-y md:divide-y-0 md:divide-x divide-border">
-          <div className="p-6 text-center">
-            <Users className="w-10 h-10 text-secondary mx-auto mb-4" />
-            <h3 className="text-4xl font-bold text-primary mb-2">6,000+</h3>
-            <p className="text-muted-foreground font-medium">Active Farmers</p>
+      <div className="container mx-auto px-4 md:px-6 relative z-20 -mt-10 md:-mt-16">
+        <div className="bg-white grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 p-8 md:p-12 rounded-3xl shadow-2xl border border-border/50">
+          <div className="text-center">
+            <Users className="w-10 h-10 md:w-12 md:h-12 text-secondary mx-auto mb-4" />
+            <h3 className="text-4xl md:text-5xl font-bold text-primary mb-2">6,000+</h3>
+            <p className="text-muted-foreground font-medium uppercase tracking-wider text-sm">Active Farmers</p>
           </div>
-          <div className="p-6 text-center">
-            <Droplets className="w-10 h-10 text-secondary mx-auto mb-4" />
-            <h3 className="text-4xl font-bold text-primary mb-2">50,000L</h3>
-            <p className="text-muted-foreground font-medium">Daily Milk Production</p>
+          <div className="text-center">
+            <Droplets className="w-10 h-10 md:w-12 md:h-12 text-secondary mx-auto mb-4" />
+            <h3 className="text-4xl md:text-5xl font-bold text-primary mb-2">50,000L</h3>
+            <p className="text-muted-foreground font-medium uppercase tracking-wider text-sm">Daily Production</p>
           </div>
-          <div className="p-6 text-center">
-            <TrendingUp className="w-10 h-10 text-secondary mx-auto mb-4" />
-            <h3 className="text-4xl font-bold text-primary mb-2">20%</h3>
-            <p className="text-muted-foreground font-medium">Annual Growth</p>
+          <div className="text-center">
+            <TrendingUp className="w-10 h-10 md:w-12 md:h-12 text-secondary mx-auto mb-4" />
+            <h3 className="text-4xl md:text-5xl font-bold text-primary mb-2">20%</h3>
+            <p className="text-muted-foreground font-medium uppercase tracking-wider text-sm">Annual Growth</p>
           </div>
         </div>
-      </Section>
+      </div>
 
       {/* Video Section */}
       <Section background="muted">
@@ -385,14 +385,14 @@ export default function Home() {
       </Section>
 
       {/* News Section */}
-      <Section className="py-20">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+      <Section className="py-20 md:py-32">
+        <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-12 gap-6 text-center md:text-left">
           <div className="max-w-2xl">
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary mb-4">Latest News & Updates</h2>
+            <h2 className="text-3xl md:text-5xl font-serif font-bold text-primary mb-4">Latest News & Updates</h2>
             <p className="text-muted-foreground text-lg">Stay updated with the latest happenings at Kabianga Farmers Cooperative Society.</p>
           </div>
           <Link href="/news">
-            <Button variant="outline" className="rounded-full border-primary/20 hover:bg-primary/5 px-8" data-testid="link-all-news">
+            <Button variant="outline" className="rounded-full border-primary/20 hover:bg-primary/5 px-8 h-12" data-testid="link-all-news">
               View All News
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
@@ -440,15 +440,15 @@ export default function Home() {
       </Section>
 
       {/* Shop Preview Section */}
-      <Section background="muted" className="py-20">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+      <Section background="muted" className="py-20 md:py-32">
+        <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-12 gap-6 text-center md:text-left">
           <div className="max-w-2xl">
-            <span className="text-secondary font-bold tracking-wider uppercase text-sm mb-2 block">Our Shop</span>
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary mb-4">Fresh from the Farm</h2>
+            <span className="text-secondary font-bold tracking-wider uppercase text-xs md:text-sm mb-2 block">Our Shop</span>
+            <h2 className="text-3xl md:text-5xl font-serif font-bold text-primary mb-4">Fresh from the Farm</h2>
             <p className="text-muted-foreground text-lg">Order our premium dairy products directly to your doorstep. Pure, fresh, and nutritious.</p>
           </div>
           <Link href="/shop">
-            <Button variant="outline" className="rounded-full border-primary/20 hover:bg-primary/5 px-8">
+            <Button variant="outline" className="rounded-full border-primary/20 hover:bg-primary/5 px-8 h-12">
               View All Products
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
