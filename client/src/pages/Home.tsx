@@ -78,20 +78,12 @@ const previewProducts = [
 
 export default function Home() {
   const { toast } = useToast();
-  const [quantities, setQuantities] = useState<Record<number, number>>({ 1: 1, 2: 1, 3: 1 });
   const [notes, setNotes] = useState<Record<number, string>>({});
-
-  const updateQuantity = (id: number, delta: number) => {
-    setQuantities(prev => ({
-      ...prev,
-      [id]: Math.max(1, (prev[id] || 1) + delta)
-    }));
-  };
 
   const handleOrder = (productName: string, id: number) => {
     toast({
       title: "Opening Shop",
-      description: `Redirecting to place your order for ${quantities[id]} ${productName}(s).`,
+      description: `Redirecting to place your order for ${productName}.`,
     });
     // In a real app, this might add to cart, but here we'll just link to shop
     window.location.href = "/shop";
@@ -477,29 +469,6 @@ export default function Home() {
                 <CardTitle className="text-lg text-primary line-clamp-1">{product.name}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="flex items-center justify-between bg-muted/50 p-2 rounded-lg">
-                  <span className="text-sm font-medium text-muted-foreground">Quantity</span>
-                  <div className="flex items-center gap-3">
-                    <Button 
-                      size="icon" 
-                      variant="outline" 
-                      className="h-8 w-8 rounded-full"
-                      onClick={() => updateQuantity(product.id, -1)}
-                    >
-                      <Minus className="h-4 w-4" />
-                    </Button>
-                    <span className="w-8 text-center font-bold text-primary">{quantities[product.id] || 1}</span>
-                    <Button 
-                      size="icon" 
-                      variant="outline" 
-                      className="h-8 w-8 rounded-full"
-                      onClick={() => updateQuantity(product.id, 1)}
-                    >
-                      <Plus className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-                
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
                     <MessageSquare className="h-4 w-4" />
