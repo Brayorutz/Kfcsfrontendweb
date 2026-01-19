@@ -19,6 +19,8 @@ import ndegeChaiLogo from "@assets/ndegechai_logo_1767426427727.jpg";
 import newKccLogo from "@assets/newkcc_logo_1767426427729.jpg";
 import patnasSaccoLogo from "@assets/patnas_sacco_1767426427730.jpg";
 import promacoLogo from "@assets/promaco_logo_1767426427732.png";
+import adcLogo from "@assets/1000234948-removebg-preview_1768829249516.png";
+import digitLogo from "@assets/1000234949-removebg-preview_1768829249589.png";
 
 const partners = [
   { name: "ASDSP", logo: asdspLogo },
@@ -33,6 +35,8 @@ const partners = [
   { name: "New KCC", logo: newKccLogo },
   { name: "Patnas Sacco", logo: patnasSaccoLogo },
   { name: "Promaco", logo: promacoLogo },
+  { name: "ADC", logo: adcLogo },
+  { name: "Digit", logo: digitLogo },
 ];
 
 import wideAngleFarm from "@assets/wmremove-transformed_1768821427059.jpeg";
