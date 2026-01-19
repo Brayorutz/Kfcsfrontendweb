@@ -66,11 +66,11 @@ export function Navbar() {
                   "text-sm font-semibold transition-colors flex items-center gap-1 px-2 py-1 rounded-md",
                   location === item.path 
                     ? scrolled ? "text-secondary bg-secondary/10" : "text-white bg-white/20" 
-                    : scrolled ? "text-foreground hover:text-secondary hover:bg-secondary/5" : "text-white hover:text-white hover:bg-white/10"
+                    : scrolled ? "text-primary hover:text-secondary hover:bg-secondary/5" : "text-white hover:text-white hover:bg-white/10"
                 )}
               >
                 {item.name}
-                {item.submenu && <ChevronDown className={cn("w-4 h-4", scrolled ? "text-foreground" : "text-white")} />}
+                {item.submenu && <ChevronDown className={cn("w-4 h-4", scrolled ? "text-primary" : "text-white")} />}
               </Link>
               {item.submenu && (
                 <div className="absolute left-0 mt-0 w-48 bg-white border border-border rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
