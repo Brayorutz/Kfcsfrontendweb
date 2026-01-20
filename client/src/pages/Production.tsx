@@ -14,6 +14,7 @@ import yoghurtProduction from "@assets/yogurt_processing_1767709504687.jpg";
 import mursikProduction from "@assets/Kabianga_Mursik_5liters_1768464623061_(1)_1768896973826.png";
 import feedProcessing from "@assets/feed_production_1768206601308.jpeg";
 import milkTanker from "@assets/IMG_20251217_110942_1768897089647.jpg";
+import agrovetStore from "@assets/IMG_20260120_112723_1768899487138.jpg";
 import bodaBoda1 from "@assets/IMG_20240803_122239_1768551934236.jpg";
 
 export default function Production() {
@@ -113,6 +114,16 @@ export default function Production() {
             <div className="p-6">
               <h3 className="text-xl font-serif font-bold mb-3">Milk Tankers</h3>
               <p className="text-muted-foreground">Reliable logistics for bulk milk transportation across our collection network.</p>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col">
+            <div className="h-64 overflow-hidden">
+              <img src={agrovetStore} alt="Agrovet and Stores" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+            </div>
+            <div className="p-6">
+              <h3 className="text-xl font-serif font-bold mb-3">Agrovet and Stores</h3>
+              <p className="text-muted-foreground">Complete agricultural supply center stocking quality feeds, supplements, and farming inputs for our members.</p>
             </div>
           </div>
 
