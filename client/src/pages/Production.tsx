@@ -124,12 +124,13 @@ export default function Production() {
              <div className="absolute left-[50%] top-0 bottom-0 w-1 bg-gradient-to-b from-primary/20 via-primary to-primary/20 hidden md:block" />
 
              {[
-                 { title: "Collection", desc: "Fresh milk collected daily from local farmers.", step: 1 },
-                 { title: "Testing", desc: "Rigorous quality checks for purity and safety.", step: 2 },
-                 { title: "Pasteurization", desc: "Heating to eliminate bacteria while preserving nutrients.", step: 3 },
-                 { title: "Flavoring", desc: "Blending with real fruit pulps (Mango, Strawberry, Vanilla).", step: 4 },
-                 { title: "Packaging", desc: "Hygienic bottling and sealing.", step: 5 },
-                 { title: "Distribution", desc: "Delivered fresh to shops and supermarkets.", step: 6 },
+                 { title: "Testing and Collection", desc: "Fresh milk collected daily from local farmers with rigorous quality testing.", step: 1 },
+                 { title: "Transport", desc: "Safely transported to our processing facility while maintaining optimal temperature.", step: 2 },
+                 { title: "Further Testing", desc: "Additional comprehensive quality checks to ensure milk purity and safety standards.", step: 3 },
+                 { title: "Pasteurization & Cooling", desc: "Heating to eliminate bacteria while preserving nutrients. Incubation begins at this stage.", step: 4 },
+                 { title: "Flavouring", desc: "Blending with real fruit pulps to create Mango, Strawberry, and Vanilla varieties.", step: 5 },
+                 { title: "Packaging", desc: "Hygienic bottling and sealing in sterile containers for your safety.", step: 6 },
+                 { title: "Storage & Distribution", desc: "Refrigerated storage and prompt delivery to shops and supermarkets nationwide.", step: 7 },
              ].map((item, index) => (
                  <motion.div 
                     key={index}
