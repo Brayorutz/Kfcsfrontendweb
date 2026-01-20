@@ -1,26 +1,50 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronDown, User } from "lucide-react";
+import { Menu, X, ChevronDown, User, Info, Users, FlaskConical, Tractor, Image as ImageIcon, ShoppingCart, Download, Briefcase, Newspaper, Mail, LayoutGrid, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import kfcsLogo from "@assets/image_20251218_135629_0000_1766055489904.png";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
 
-const navItems = [
-  { name: "Home", path: "/" },
-  { name: "About Us", path: "/about", submenu: [
-    { name: "Our Awards", path: "/about/awards" },
-    { name: "Board of Directors", path: "/about/board" }
-  ] },
-  { name: "Production", path: "/production" },
-  { name: "Future Projects", path: "/future-projects" },
-  { name: "Gallery", path: "/gallery" },
-  { name: "Shop", path: "/shop" },
-  { name: "Membership", path: "/membership" },
-  { name: "Downloads", path: "/downloads" },
-  { name: "Careers", path: "/careers" },
-  { name: "News", path: "/news" },
-  { name: "Contact", path: "/contact" },
+const categories = [
+  {
+    name: "About Us",
+    icon: Info,
+    items: [
+      { name: "Who We Are", path: "/about", description: "Our history, mission and vision since 1964." },
+      { name: "Board of Directors", path: "/about/board", description: "The leadership driving our cooperative forward." },
+      { name: "Our Awards", path: "/about/awards", description: "National recognition for excellence in dairy." },
+    ]
+  },
+  {
+    name: "Farmers",
+    icon: Users,
+    items: [
+      { name: "Membership", path: "/membership", description: "Join our community of over 6,000 farmers." },
+      { name: "Production", path: "/production", description: "Explore our modern dairy processing standards." },
+      { name: "Downloads", path: "/downloads", description: "Access forms, reports and essential documents." },
+      { name: "Future Projects", path: "/future-projects", description: "Upcoming innovations in our supply chain." },
+    ]
+  },
+  {
+    name: "Explore",
+    icon: LayoutGrid,
+    items: [
+      { name: "News & Updates", path: "/news", description: "Stay updated with the latest happenings." },
+      { name: "Gallery", path: "/gallery", description: "Visual journey through our farms and facilities." },
+      { name: "Careers", path: "/careers", description: "Join our team and grow with us." },
+      { name: "Contact", path: "/contact", description: "Get in touch with our support team." },
+    ]
+  }
 ];
 
 export function Navbar() {
@@ -41,68 +65,117 @@ export function Navbar() {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
         scrolled 
-          ? "bg-white/95 backdrop-blur-md shadow-md py-3" 
-          : "bg-transparent py-5"
+          ? "bg-white/95 backdrop-blur-md shadow-lg py-2" 
+          : "bg-transparent py-4"
       )}
     >
       <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-          <img src={kfcsLogo} alt="KFCS Logo" className="h-10 w-10 md:h-12 md:w-12" data-testid="logo-kfcs" />
-          <span className={cn(
-            "text-lg font-bold transition-colors",
-            scrolled ? "text-primary" : "text-white"
-          )}>KFCS</span>
+        <Link href="/" className="flex items-center gap-2 group">
+          <div className="relative overflow-hidden rounded-lg">
+            <img src={kfcsLogo} alt="KFCS Logo" className="h-10 w-10 md:h-12 md:w-12 transition-transform duration-300 group-hover:scale-110" data-testid="logo-kfcs" />
+          </div>
+          <div className="flex flex-col">
+            <span className={cn(
+              "text-lg md:text-xl font-serif font-bold leading-none tracking-tight transition-colors",
+              scrolled ? "text-primary" : "text-white"
+            )}>KFCS</span>
+            <span className={cn(
+              "text-[10px] font-bold uppercase tracking-[0.2em] transition-colors",
+              scrolled ? "text-secondary" : "text-white/80"
+            )}>Kabianga</span>
+          </div>
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden lg:flex items-center space-x-6 xl:space-x-8">
-          {navItems.map((item) => (
-            <div key={item.path} className="relative group">
-              <Link 
-                href={item.path}
-                className={cn(
-                  "text-sm font-semibold transition-colors flex items-center gap-1 px-2 py-1 rounded-md",
-                  location === item.path 
-                    ? scrolled ? "text-secondary bg-secondary/10" : "text-white bg-white/20" 
-                    : scrolled ? "text-primary hover:text-secondary hover:bg-secondary/5" : "text-white hover:text-white hover:bg-white/10"
-                )}
-              >
-                {item.name}
-                {item.submenu && <ChevronDown className={cn("w-4 h-4", scrolled ? "text-primary" : "text-white")} />}
-              </Link>
-              {item.submenu && (
-                <div className="absolute left-0 mt-0 w-48 bg-white border border-border rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                  {item.submenu.map((subitem) => (
-                    <Link
-                      key={subitem.path}
-                      href={subitem.path}
-                      className="block px-4 py-2 text-sm hover:bg-secondary/10 hover:text-secondary first:rounded-t-lg last:rounded-b-lg"
-                    >
-                      {subitem.name}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
+        <div className="hidden lg:flex items-center">
+          <NavigationMenu>
+            <NavigationMenuList className="gap-1">
+              <NavigationMenuItem>
+                <Link href="/">
+                  <NavigationMenuLink className={cn(
+                    navigationMenuTriggerStyle(),
+                    "bg-transparent hover:bg-white/10 focus:bg-white/10",
+                    location === "/" ? "text-secondary font-bold" : scrolled ? "text-primary" : "text-white"
+                  )}>
+                    Home
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
+
+              {categories.map((category) => (
+                <NavigationMenuItem key={category.name}>
+                  <NavigationMenuTrigger className={cn(
+                    "bg-transparent hover:bg-white/10 focus:bg-white/10 transition-colors",
+                    scrolled ? "text-primary" : "text-white"
+                  )}>
+                    {category.name}
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] bg-white">
+                      {category.items.map((item) => (
+                        <li key={item.path}>
+                          <NavigationMenuLink asChild>
+                            <Link
+                              href={item.path}
+                              className={cn(
+                                "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-secondary/5 hover:text-secondary focus:bg-secondary/5 focus:text-secondary group",
+                                location === item.path && "bg-secondary/10 text-secondary"
+                              )}
+                            >
+                              <div className="text-sm font-bold leading-none flex items-center gap-2">
+                                {item.name}
+                                <ArrowRight className="w-3 h-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                              </div>
+                              <p className="line-clamp-2 text-xs leading-snug text-muted-foreground group-hover:text-secondary/80">
+                                {item.description}
+                              </p>
+                            </Link>
+                          </NavigationMenuLink>
+                        </li>
+                      ))}
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              ))}
+
+              <NavigationMenuItem>
+                <Link href="/shop">
+                  <NavigationMenuLink className={cn(
+                    navigationMenuTriggerStyle(),
+                    "bg-transparent hover:bg-white/10 focus:bg-white/10",
+                    location === "/shop" ? "text-secondary font-bold" : scrolled ? "text-primary" : "text-white"
+                  )}>
+                    Shop
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
         </div>
 
-        <div className="hidden lg:flex items-center space-x-4">
-          <a href="https://play.google.com/store/apps/details?id=com.getfarmer.app" target="_blank" rel="noopener noreferrer" className={cn(
-            "gap-2 hover:text-secondary flex items-center text-sm font-semibold transition-colors",
-            scrolled ? "text-secondary" : "text-white"
-          )}>
+        <div className="hidden lg:flex items-center gap-4">
+          <a 
+            href="https://play.google.com/store/apps/details?id=com.getfarmer.app" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className={cn(
+              "flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold transition-all border",
+              scrolled 
+                ? "text-primary border-primary/20 hover:bg-primary/5" 
+                : "text-white border-white/20 hover:bg-white/10"
+            )}
+          >
             <img src="https://img.icons8.com/color/48/google-play.png" className="w-4 h-4" alt="Play Store" />
             Get App
           </a>
           <Link href="/membership" asChild>
             <Button className={cn(
-              "rounded-full px-6 font-bold transition-all shadow-md hover:shadow-lg",
+              "rounded-full px-6 font-bold transition-all shadow-md hover:shadow-lg active:scale-95 hover-elevate",
               scrolled 
-                ? "bg-primary hover:bg-primary/90 text-white" 
-                : "bg-white text-primary hover:bg-white/90"
+                ? "bg-primary text-white" 
+                : "bg-white text-primary"
             )}>
               Join Now
             </Button>
@@ -112,8 +185,8 @@ export function Navbar() {
         {/* Mobile Toggle */}
         <button
           className={cn(
-            "lg:hidden p-2 rounded-lg transition-colors",
-            scrolled ? "text-foreground hover:bg-gray-100" : "text-white hover:bg-white/10"
+            "lg:hidden p-2 rounded-xl transition-all active:scale-90",
+            scrolled ? "text-primary hover:bg-primary/5" : "text-white hover:bg-white/10"
           )}
           onClick={() => setIsOpen(!isOpen)}
         >
@@ -125,43 +198,61 @@ export function Navbar() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-white border-t border-border overflow-hidden"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed inset-0 top-[60px] lg:hidden bg-white/98 backdrop-blur-xl z-[49] border-t border-border/50"
           >
-            <div className="container mx-auto px-6 py-8 flex flex-col space-y-4">
-              {navItems.map((item) => (
-                <div key={item.path}>
-                  <Link 
-                    href={item.path}
-                    className="text-lg font-serif font-medium text-foreground hover:text-secondary block"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {item.name}
-                  </Link>
-                  {item.submenu && (
-                    <div className="ml-4 mt-2 space-y-2">
-                      {item.submenu.map((subitem) => (
-                        <Link
-                          key={subitem.path}
-                          href={subitem.path}
-                          className="text-sm text-muted-foreground hover:text-secondary block"
+            <div className="container mx-auto px-6 py-8 h-full overflow-y-auto flex flex-col">
+              <div className="space-y-8 flex-grow">
+                {categories.map((category) => (
+                  <div key={category.name} className="space-y-4">
+                    <div className="flex items-center gap-2 text-secondary font-bold tracking-widest uppercase text-xs">
+                      <category.icon className="w-4 h-4" />
+                      {category.name}
+                    </div>
+                    <div className="grid grid-cols-1 gap-2 pl-6">
+                      {category.items.map((item) => (
+                        <Link 
+                          key={item.path}
+                          href={item.path}
+                          className={cn(
+                            "py-2 text-lg font-serif transition-colors",
+                            location === item.path ? "text-primary font-bold" : "text-muted-foreground hover:text-primary"
+                          )}
                           onClick={() => setIsOpen(false)}
                         >
-                          {subitem.name}
+                          {item.name}
                         </Link>
                       ))}
                     </div>
-                  )}
+                  </div>
+                ))}
+                
+                <div className="pt-4 space-y-4 border-t border-border/50">
+                   <Link href="/shop" onClick={() => setIsOpen(false)} className="flex items-center gap-2 text-xl font-serif text-primary">
+                    <ShoppingCart className="w-5 h-5 text-secondary" />
+                    Shop Our Products
+                   </Link>
+                   <Link href="/" onClick={() => setIsOpen(false)} className="flex items-center gap-2 text-xl font-serif text-primary">
+                    Home
+                   </Link>
                 </div>
-              ))}
-              <div className="pt-4 flex flex-col space-y-3">
+              </div>
+
+              <div className="pt-8 space-y-4">
                 <Link href="/membership" asChild>
-                  <Button className="w-full bg-primary text-white">
+                  <Button className="w-full bg-primary text-white h-14 rounded-2xl text-lg font-bold shadow-lg shadow-primary/20">
                     Become a Member
                   </Button>
                 </Link>
+                <a 
+                  href="https://play.google.com/store/apps/details?id=com.getfarmer.app" 
+                  className="w-full flex items-center justify-center gap-3 h-14 rounded-2xl border-2 border-border font-bold text-muted-foreground hover:bg-muted transition-colors"
+                >
+                  <img src="https://img.icons8.com/color/48/google-play.png" className="w-6 h-6" alt="Play Store" />
+                  Download Farmer App
+                </a>
               </div>
             </div>
           </motion.div>
