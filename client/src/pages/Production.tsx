@@ -1,17 +1,17 @@
 import { Section } from "@/components/Section";
 import { motion } from "framer-motion";
-import mursikImage from "@assets/Kabianga_Mursik_5_liters_1767704465333.jpg";
-import strawberry250ml from "@assets/kabianga_strawberry_250ml_1767704465334.png";
-import strawberry500ml from "@assets/Kabianga_Strawberry_yoghurt_500ml_1767704465335.png";
-import vanilla500ml from "@assets/kabianga_vanilla_500ml_1767704465336.png";
-import freshMilkPouch from "@assets/fresh_milk_500ml_1767704465332.png";
+import mursikImage from "@assets/Kabianga_Mursik_5liters_1768464623061_(1)_1768896973826.png";
+import strawberry250ml from "@assets/kabianga_strawberry_250ml_1768464623062.png";
+import strawberry500ml from "@assets/Kabianga_Strawberry_yoghurt_500ml_1768464623063.png";
+import vanilla500ml from "@assets/kabianga_vanilla_500ml_1768464623074.png";
+import freshMilkPouch from "@assets/fresh_milk_500ml_1768464623059.png";
 import happyFamily from "@assets/happy_family_1768206369042.png";
 
 // Facility Images
 import feedLab from "@assets/feed_laboratory_1767709443300.jpg";
 import milkCoolers from "@assets/Milk_Coolers_1767709504686.jpg";
 import yoghurtProduction from "@assets/yogurt_processing_1767709504687.jpg";
-import mursikProduction from "@assets/Kabianga_Mursik_5_liters_1767704465333.jpg"; // Using Mursik product image for production
+import mursikProduction from "@assets/Kabianga_Mursik_5liters_1768464623061_(1)_1768896973826.png";
 import feedProcessing from "@assets/feed_production_1768206601308.jpeg";
 import bodaBoda1 from "@assets/IMG_20240803_122239_1768551934236.jpg";
 
