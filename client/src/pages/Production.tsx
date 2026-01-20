@@ -13,6 +13,7 @@ import milkCoolers from "@assets/Milk_Coolers_1767709504686.jpg";
 import yoghurtProduction from "@assets/yogurt_processing_1767709504687.jpg";
 import mursikProduction from "@assets/Kabianga_Mursik_5liters_1768464623061_(1)_1768896973826.png";
 import feedProcessing from "@assets/feed_production_1768206601308.jpeg";
+import milkTanker from "@assets/IMG_20251217_110942_1768897089647.jpg";
 import bodaBoda1 from "@assets/IMG_20240803_122239_1768551934236.jpg";
 
 export default function Production() {
@@ -54,7 +55,7 @@ export default function Production() {
           <h2 className="text-4xl font-serif font-bold text-primary">State-of-the-Art Facilities</h2>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col">
             <div className="h-64 overflow-hidden">
               <img src={feedLab} alt="Feed Laboratory" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
@@ -102,6 +103,16 @@ export default function Production() {
             <div className="p-6">
               <h3 className="text-xl font-serif font-bold mb-3">Feed Processing Plant</h3>
               <p className="text-muted-foreground">Modern milling and processing plant providing balanced nutrition for cooperative farmers.</p>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col">
+            <div className="h-64 overflow-hidden">
+              <img src={milkTanker} alt="Milk Tanker" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" />
+            </div>
+            <div className="p-6">
+              <h3 className="text-xl font-serif font-bold mb-3">Milk Tankers</h3>
+              <p className="text-muted-foreground">Reliable logistics for bulk milk transportation across our collection network.</p>
             </div>
           </div>
 
