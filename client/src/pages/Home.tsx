@@ -230,27 +230,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Stats Section */}
-      <div className="container mx-auto px-4 md:px-6 relative z-20 -mt-10 md:-mt-16">
-        <div className="bg-white grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 p-8 md:p-12 rounded-3xl shadow-2xl border border-border/50">
-          <div className="text-center">
-            <Users className="w-10 h-10 md:w-12 md:h-12 text-secondary mx-auto mb-4" />
-            <h3 className="text-4xl md:text-5xl font-bold text-primary mb-2">6,000+</h3>
-            <p className="text-muted-foreground font-medium uppercase tracking-wider text-sm">Active Farmers</p>
-          </div>
-          <div className="text-center">
-            <Droplets className="w-10 h-10 md:w-12 md:h-12 text-secondary mx-auto mb-4" />
-            <h3 className="text-4xl md:text-5xl font-bold text-primary mb-2">50,000L</h3>
-            <p className="text-muted-foreground font-medium uppercase tracking-wider text-sm">Daily Production</p>
-          </div>
-          <div className="text-center">
-            <TrendingUp className="w-10 h-10 md:w-12 md:h-12 text-secondary mx-auto mb-4" />
-            <h3 className="text-4xl md:text-5xl font-bold text-primary mb-2">20%</h3>
-            <p className="text-muted-foreground font-medium uppercase tracking-wider text-sm">Annual Growth</p>
-          </div>
-        </div>
-      </div>
-
       {/* Success Story Section */}
       <SuccessStory />
 
