@@ -14,6 +14,8 @@ import strawberry500ml from "@assets/Kabianga_Strawberry_yoghurt_500ml_176846462
 import vanilla500ml from "@assets/kabianga_vanilla_500ml_1768464623074.png";
 import mursik500ml from "@assets/IMG_20260116_115932_1768554104080.png";
 import mangoYoghurt from "@assets/1768832234206_1768832259392.jpg";
+import kabiFeeds10kg from "@assets/IMG_20260120_114205_1768899143134.png";
+import kabiFeeds50kg from "@assets/IMG_20260120_114150_1768899143275.png";
 
 const products = [
   {
@@ -63,6 +65,18 @@ const products = [
     name: "Kabianga Vanilla Yoghurt (500ML)",
     description: "Smooth and creamy vanilla flavored yoghurt in a 500ml cup.",
     image: vanilla500ml,
+  },
+  {
+    id: 9,
+    name: "Kabi Feeds Dairy Meal (10KG)",
+    description: "High-yield dairy meal enriched with vitamins and minerals for optimal milk production.",
+    image: kabiFeeds10kg,
+  },
+  {
+    id: 10,
+    name: "Kabi Feeds Dairy Meal (50KG)",
+    description: "High-yield dairy meal enriched with vitamins and minerals for optimal milk production. Economy pack.",
+    image: kabiFeeds50kg,
   },
 ];
 
