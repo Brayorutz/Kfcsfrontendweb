@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { MilkRevealWrapper, MilkWaveDivider } from "@/components/MilkReveal";
 import { Section } from "@/components/Section";
+import { SuccessStory } from "@/components/SuccessStory";
 import { ArrowRight, Droplets, TrendingUp, Users, ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "wouter";
 import { useState, useEffect } from "react";
@@ -249,6 +250,9 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      {/* Success Story Section */}
+      <SuccessStory />
 
       {/* Video Section */}
       <Section background="muted">
