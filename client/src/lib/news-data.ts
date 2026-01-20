@@ -3,8 +3,24 @@ import kabiangaMourns from "@assets/kabianga_fcs_mourns_the_death_of_Mr._Paul_So
 import kjetTraining from "@assets/IMG_20260113_105659_599_1768302297136.jpg";
 import kfcsNews from "@assets/kfcs_on_the_news_1768465015306.png";
 import tukTukNews from "@assets/IMG-20260114-WA0008_1768555858615.jpg";
+import kabiangaHighVisit from "@assets/VID-20260120-WA0000_1768900207956.mp4";
 
 export const newsItems = [
+  {
+    id: 7,
+    title: "Kabianga Farmers Cooperative Society Directors Visit Kabianga High School Boys",
+    excerpt: "A section of the Board of Directors from Kabianga Farmers Cooperative Society Limited paid a courtesy visit to Kabianga High School Boys to strengthen community relations.",
+    content: `A section of the Board of Directors from Kabianga Farmers Cooperative Society Limited paid a courtesy visit to Kabianga High School Boys in a gesture aimed at strengthening community relations and supporting education.
+
+During the visit, the directors met the school principal and presented a selection of products from the cooperative as a sign of partnership and goodwill. The engagement highlighted the cooperative’s commitment to giving back to the community and fostering strong ties with local institutions.
+
+The school administration warmly received the delegation, with the principal appreciating the cooperative’s continued support and recognizing the importance of collaboration between learning institutions and community-based organizations.
+
+Kabianga Farmers Cooperative Society Limited reaffirmed its dedication to community development, youth empowerment, and promoting sustainable growth through meaningful partnerships within the region.`,
+    videoUrl: kabiangaHighVisit,
+    image: kfcsNews, // Fallback image for news cards
+    date: "January 20, 2026"
+  },
   {
     id: 6,
     title: "Kabianga Farmers Cooperative Society Acquires Tuk Tuk to Enhance Milk and Feed Transport",
