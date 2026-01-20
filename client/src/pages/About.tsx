@@ -3,6 +3,9 @@ import { Users, Target, Heart, Award, ArrowRight, Truck, Microscope, FlaskConica
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import aboutImage from "@assets/wmremove-transformed_1768821427059.jpeg";
+import firstCheque from "@assets/First_Ever_Cheque_from_KCC_to_renove_the_KFCS_STRUCTURES_1768907511522.jpg";
+import oldBoardroom from "@assets/tHIS_IS_WHAT_USED_TO_BE_THE_BOARDROOM_IT_WAS_DONE_OUTSIDE_1768907511523.jpg";
+import beforeRenovation from "@assets/VIEW_OF_KFCS_BEFORE_RENOVATION_1768907511523.jpg";
 import trophyImage from "@assets/IMG_20251219_144012_1766147245755.jpg";
 import wideAngleFarm from "@assets/wide_angle_shot_of_kfcs_1767709504687.jpg";
 import farmMachinery from "@assets/kfcs_farm_machinerary_1767709504683.jpg";
@@ -163,23 +166,32 @@ export default function About() {
 
         <div>
           <h2 className="text-3xl font-serif font-bold text-primary mb-8 text-center">Our History</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all">
-              <div className="aspect-video bg-gradient-to-br from-secondary/20 to-primary/20 flex items-center justify-center overflow-hidden">
-                <img src={wideAngleFarm} alt="Farm operations" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+              <div className="aspect-video bg-muted flex items-center justify-center overflow-hidden">
+                <img src={beforeRenovation} alt="KFCS Before Renovation" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-bold text-primary mb-2">Farm Operations</h3>
-                <p className="text-muted-foreground">Our journey began with dedicated farmers believing in collective success and sustainable practices.</p>
+                <h3 className="text-xl font-bold text-primary mb-2">Humble Beginnings</h3>
+                <p className="text-muted-foreground">Original structures of KFCS before the modern renovations that transformed our capacity.</p>
               </div>
             </div>
             <div className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all">
-              <div className="aspect-video bg-gradient-to-br from-secondary/20 to-primary/20 flex items-center justify-center overflow-hidden">
-                <img src={trophyImage} alt="Awards and recognition" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+              <div className="aspect-video bg-muted flex items-center justify-center overflow-hidden">
+                <img src={oldBoardroom} alt="Old Outdoor Boardroom" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-bold text-primary mb-2">Awards & Recognition</h3>
-                <p className="text-muted-foreground">Decades of excellence has earned us national recognition and the trust of thousands of farmers.</p>
+                <h3 className="text-xl font-bold text-primary mb-2">Outdoor Meetings</h3>
+                <p className="text-muted-foreground">Our former "boardroom" where critical decisions were made outdoors, showing our resilience.</p>
+              </div>
+            </div>
+            <div className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all">
+              <div className="aspect-video bg-muted flex items-center justify-center overflow-hidden">
+                <img src={firstCheque} alt="First KCC Cheque" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-primary mb-2">Historic Support</h3>
+                <p className="text-muted-foreground">The first-ever cheque from KCC used to renovate the KFCS structures and pave way for growth.</p>
               </div>
             </div>
           </div>
