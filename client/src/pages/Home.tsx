@@ -41,6 +41,9 @@ const partners = [
 ];
 
 import wideAngleFarm from "@assets/wmremove-transformed_1768821427059.jpeg";
+import milkCoolers from "@assets/Milk_Coolers_1767709504686_1768907087500.jpg";
+import yogurtProcessing from "@assets/yogurt_processing_1767709504687_1768907087501.jpg";
+import feedLaboratory from "@assets/feed_laboratory_1767709443300_1768907087501.jpg";
 import commisionPlate from "@assets/kfcs_commision_plate_1767709504683.jpg";
 import farmMachinery from "@assets/kfcs_farm_machinerary_1767709504683.jpg";
 import awardImage1 from "@assets/WhatsApp_Image_2025-12-19_at_20.42.35_1766218730971.jpeg";
@@ -98,10 +101,24 @@ export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
   
   const heroSlides = [
-    { image: wideAngleFarm, alt: "Wide angle view of KFCS Farm" },
-    { image: allProductsHero, alt: "Kabianga Products Showcase" },
-    { image: awardImage1, alt: "Kabianga FCS Receiving Trophy as Best Cooperative in Kenya" },
-    { image: awardImage2, alt: "CS Wycliffe Oparanya Visits KFCS Stand at National Awards" },
+    { 
+      image: milkCoolers, 
+      alt: "Modern Milk Cooling Facilities",
+      title: "Advanced Cooling Technology",
+      description: "State-of-the-art milk coolers ensuring maximum freshness and quality from the moment of collection."
+    },
+    { 
+      image: yogurtProcessing, 
+      alt: "Value Addition & Yogurt Processing",
+      title: "Premium Value Addition",
+      description: "Our modern processing plant transforms fresh milk into high-quality yogurt and dairy products."
+    },
+    { 
+      image: feedLaboratory, 
+      alt: "Quality Control Laboratory",
+      title: "Strict Quality Assurance",
+      description: "Rigorous laboratory testing for animal feeds and milk products to guarantee safety and nutritional value."
+    },
   ];
 
   useEffect(() => {
@@ -191,11 +208,13 @@ export default function Home() {
                           Empowering Farmers Since 1964
                         </motion.span>
                         <h1 className="text-4xl sm:text-6xl md:text-8xl font-serif font-bold text-white mb-6 md:mb-8 leading-tight tracking-tight">
-                          Modern Dairy <br className="hidden md:block" />
-                          <span className="bg-gradient-to-r from-green-400 via-emerald-400 to-teal-400 bg-clip-text text-transparent drop-shadow-sm">Excellence.</span>
+                          {heroSlides[currentSlide].title.split(' ')[0]} <br className="hidden md:block" />
+                          <span className="bg-gradient-to-r from-green-400 via-emerald-400 to-teal-400 bg-clip-text text-transparent drop-shadow-sm">
+                            {heroSlides[currentSlide].title.split(' ').slice(1).join(' ')}
+                          </span>
                         </h1>
                         <p className="text-lg md:text-2xl text-white/90 mb-8 md:mb-12 max-w-2xl mx-auto md:mx-0 leading-relaxed font-light drop-shadow-md">
-                          Join over 6,000 farmers in Kabianga's premier dairy cooperative. We're reshaping the future of agriculture with technology and tradition.
+                          {heroSlides[currentSlide].description}
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center md:justify-start">
                         <Link href="/membership" asChild>
