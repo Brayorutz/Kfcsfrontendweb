@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   LogOut, Upload, Users, FileText, Trash2, Download, Plus, Eye, EyeOff,
-  FolderOpen, User, Shield
+  FolderOpen, User, Shield, UserCheck, UsersRound
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -144,6 +144,7 @@ function ManagerDashboard({ user, onLogout }: { user: UserInfo; onLogout: () => 
   const [showNewPass, setShowNewPass] = useState(false);
   const [creatingAccount, setCreatingAccount] = useState(false);
   const [selectedDirectorId, setSelectedDirectorId] = useState("");
+  const [uploadTarget, setUploadTarget] = useState<"specific" | "all">("specific");
   const [uploadFile, setUploadFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [filterDirectorId, setFilterDirectorId] = useState("");
@@ -199,11 +200,12 @@ function ManagerDashboard({ user, onLogout }: { user: UserInfo; onLogout: () => 
 
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!uploadFile || !selectedDirectorId) return;
+    if (!uploadFile) return;
+    if (uploadTarget === "specific" && !selectedDirectorId) return;
     setUploading(true);
     const form = new FormData();
     form.append("file", uploadFile);
-    form.append("directorId", selectedDirectorId);
+    form.append("directorId", uploadTarget === "all" ? "all" : selectedDirectorId);
     try {
       const res = await fetch("/api/directors/files", {
         method: "POST",
@@ -212,9 +214,14 @@ function ManagerDashboard({ user, onLogout }: { user: UserInfo; onLogout: () => 
       });
       const data = await res.json();
       if (res.ok) {
-        toast({ title: "File uploaded", description: data.originalName });
+        if (data.broadcastCount !== undefined) {
+          toast({ title: "File sent to all directors", description: `${data.broadcastCount} director(s) received "${uploadFile.name}"` });
+        } else {
+          toast({ title: "File uploaded", description: data.originalName });
+        }
         setUploadFile(null);
-        (document.getElementById("file-input") as HTMLInputElement).value = "";
+        const fileInput = document.getElementById("file-input") as HTMLInputElement;
+        if (fileInput) fileInput.value = "";
         fetchFiles();
       } else {
         toast({ title: "Upload failed", description: data.message, variant: "destructive" });
@@ -349,27 +356,76 @@ function ManagerDashboard({ user, onLogout }: { user: UserInfo; onLogout: () => 
           <TabsContent value="upload">
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2"><Upload className="w-5 h-5" /> Upload File for Director</CardTitle>
+                <CardTitle className="flex items-center gap-2"><Upload className="w-5 h-5" /> Upload File</CardTitle>
               </CardHeader>
               <CardContent>
                 {directors.length === 0 ? (
                   <p className="text-muted-foreground">Please create at least one director account first.</p>
                 ) : (
-                  <form onSubmit={handleUpload} className="space-y-5">
+                  <form onSubmit={handleUpload} className="space-y-6">
+                    {/* Target toggle */}
                     <div className="space-y-2">
-                      <Label>Select Director</Label>
-                      <select
-                        className="w-full border border-border rounded-md px-3 py-2 text-sm bg-background"
-                        value={selectedDirectorId}
-                        onChange={e => setSelectedDirectorId(e.target.value)}
-                        required
-                      >
-                        <option value="">-- Choose a director --</option>
-                        {directors.map(d => (
-                          <option key={d.id} value={d.id}>{d.fullName} ({d.username})</option>
-                        ))}
-                      </select>
+                      <Label>Send to</Label>
+                      <div className="grid grid-cols-2 gap-3">
+                        <button
+                          type="button"
+                          onClick={() => setUploadTarget("specific")}
+                          className={`flex items-center gap-3 p-4 rounded-xl border-2 text-left transition-all ${
+                            uploadTarget === "specific"
+                              ? "border-primary bg-primary/5 text-primary"
+                              : "border-border text-muted-foreground hover:border-primary/40 hover:bg-muted/30"
+                          }`}
+                        >
+                          <UserCheck className={`w-5 h-5 flex-shrink-0 ${uploadTarget === "specific" ? "text-primary" : "text-muted-foreground"}`} />
+                          <div>
+                            <p className="font-semibold text-sm">Specific Director</p>
+                            <p className="text-xs opacity-70 mt-0.5">Choose one director</p>
+                          </div>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setUploadTarget("all")}
+                          className={`flex items-center gap-3 p-4 rounded-xl border-2 text-left transition-all ${
+                            uploadTarget === "all"
+                              ? "border-primary bg-primary/5 text-primary"
+                              : "border-border text-muted-foreground hover:border-primary/40 hover:bg-muted/30"
+                          }`}
+                        >
+                          <UsersRound className={`w-5 h-5 flex-shrink-0 ${uploadTarget === "all" ? "text-primary" : "text-muted-foreground"}`} />
+                          <div>
+                            <p className="font-semibold text-sm">All Directors</p>
+                            <p className="text-xs opacity-70 mt-0.5">Broadcast to everyone</p>
+                          </div>
+                        </button>
+                      </div>
                     </div>
+
+                    {/* Director selector — only shown for specific */}
+                    {uploadTarget === "specific" && (
+                      <div className="space-y-2">
+                        <Label>Select Director</Label>
+                        <select
+                          className="w-full border border-border rounded-md px-3 py-2 text-sm bg-background"
+                          value={selectedDirectorId}
+                          onChange={e => setSelectedDirectorId(e.target.value)}
+                          required
+                        >
+                          <option value="">-- Choose a director --</option>
+                          {directors.map(d => (
+                            <option key={d.id} value={d.id}>{d.fullName} ({d.username})</option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+
+                    {/* All-directors info banner */}
+                    {uploadTarget === "all" && (
+                      <div className="flex items-center gap-3 px-4 py-3 bg-primary/5 border border-primary/20 rounded-xl text-sm text-primary">
+                        <UsersRound className="w-4 h-4 flex-shrink-0" />
+                        This file will be delivered to all <strong>{directors.length}</strong> director{directors.length !== 1 ? "s" : ""}.
+                      </div>
+                    )}
+
                     <div className="space-y-2">
                       <Label>File</Label>
                       <div className="border-2 border-dashed border-border rounded-xl p-8 text-center hover:border-primary/40 transition-colors">
@@ -387,8 +443,18 @@ function ManagerDashboard({ user, onLogout }: { user: UserInfo; onLogout: () => 
                         )}
                       </div>
                     </div>
-                    <Button type="submit" disabled={uploading || !uploadFile || !selectedDirectorId} className="gap-2">
-                      <Upload className="w-4 h-4" />{uploading ? "Uploading..." : "Upload File"}
+
+                    <Button
+                      type="submit"
+                      disabled={uploading || !uploadFile || (uploadTarget === "specific" && !selectedDirectorId)}
+                      className="gap-2"
+                    >
+                      <Upload className="w-4 h-4" />
+                      {uploading
+                        ? "Uploading..."
+                        : uploadTarget === "all"
+                          ? `Upload to All ${directors.length} Directors`
+                          : "Upload File"}
                     </Button>
                   </form>
                 )}

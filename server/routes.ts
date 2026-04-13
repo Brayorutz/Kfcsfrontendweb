@@ -168,15 +168,45 @@ export async function registerRoutes(
     if (req.session?.role !== "manager") return res.status(403).json({ message: "Forbidden" });
     if (!req.file) return res.status(400).json({ message: "No file uploaded" });
     const { directorId } = req.body;
-    if (!directorId || !directors.has(directorId)) {
-      return res.status(400).json({ message: "Valid directorId required" });
+
+    if (!directorId) {
+      return res.status(400).json({ message: "directorId is required (use 'all' to send to all directors)" });
     }
+
+    const uploadedAt = new Date().toISOString();
+
+    if (directorId === "all") {
+      if (directors.size === 0) {
+        return res.status(400).json({ message: "No director accounts exist yet" });
+      }
+      const created: DirectorFile[] = [];
+      for (const [id] of directors) {
+        const meta: DirectorFile = {
+          id: randomUUID(),
+          directorId: id,
+          filename: req.file.filename,
+          originalName: req.file.originalname,
+          uploadedAt,
+          uploadedBy: MANAGER_USERNAME,
+          size: req.file.size,
+          mimetype: req.file.mimetype,
+        };
+        directorFiles.push(meta);
+        created.push(meta);
+      }
+      return res.status(201).json({ broadcastCount: created.length, files: created });
+    }
+
+    if (!directors.has(directorId)) {
+      return res.status(400).json({ message: "Director not found" });
+    }
+
     const meta: DirectorFile = {
       id: randomUUID(),
       directorId,
       filename: req.file.filename,
       originalName: req.file.originalname,
-      uploadedAt: new Date().toISOString(),
+      uploadedAt,
       uploadedBy: MANAGER_USERNAME,
       size: req.file.size,
       mimetype: req.file.mimetype,
