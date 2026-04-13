@@ -17,6 +17,7 @@ import Shop from "@/pages/Shop";
 import Investors from "@/pages/Investors";
 import Membership from "@/pages/Membership";
 import Admin from "@/pages/Admin";
+import DirectorsPortal from "@/pages/DirectorsPortal";
 import News from "@/pages/News";
 import NewsDetail from "@/pages/NewsDetail";
 import Contact from "@/pages/Contact";
@@ -59,6 +60,7 @@ function Router() {
           <Route path="/shop" component={Shop} />
           <Route path="/future-projects" component={FutureProjects} />
           <Route path="/admin" component={Admin} />
+          <Route path="/directors-portal" component={DirectorsPortal} />
           <Route path="/news/:id" component={NewsDetail} />
           <Route path="/news" component={News} />
           <Route path="/contact" component={Contact} />
