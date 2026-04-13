@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronDown, User, Info, Users, FlaskConical, Tractor, Image as ImageIcon, ShoppingCart, Download, Briefcase, Newspaper, Mail, LayoutGrid, ArrowRight } from "lucide-react";
+import { Menu, X, ChevronDown, User, Info, Users, FlaskConical, Tractor, Image as ImageIcon, ShoppingCart, Download, Briefcase, Newspaper, Mail, LayoutGrid, ArrowRight, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import kfcsLogo from "@assets/image_20251218_135629_0000_1766055489904.png";
@@ -151,6 +151,19 @@ export function Navbar() {
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
+
+              <NavigationMenuItem>
+                <Link href="/directors-portal">
+                  <NavigationMenuLink className={cn(
+                    navigationMenuTriggerStyle(),
+                    "bg-transparent hover:bg-white/10 focus:bg-white/10 flex items-center gap-1.5",
+                    location === "/directors-portal" ? "text-secondary font-bold" : scrolled ? "text-primary" : "text-white"
+                  )}>
+                    <Shield className="w-3.5 h-3.5" />
+                    Directors Portal
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
         </div>
@@ -233,6 +246,10 @@ export function Navbar() {
                    <Link href="/shop" onClick={() => setIsOpen(false)} className="flex items-center gap-2 text-xl font-serif text-primary">
                     <ShoppingCart className="w-5 h-5 text-secondary" />
                     Shop Our Products
+                   </Link>
+                   <Link href="/directors-portal" onClick={() => setIsOpen(false)} className="flex items-center gap-2 text-xl font-serif text-primary">
+                    <Shield className="w-5 h-5 text-secondary" />
+                    Directors Portal
                    </Link>
                    <Link href="/" onClick={() => setIsOpen(false)} className="flex items-center gap-2 text-xl font-serif text-primary">
                     Home
