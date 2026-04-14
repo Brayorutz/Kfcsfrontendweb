@@ -51,6 +51,15 @@ const locations = [
     hours: "Mon - Sat: 7:00 AM - 7:00 PM",
     mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3982.575!2d35.285!3d-0.368!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182a57193f5451bf%3A0xa5862088f17a942a!2sMwananchi%20Hotel!5e0!3m2!1sen!2ske!4v1737035750000!5m2!1sen!2ske",
   },
+  {
+    name: "Chepngetuny Center Distribution",
+    address: "Chepngetuny Center, Kericho County",
+    poBox: "PO Box 123 - 20200, Kericho",
+    phone: "0743719091",
+    email: "info@kabiangafcs.co.ke",
+    hours: "Mon - Sat: 8:00 AM - 6:00 PM",
+    mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3982.5!2d35.20!3d-0.42!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182b070000000000%3A0x0!2sChepngetuny%20Center!5e0!3m2!1sen!2ske!4v1737036000000!5m2!1sen!2ske",
+  },
 ];
 
 export default function Contact() {
@@ -207,7 +216,7 @@ export default function Contact() {
 
                     <div className="flex items-start gap-3">
                       <Phone className="w-5 h-5 text-secondary shrink-0 mt-0.5" />
-                      <a href={`tel:${location.phone.replace(/\s/g, '')}`} className="text-muted-foreground hover:text-secondary transition-colors text-sm">
+                      <a href={`tel:${location.phone.replace(/\\s/g, '')}`} className="text-muted-foreground hover:text-secondary transition-colors text-sm">
                         {location.phone}
                       </a>
                     </div>

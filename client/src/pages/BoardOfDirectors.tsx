@@ -16,7 +16,6 @@ import johnCheruiyotImage from "@assets/John_Cheruiyot,_Director,_Board_of_Manag
 import lilianRonoImage from "@assets/Lilian_Rono,_Director,_Board_of_Management_1767428441587.png";
 import kiplangatKiruiImage from "@assets/Kiplangat_Richard_Kirui,_Director,_Supervisory_1767428441587.png";
 import betsyKosgeiImage from "@assets/Betsy_Kosgei,_Director,_Supervisory_1767428441583.png";
-import paulSoiImage from "@assets/Paul_Soi,_Director,_Supervisory_1767702615785.png";
 
 interface BoardMember {
   id: number;
@@ -139,17 +138,7 @@ const boardMembers: BoardMember[] = [
     bio: "Betsy ensures that member interests are protected through rigorous auditing and supervision of all cooperative financial and operational decisions.",
     image: betsyKosgeiImage,
     board: "supervisory",
-  },
-  {
-    id: 12,
-    name: "Paul Soi",
-    title: "Director",
-    role: "Director, Supervisory Board",
-    experience: "Long-standing experience in community leadership and cooperative oversight.",
-    bio: "Paul brings a wealth of knowledge in community engagement and ensures the cooperative maintains high standards of integrity and service to its members.",
-    image: paulSoiImage,
-    board: "supervisory",
-  },
+  }
 ];
 
 export default function BoardOfDirectors() {

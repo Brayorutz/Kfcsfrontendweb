@@ -95,15 +95,49 @@ app.use((req, res, next) => {
     await setupVite(httpServer, app);
   }
 
-  const port = parseInt(process.env.PORT || "5000", 10);
-  httpServer.listen(
-    {
-      port,
-      host: "0.0.0.0",
-      reusePort: true,
-    },
-    () => {
-      log(`serving on port ${port}`);
-    },
-  );
+  let port = parseInt(process.env.PORT || "5000", 10);
+  
+  const tryBind = (currentPort: number): number => {
+    httpServer.once('error', (err: any) => {
+      if (err.code === 'EADDRINUSE') {
+        log(`Port ${currentPort} in use, trying ${currentPort + 1}`);
+        httpServer.close(() => tryBind(currentPort + 1));
+      } else {
+        log(`Server error: ${err.message}`);
+        process.exit(1);
+      }
+    });
+    
+    httpServer.listen(
+      {
+        port: currentPort,
+        host: "localhost",
+        reusePort: false,
+      },
+      () => {
+        log(`serving on port ${currentPort}`);
+      },
+    );
+    
+    return currentPort;
+  };
+  
+  port = tryBind(port);
+  
+  // Graceful shutdown
+  process.on('SIGTERM', () => {
+    log('SIGTERM received, shutting down gracefully');
+    httpServer.close(() => {
+      log('Server closed');
+      process.exit(0);
+    });
+  });
+  
+  process.on('SIGINT', () => {
+    log('SIGINT received, shutting down gracefully');
+    httpServer.close(() => {
+      log('Server closed');
+      process.exit(0);
+    });
+  });
 })();

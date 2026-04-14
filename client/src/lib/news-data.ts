@@ -1,11 +1,25 @@
-import paulSoiPortrait from "@assets/Paul_Soi,_Director,_Supervisory_1767771550713.png";
-import kabiangaMourns from "@assets/kabianga_fcs_mourns_the_death_of_Mr._Paul_Soi_1767771678452.jpg";
 import kjetTraining from "@assets/IMG_20260113_105659_599_1768302297136.jpg";
 import kfcsNews from "@assets/kfcs_on_the_news_1768465015306.png";
 import tukTukNews from "@assets/IMG-20260114-WA0008_1768555858615.jpg";
 import kabiangaHighVisit from "@assets/VID-20260120-WA0000_1768900207956.mp4";
 
 export const newsItems = [
+  {
+    id: 1,
+    title: "Kabianga Farmers Announces the Death of Director Mr. Paul Soi",
+    excerpt: "The Kabianga Farmers Cooperative Society family is deeply saddened to announce the passing of one of our dedicated directors, Mr. Paul Soi.",
+    content: "It is with heavy hearts that we announce the passing of Mr. Paul Soi, a member of our Board of Supervisory. Mr. Soi was a dedicated leader whose contribution to the cooperative and the farming community in Kericho will be greatly missed. Our thoughts and prayers are with his family and friends during this difficult time.",
+    image: "/attached_assets/Paul_Soi,_Director,_Supervisory_1767702615785.png",
+    date: "January 7, 2026"
+  },
+  {
+    id: 2,
+    title: "Kabianga Mourns the Death of Director Mr. Paul Soi",
+    excerpt: "Kabianga FCS mourns the loss of a visionary leader whose commitment to the welfare of our farmers was exemplary.",
+    content: "The Kabianga Farmers Cooperative Society (KFCS) family mourns the loss of Mr. Paul Soi. His leadership and commitment to the welfare of our farmers were exemplary. We honor his legacy and continue to build on the foundation he helped strengthen. Rest in peace, Director Soi.",
+    image: "/attached_assets/Paul_Soi,_Director,_Supervisory_1767702615785.png",
+    date: "January 7, 2026"
+  },
   {
     id: 7,
     title: "Kabianga Farmers Cooperative Society Directors Visit Kabianga High School Boys",
@@ -68,22 +82,7 @@ As the training continues, participating farmers are expected to apply the acqui
     image: kfcsNews,
     date: "January 14, 2026"
   },
-  {
-    id: 1,
-    title: "Kabianga Farmers Announces the Death of Director Mr. Paul Soi",
-    excerpt: "The Kabianga Farmers Cooperative Society family is deeply saddened to announce the passing of one of our dedicated directors, Mr. Paul Soi.",
-    content: "It is with heavy hearts that we announce the passing of Mr. Paul Soi, a member of our Board of Supervisory. Mr. Soi was a dedicated leader whose contribution to the cooperative and the farming community in Kericho will be greatly missed. Our thoughts and prayers are with his family and friends during this difficult time.",
-    image: paulSoiPortrait,
-    date: "January 7, 2026"
-  },
-  {
-    id: 2,
-    title: "Kabianga Mourns the Death of Director Mr. Paul Soi",
-    excerpt: "Kabianga FCS mourns the loss of a visionary leader whose commitment to the welfare of our farmers was exemplary.",
-    content: "The Kabianga Farmers Cooperative Society (KFCS) family mourns the loss of Mr. Paul Soi. His leadership and commitment to the welfare of our farmers were exemplary. We honor his legacy and continue to build on the foundation he helped strengthen. Rest in peace, Director Soi.",
-    image: kabiangaMourns,
-    date: "January 7, 2026"
-  },
+
   {
     id: 3,
     title: "Kabianga FCS Wins Best Cooperative in Kenya",

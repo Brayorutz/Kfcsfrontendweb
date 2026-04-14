@@ -4,40 +4,34 @@ import { Button } from "@/components/ui/button";
 
 const downloadCategories = [
   {
+    title: "Financial Reports",
+    icon: FileText,
+    description: "Latest audited financial statements, annual reports, and investor information.",
+    files: []
+  },
+  {
     title: "AGM Reports",
     icon: Calendar,
     description: "Annual General Meeting reports including financial statements and chairman's reports.",
-    files: [
-      { name: "KFCS Annual Report 2024", size: "2.4 MB", date: "Jan 2025" },
-      { name: "KFCS Annual Report 2023", size: "2.1 MB", date: "Jan 2024" }
-    ]
+    files: []
   },
   {
     title: "Meeting Minutes",
     icon: FileText,
     description: "Official records of board meetings and general assembly discussions.",
-    files: [
-      { name: "AGM Minutes - December 2024", size: "1.2 MB", date: "Dec 2024" },
-      { name: "Special General Meeting - June 2024", size: "850 KB", date: "Jun 2024" }
-    ]
+    files: []
   },
   {
     title: "Memos & Notices",
     icon: Bell,
     description: "Important internal communications and member notifications.",
-    files: [
-      { name: "Notice on Milk Price Adjustment", size: "450 KB", date: "Feb 2025" },
-      { name: "Member Education Workshop Schedule", size: "620 KB", date: "Jan 2025" }
-    ]
+    files: []
   },
   {
     title: "Adverts & Tenders",
     icon: Info,
     description: "Current job openings, tender opportunities, and public notices.",
-    files: [
-      { name: "Tender for Milk Transport Services 2025", size: "1.5 MB", date: "Feb 2025" },
-      { name: "Job Advertisement - Extension Officer", size: "520 KB", date: "Jan 2025" }
-    ]
+    files: []
   }
 ];
 
@@ -68,20 +62,27 @@ export default function Downloads() {
               </div>
               
               <div className="space-y-3 mt-auto">
-                {category.files.map((file) => (
-                  <div key={file.name} className="flex items-center justify-between p-4 rounded-xl bg-muted/30 border border-transparent hover:border-secondary/20 transition-colors group">
-                    <div className="flex items-center gap-3">
-                      <FileDown className="w-5 h-5 text-muted-foreground group-hover:text-secondary transition-colors" />
-                      <div>
-                        <p className="font-medium text-foreground">{file.name}</p>
-                        <p className="text-xs text-muted-foreground">{file.size} • {file.date}</p>
-                      </div>
-                    </div>
-                    <Button variant="ghost" size="sm" className="text-secondary hover:text-secondary hover:bg-secondary/10">
-                      Download
-                    </Button>
+                {category.files.length === 0 ? (
+                  <div className="p-8 text-center py-12 border-2 border-dashed border-muted rounded-xl">
+                    <FileText className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                    <p className="text-muted-foreground text-sm">Currently there is no data available for this category.</p>
                   </div>
-                ))}
+                ) : (
+                  category.files.map((file) => (
+                    <div key={file.name} className="flex items-center justify-between p-4 rounded-xl bg-muted/30 border border-transparent hover:border-secondary/20 transition-colors group">
+                      <div className="flex items-center gap-3">
+                        <FileDown className="w-5 h-5 text-muted-foreground group-hover:text-secondary transition-colors" />
+                        <div>
+                          <p className="font-medium text-foreground">{file.name}</p>
+                          <p className="text-xs text-muted-foreground">{file.size} • {file.date}</p>
+                        </div>
+                      </div>
+                      <Button variant="ghost" size="sm" className="text-secondary hover:text-secondary hover:bg-secondary/10">
+                        Download
+                      </Button>
+                    </div>
+                  ))
+                )}
               </div>
             </div>
           ))}

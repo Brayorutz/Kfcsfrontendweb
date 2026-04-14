@@ -301,11 +301,66 @@ export default function Home() {
             <img src={wideAngleFarm} alt="KFCS Farm" className="w-full h-96 object-cover" />
           </motion.div>
         </div>
+        </Section>
+
+      {/* Stats Section */}
+      <Section className="py-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 text-center">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="bg-white/80 backdrop-blur-xl p-8 rounded-2xl shadow-2xl border border-white/20"
+          >
+            <Users className="w-16 h-16 text-primary mx-auto mb-4 opacity-80" />
+            <div className="text-4xl lg:text-5xl font-bold text-primary font-serif mb-2">6,000+</div>
+            <div className="text-xl font-bold text-secondary uppercase tracking-wide">Active Farmers</div>
+          </motion.div>
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="bg-white/80 backdrop-blur-xl p-8 rounded-2xl shadow-2xl border border-white/20"
+          >
+            <Droplets className="w-16 h-16 text-primary mx-auto mb-4 opacity-80" />
+            <div className="text-4xl lg:text-5xl font-bold text-primary font-serif mb-2">20,000L</div>
+            <div className="text-xl font-bold text-secondary uppercase tracking-wide">Daily Production</div>
+          </motion.div>
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="bg-white/80 backdrop-blur-xl p-8 rounded-2xl shadow-2xl border border-white/20"
+          >
+            <TrendingUp className="w-16 h-16 text-primary mx-auto mb-4 opacity-80" />
+            <div className="text-4xl lg:text-5xl font-bold text-primary font-serif mb-2">6+</div>
+            <div className="text-xl font-bold text-secondary uppercase tracking-wide">New Outlets</div>
+          </motion.div>
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="bg-white/80 backdrop-blur-xl p-8 rounded-2xl shadow-2xl border border-white/20 lg:col-span-3"
+          >
+            <Users className="w-16 h-16 text-primary mx-auto mb-4 opacity-80" />
+            <div className="text-4xl lg:text-5xl font-bold text-primary font-serif mb-2">High</div>
+            <div className="text-xl font-bold text-secondary uppercase tracking-wide">Community Impact</div>
+          </motion.div>
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="bg-gradient-to-br from-primary to-secondary text-white p-8 rounded-2xl shadow-2xl border-0 lg:col-span-3"
+          >
+            <TrendingUp className="w-16 h-16 mx-auto mb-4 opacity-80" />
+            <div className="text-5xl lg:text-6xl font-bold font-serif mb-4">18.5%</div>
+            <div className="text-2xl font-bold uppercase tracking-wider">Annual Growth</div>
+          </motion.div>
+        </div>
       </Section>
 
       {/* Community Impact Section */}
       <Section className="py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center"> 
           <div className="order-2 lg:order-1 relative">
             <div className="grid grid-cols-2 gap-4">
               <motion.div

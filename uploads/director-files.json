@@ -1,0 +1,42 @@
+[
+  {
+    "id": "e923e6c9-aa6f-42a9-a44d-249301e7a1b2",
+    "directorId": "c71de002-1670-4dae-a550-d4a53345ab9b",
+    "filename": "1776092716851-3432cf3f-0afe-442d-a887-97812dc43cb7.md",
+    "originalName": "TODO.md",
+    "uploadedAt": "2026-04-13T15:05:16.854Z",
+    "uploadedBy": "manager",
+    "size": 1846,
+    "mimetype": "application/octet-stream"
+  },
+  {
+    "id": "52281e8b-15d1-4fbf-9212-ba9661346245",
+    "directorId": "261e6559-8c7c-453f-b5bb-905921517124",
+    "filename": "1776092716851-3432cf3f-0afe-442d-a887-97812dc43cb7.md",
+    "originalName": "TODO.md",
+    "uploadedAt": "2026-04-13T15:05:16.854Z",
+    "uploadedBy": "manager",
+    "size": 1846,
+    "mimetype": "application/octet-stream"
+  },
+  {
+    "id": "aa85ef11-d8e0-4be6-b867-0737f5be4d38",
+    "directorId": "c71de002-1670-4dae-a550-d4a53345ab9b",
+    "filename": "1776092726956-ca2dde00-6d0b-420d-9d30-f7f5e3f6b9a2.html",
+    "originalName": "financial-report-viewer.html",
+    "uploadedAt": "2026-04-13T15:05:26.957Z",
+    "uploadedBy": "manager",
+    "size": 4081,
+    "mimetype": "text/html"
+  },
+  {
+    "id": "4e2dfeb4-627d-4c7f-b1b0-a89c32beee93",
+    "directorId": "261e6559-8c7c-453f-b5bb-905921517124",
+    "filename": "1776092726956-ca2dde00-6d0b-420d-9d30-f7f5e3f6b9a2.html",
+    "originalName": "financial-report-viewer.html",
+    "uploadedAt": "2026-04-13T15:05:26.957Z",
+    "uploadedBy": "manager",
+    "size": 4081,
+    "mimetype": "text/html"
+  }
+]

@@ -1,0 +1,18 @@
+[
+  {
+    "id": "c71de002-1670-4dae-a550-d4a53345ab9b",
+    "username": "Moses",
+    "passwordHash": "$2b$10$3ZJXWYuIro2i631/r.v76O0z1jQSIeiYWJ2ulRRSQwkA70O4Qt.bK",
+    "fullName": "Moses Rotich",
+    "createdAt": "2026-04-13T14:42:37.503Z",
+    "firstLogin": true
+  },
+  {
+    "id": "261e6559-8c7c-453f-b5bb-905921517124",
+    "username": "Mike",
+    "passwordHash": "$2b$10$JQB85nuGe54V2oVTFbJdeuijEUggp5wvyswmbt2w1h42nj4HIQiii",
+    "fullName": "Mike Koros",
+    "createdAt": "2026-04-13T14:51:41.375Z",
+    "firstLogin": true
+  }
+]

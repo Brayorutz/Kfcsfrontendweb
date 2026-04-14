@@ -6,8 +6,7 @@ import { X } from "lucide-react";
 
 // Importing user-uploaded images from attached_assets
 import feedLab from "@assets/feed_laboratory_1767871165290.jpg";
-import mournsSoi1 from "@assets/kabianga_fcs_mourns_the_death_of_Mr._Paul_Soi_1767871165290.jpg";
-import mournsSoi2 from "@assets/kabianga_fcs_mourns_the_death_of_Mr._Paul_Soi2_1767871165291.jpg";
+
 import bestCoop from "@assets/Kabianga_fcs_wins_best_cooperative_1767871165291.jpeg";
 import commPlate from "@assets/kfcs_commision_plate_1767871165292.jpg";
 import farmMach from "@assets/kfcs_farm_machinerary_1767871165315.jpg";
@@ -46,8 +45,7 @@ const galleryImages = [
   { url: restaurantImg, title: "KFCS Restaurant", category: "Facilities" },
   { url: bestCoop, title: "Best Cooperative Award", category: "Awards" },
   { url: commPlate, title: "Commissioning Plate", category: "Events" },
-  { url: mournsSoi1, title: "Tribute to Paul Soi", category: "Events" },
-  { url: mournsSoi2, title: "Mourning Paul Soi", category: "Events" },
+
   { url: security1, title: "Security Services", category: "Services" },
   { url: security2, title: "Facility Security", category: "Services" },
   { url: flagImg, title: "KFCS Flag", category: "Corporate" },

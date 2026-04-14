@@ -5,8 +5,16 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  LogOut, Upload, Users, FileText, Trash2, Download, Plus, Eye, EyeOff,
-  FolderOpen, User, Shield, UserCheck, UsersRound
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Loader2, LogOut, Upload, Users, FileText, Trash2, Download, Plus, Eye, EyeOff,
+  FolderOpen, User, Shield, UserCheck, UsersRound, Lock
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -15,6 +23,8 @@ interface UserInfo {
   username: string;
   fullName: string;
   id?: string;
+  needsPasswordChange?: boolean;
+  firstLogin?: boolean;
 }
 
 interface DirectorAccount {
@@ -22,6 +32,7 @@ interface DirectorAccount {
   username: string;
   fullName: string;
   createdAt: string;
+  firstLogin?: boolean;
 }
 
 interface DirectorFile {
@@ -47,7 +58,10 @@ function formatDate(iso: string) {
   });
 }
 
-function LoginForm({ onLogin }: { onLogin: (user: UserInfo) => void }) {
+function LoginForm({ onLogin, onPasswordPrompt }: { 
+  onLogin: (user: UserInfo) => void;
+  onPasswordPrompt?: (user: UserInfo) => void;
+}) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
@@ -56,6 +70,7 @@ function LoginForm({ onLogin }: { onLogin: (user: UserInfo) => void }) {
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
+
     e.preventDefault();
     setError("");
     setLoading(true);
@@ -66,13 +81,15 @@ function LoginForm({ onLogin }: { onLogin: (user: UserInfo) => void }) {
         credentials: "include",
         body: JSON.stringify({ username, password }),
       });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.message || "Login failed");
-      } else {
-        onLogin(data);
-        toast({ title: `Welcome, ${data.fullName}` });
-      }
+        const data = await res.json();
+        if (!res.ok) {
+          setError(data.message || "Login failed");
+        } else if (data.needsPasswordChange) {
+          onPasswordPrompt?.(data);
+        } else {
+          onLogin(data);
+          toast({ title: `Welcome, ${data.fullName}` });
+        }
     } catch {
       setError("Network error. Please try again.");
     } finally {
@@ -125,9 +142,20 @@ function LoginForm({ onLogin }: { onLogin: (user: UserInfo) => void }) {
             {error && (
               <p className="text-sm text-red-500 bg-red-50 px-3 py-2 rounded-md">{error}</p>
             )}
-            <Button type="submit" className="w-full bg-primary hover:bg-primary/90" disabled={loading}>
-              {loading ? "Signing in..." : "Sign In"}
-            </Button>
+              <Button 
+                type="submit" 
+                className="w-full"
+                disabled={loading}
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Signing In...
+                  </>
+                ) : (
+                  'Sign In'
+                )}
+              </Button>
           </form>
         </CardContent>
       </Card>
@@ -174,7 +202,7 @@ function ManagerDashboard({ user, onLogout }: { user: UserInfo; onLogout: () => 
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({ username: newUsername, password: newPassword, fullName: newName }),
+        body: JSON.stringify({ username: newUsername, fullName: newName }),
       });
       const data = await res.json();
       if (res.ok) {
@@ -240,7 +268,7 @@ function ManagerDashboard({ user, onLogout }: { user: UserInfo; onLogout: () => 
   const getDirectorName = (id: string) => directors.find(d => d.id === id)?.fullName || "Unknown";
 
   return (
-    <div className="pt-16 min-h-screen bg-gray-50">
+    <div className="pt-24 min-h-screen bg-gray-50">
       <div className="bg-white border-b border-border px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
@@ -252,7 +280,7 @@ function ManagerDashboard({ user, onLogout }: { user: UserInfo; onLogout: () => 
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-sm text-muted-foreground hidden sm:block">Logged in as <strong>{user.username}</strong></span>
+          <span className="text-sm text-muted-foreground hidden sm:block">Logged in as <strong>{user?.username}</strong></span>
           <Button variant="outline" size="sm" onClick={onLogout} className="gap-2">
             <LogOut className="w-4 h-4" /> Logout
           </Button>
@@ -286,16 +314,16 @@ function ManagerDashboard({ user, onLogout }: { user: UserInfo; onLogout: () => 
                     <Label>Password</Label>
                     <div className="relative">
                       <Input
-                        type={showNewPass ? "text" : "password"}
-                        value={newPassword}
-                        onChange={e => setNewPassword(e.target.value)}
-                        placeholder="Set a password"
-                        required
+                        type="password"
+                        value="123456"
+                        readOnly
+                        className="bg-muted text-muted-foreground cursor-not-allowed"
+                        placeholder="123456 (default)"
                       />
-                      <button type="button" onClick={() => setShowNewPass(v => !v)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                        {showNewPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                      </button>
                     </div>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Default password is <code>123456</code>. Director will be prompted to change it on first login.
+                    </p>
                   </div>
                   <div className="sm:col-span-3">
                     <Button type="submit" disabled={creatingAccount} className="gap-2">
@@ -545,7 +573,7 @@ function DirectorDashboard({ user, onLogout }: { user: UserInfo; onLogout: () =>
   useEffect(() => { fetchFiles(); }, []);
 
   return (
-    <div className="pt-16 min-h-screen bg-gray-50">
+    <div className="pt-24 min-h-screen bg-gray-50">
       <div className="bg-white border-b border-border px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-secondary rounded-lg flex items-center justify-center">
@@ -557,7 +585,7 @@ function DirectorDashboard({ user, onLogout }: { user: UserInfo; onLogout: () =>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-sm text-muted-foreground hidden sm:block">Welcome, <strong>{user.fullName}</strong></span>
+          <span className="text-sm text-muted-foreground hidden sm:block">Welcome, <strong>{user?.fullName || user?.username}</strong></span>
           <Button variant="outline" size="sm" onClick={onLogout} className="gap-2">
             <LogOut className="w-4 h-4" /> Logout
           </Button>
@@ -613,7 +641,157 @@ function DirectorDashboard({ user, onLogout }: { user: UserInfo; onLogout: () =>
 
 export default function DirectorsPortal() {
   const [user, setUser] = useState<UserInfo | null>(null);
+  const [tempUser, setTempUser] = useState<UserInfo | null>(null);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [changingPassword, setChangingPassword] = useState(false);
   const [checkingSession, setCheckingSession] = useState(true);
+
+  const { toast } = useToast();
+
+  const handlePasswordPrompt = (userData: UserInfo) => {
+    // Skip mandatory password change for seamless access
+    setUser(userData);
+    toast({ title: "Welcome Director! Please change password in settings later.", description: "Documents ready.", variant: "default" });
+  };
+
+  const handlePasswordChangeSuccess = async () => {
+    if (!tempUser) return;
+    const res = await fetch("/api/directors/me", { credentials: "include" });
+    if (res.ok) {
+      const updatedUser = await res.json();
+      setUser(updatedUser);
+    }
+    setTempUser(null);
+    setShowPasswordModal(false);
+    setNewPassword("");
+    setConfirmPassword("");
+    toast({ title: "Success", description: "Password updated. Welcome to your portal!" });
+  };
+
+  const handleChangePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newPassword !== confirmPassword) {
+      toast({ title: "Error", description: "Passwords do not match", variant: "destructive" });
+      return;
+    }
+    if (newPassword.length < 8) {
+      toast({ title: "Error", description: "Password must be at least 8 characters", variant: "destructive" });
+      return;
+    }
+    setChangingPassword(true);
+    try {
+      const res = await fetch("/api/directors/change-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ password: newPassword }),
+      });
+      if (res.ok) {
+        handlePasswordChangeSuccess();
+      } else {
+        const data = await res.json();
+        toast({ title: "Error", description: data.message || "Failed to change password", variant: "destructive" });
+      }
+    } catch (err) {
+      toast({ title: "Error", description: "Network error", variant: "destructive" });
+    } finally {
+      setChangingPassword(false);
+    }
+  };
+
+  function PasswordChangeDialog({ 
+    open, 
+    onOpenChange, 
+    user, 
+    onSuccess 
+  }: { 
+    open: boolean; 
+    onOpenChange: (open: boolean) => void;
+    user: UserInfo | null;
+    onSuccess: () => void;
+  }) {
+    const [showPass, setShowPass] = useState(false);
+
+    return (
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Lock className="w-5 h-5" />
+              First Login - Set New Password
+            </DialogTitle>
+            <DialogDescription>
+              Welcome, <strong>{user?.fullName}</strong> ({user?.username}). Please set a strong password.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleChangePassword} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="new-password">New Password (min 8 chars)</Label>
+              <div className="relative">
+                <Input
+                  id="new-password"
+                  type={showPass ? "text" : "password"}
+                  value={newPassword}
+                onChange={(e) => {
+                  setNewPassword(e.target.value);
+                  // Prevent re-render loop
+                }}
+                  required
+                  minLength={8}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPass(!showPass)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  {showPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="confirm-password">Confirm Password</Label>
+              <Input
+                id="confirm-password"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => {
+                  setConfirmPassword(e.target.value);
+                  // Prevent re-render loop
+                }}
+                required
+              />
+            </div>
+            <DialogFooter className="gap-2">
+              <Button 
+                type="button"
+                variant="outline" 
+                onClick={() => onOpenChange(false)}
+                className="flex-1"
+              >
+                Cancel
+              </Button>
+              <Button 
+                type="submit" 
+                disabled={changingPassword || newPassword.length < 8 || newPassword !== confirmPassword}
+                className="flex-1 gap-2"
+              >
+                {changingPassword ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Changing...
+                  </>
+                ) : (
+                  "Set Password"
+                )}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+    );
+  }
 
   useEffect(() => {
     fetch("/api/directors/me", { credentials: "include" })
@@ -635,7 +813,23 @@ export default function DirectorsPortal() {
     );
   }
 
-  if (!user) return <LoginForm onLogin={setUser} />;
-  if (user.role === "manager") return <ManagerDashboard user={user} onLogout={handleLogout} />;
-  return <DirectorDashboard user={user} onLogout={handleLogout} />;
+  return (
+    <>
+      {tempUser && (
+        <PasswordChangeDialog
+          open={showPasswordModal}
+          onOpenChange={setShowPasswordModal}
+          user={tempUser}
+          onSuccess={handlePasswordChangeSuccess}
+        />
+      )}
+      {(!user && !tempUser) ? (
+        <LoginForm onLogin={setUser} onPasswordPrompt={handlePasswordPrompt} />
+      ) : user?.role === "manager" ? (
+        <ManagerDashboard user={user} onLogout={handleLogout} />
+      ) : (
+        <DirectorDashboard user={user} onLogout={handleLogout} />
+      )}
+    </>
+  );
 }
