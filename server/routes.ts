@@ -20,6 +20,7 @@ interface DirectorAccount {
   passwordHash: string;
   fullName: string;
   createdAt: string;
+  mustChangePassword: boolean;
 }
 
 interface DirectorFile {
@@ -101,7 +102,13 @@ export async function registerRoutes(
         if (!valid) return res.status(401).json({ message: "Invalid credentials" });
         req.session!.userId = director.id;
         req.session!.role = "director";
-        return res.json({ role: "director", username: director.username, fullName: director.fullName, id: director.id });
+        return res.json({
+          role: "director",
+          username: director.username,
+          fullName: director.fullName,
+          id: director.id,
+          mustChangePassword: director.mustChangePassword,
+        });
       }
     }
 
@@ -120,23 +127,57 @@ export async function registerRoutes(
     }
     const director = directors.get(req.session.userId);
     if (!director) return res.status(401).json({ message: "Session invalid" });
-    return res.json({ role: "director", username: director.username, fullName: director.fullName, id: director.id });
+    return res.json({
+      role: "director",
+      username: director.username,
+      fullName: director.fullName,
+      id: director.id,
+      mustChangePassword: director.mustChangePassword,
+    });
   });
 
   app.post("/api/directors/accounts", async (req: Request, res: Response) => {
     if (req.session?.role !== "manager") return res.status(403).json({ message: "Forbidden" });
-    const { username, password, fullName } = req.body;
-    if (!username || !password || !fullName) {
-      return res.status(400).json({ message: "username, password and fullName are required" });
+    const { username, fullName } = req.body;
+    if (!username || !fullName) {
+      return res.status(400).json({ message: "username and fullName are required" });
     }
     for (const [, d] of directors) {
       if (d.username === username) return res.status(409).json({ message: "Username already exists" });
     }
-    const passwordHash = await bcrypt.hash(password, 10);
+    const DEFAULT_PASSWORD = "123456";
+    const passwordHash = await bcrypt.hash(DEFAULT_PASSWORD, 10);
     const id = randomUUID();
-    const account: DirectorAccount = { id, username, passwordHash, fullName, createdAt: new Date().toISOString() };
+    const account: DirectorAccount = {
+      id, username, passwordHash, fullName,
+      createdAt: new Date().toISOString(),
+      mustChangePassword: true,
+    };
     directors.set(id, account);
-    return res.status(201).json({ id, username, fullName, createdAt: account.createdAt });
+    return res.status(201).json({ id, username, fullName, createdAt: account.createdAt, mustChangePassword: true });
+  });
+
+  app.post("/api/directors/change-password", async (req: Request, res: Response) => {
+    if (!req.session?.userId || req.session.role !== "director") {
+      return res.status(403).json({ message: "Forbidden" });
+    }
+    const { currentPassword, newPassword } = req.body;
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({ message: "currentPassword and newPassword are required" });
+    }
+    if (newPassword.length < 6) {
+      return res.status(400).json({ message: "New password must be at least 6 characters" });
+    }
+    const director = directors.get(req.session.userId);
+    if (!director) return res.status(404).json({ message: "Director not found" });
+    const valid = await bcrypt.compare(currentPassword, director.passwordHash);
+    if (!valid) return res.status(401).json({ message: "Current password is incorrect" });
+    if (currentPassword === newPassword) {
+      return res.status(400).json({ message: "New password must be different from the current password" });
+    }
+    director.passwordHash = await bcrypt.hash(newPassword, 10);
+    director.mustChangePassword = false;
+    return res.json({ success: true });
   });
 
   app.get("/api/directors/accounts", (req: Request, res: Response) => {
