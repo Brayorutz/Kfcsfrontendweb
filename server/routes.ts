@@ -20,7 +20,7 @@ interface DirectorAccount {
   passwordHash: string;
   fullName: string;
   createdAt: string;
-  firstLogin: boolean;
+  mustChangePassword: boolean;
 }
 
 interface DirectorFile {
@@ -41,59 +41,10 @@ const MANAGER_USERNAME = process.env.MANAGER_USERNAME || "manager";
 const MANAGER_PASSWORD = process.env.MANAGER_PASSWORD || "kfcs@Manager2024";
 const MANAGER_ID = "manager-root";
 
-const dataDir = path.resolve("uploads");
-if (!fs.existsSync(dataDir)) {
-  fs.mkdirSync(dataDir, { recursive: true });
-}
-
 const uploadDir = path.resolve("uploads/director-files");
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
-
-const directorsFile = path.join(dataDir, "directors.json");
-const directorFilesFile = path.join(dataDir, "director-files.json");
-
-function saveDirectors() {
-  try {
-    const data = Array.from(directors.entries()).map(([id, acc]): DirectorAccount => ({ ...acc, id }));
-    fs.writeFileSync(directorsFile, JSON.stringify(data, null, 2));
-  } catch (err) {
-    console.error("Failed to save directors:", err);
-  }
-}
-
-function loadDirectors() {
-  try {
-    if (fs.existsSync(directorsFile)) {
-      const data: DirectorAccount[] = JSON.parse(fs.readFileSync(directorsFile, "utf-8"));
-      data.forEach(acc => directors.set(acc.id, acc));
-    }
-  } catch (err) {
-    console.error("Failed to load directors:", err);
-  }
-}
-
-function saveDirectorFiles() {
-  try {
-    fs.writeFileSync(directorFilesFile, JSON.stringify(directorFiles, null, 2));
-  } catch (err) {
-    console.error("Failed to save directorFiles:", err);
-  }
-}
-
-function loadDirectorFiles() {
-  try {
-    if (fs.existsSync(directorFilesFile)) {
-      directorFiles.splice(0, directorFiles.length, ...JSON.parse(fs.readFileSync(directorFilesFile, "utf-8")));
-    }
-  } catch (err) {
-    console.error("Failed to load directorFiles:", err);
-  }
-}
-
-loadDirectors();
-loadDirectorFiles();
 
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => cb(null, uploadDir),
@@ -151,7 +102,13 @@ export async function registerRoutes(
         if (!valid) return res.status(401).json({ message: "Invalid credentials" });
         req.session!.userId = director.id;
         req.session!.role = "director";
-        return res.json({ role: "director", username: director.username, fullName: director.fullName, id: director.id, needsPasswordChange: director.firstLogin });
+        return res.json({
+          role: "director",
+          username: director.username,
+          fullName: director.fullName,
+          id: director.id,
+          mustChangePassword: director.mustChangePassword,
+        });
       }
     }
 
@@ -170,20 +127,13 @@ export async function registerRoutes(
     }
     const director = directors.get(req.session.userId);
     if (!director) return res.status(401).json({ message: "Session invalid" });
-    return res.json({ role: "director", username: director.username, fullName: director.fullName, id: director.id, firstLogin: director.firstLogin });
-  });
-
-  app.post("/api/directors/change-password", async (req: Request, res: Response) => {
-    if (!req.session?.userId) return res.status(401).json({ message: "Not authenticated" });
-    if (req.session.role !== "director") return res.status(403).json({ message: "Forbidden" });
-    const { password } = req.body;
-    if (!password) return res.status(400).json({ message: "New password required" });
-    const director = directors.get(req.session.userId);
-    if (!director) return res.status(404).json({ message: "Director not found" });
-    const passwordHash = await bcrypt.hash(password, 10);
-    directors.set(req.session.userId, { ...director, passwordHash, firstLogin: false });
-    saveDirectors();
-    return res.json({ success: true });
+    return res.json({
+      role: "director",
+      username: director.username,
+      fullName: director.fullName,
+      id: director.id,
+      mustChangePassword: director.mustChangePassword,
+    });
   });
 
   app.post("/api/directors/accounts", async (req: Request, res: Response) => {
@@ -195,13 +145,39 @@ export async function registerRoutes(
     for (const [, d] of directors) {
       if (d.username === username) return res.status(409).json({ message: "Username already exists" });
     }
-    const password = "123456";
-    const passwordHash = await bcrypt.hash(password, 10);
+    const DEFAULT_PASSWORD = "123456";
+    const passwordHash = await bcrypt.hash(DEFAULT_PASSWORD, 10);
     const id = randomUUID();
-    const account: DirectorAccount = { id, username, passwordHash, fullName, createdAt: new Date().toISOString(), firstLogin: true };
+    const account: DirectorAccount = {
+      id, username, passwordHash, fullName,
+      createdAt: new Date().toISOString(),
+      mustChangePassword: true,
+    };
     directors.set(id, account);
-    saveDirectors();
-    return res.status(201).json({ id, username, fullName, createdAt: account.createdAt, defaultPassword: password });
+    return res.status(201).json({ id, username, fullName, createdAt: account.createdAt, mustChangePassword: true });
+  });
+
+  app.post("/api/directors/change-password", async (req: Request, res: Response) => {
+    if (!req.session?.userId || req.session.role !== "director") {
+      return res.status(403).json({ message: "Forbidden" });
+    }
+    const { currentPassword, newPassword } = req.body;
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({ message: "currentPassword and newPassword are required" });
+    }
+    if (newPassword.length < 6) {
+      return res.status(400).json({ message: "New password must be at least 6 characters" });
+    }
+    const director = directors.get(req.session.userId);
+    if (!director) return res.status(404).json({ message: "Director not found" });
+    const valid = await bcrypt.compare(currentPassword, director.passwordHash);
+    if (!valid) return res.status(401).json({ message: "Current password is incorrect" });
+    if (currentPassword === newPassword) {
+      return res.status(400).json({ message: "New password must be different from the current password" });
+    }
+    director.passwordHash = await bcrypt.hash(newPassword, 10);
+    director.mustChangePassword = false;
+    return res.json({ success: true });
   });
 
   app.get("/api/directors/accounts", (req: Request, res: Response) => {
@@ -226,8 +202,6 @@ export async function registerRoutes(
       const [removed] = directorFiles.splice(i, 1);
       try { fs.unlinkSync(path.join(uploadDir, removed.filename)); } catch {}
     });
-    saveDirectors();
-    saveDirectorFiles();
     return res.json({ success: true });
   });
 
@@ -261,7 +235,6 @@ export async function registerRoutes(
         directorFiles.push(meta);
         created.push(meta);
       }
-      saveDirectorFiles();
       return res.status(201).json({ broadcastCount: created.length, files: created });
     }
 
@@ -280,7 +253,6 @@ export async function registerRoutes(
       mimetype: req.file.mimetype,
     };
     directorFiles.push(meta);
-    saveDirectorFiles();
     return res.status(201).json(meta);
   });
 
@@ -304,7 +276,6 @@ export async function registerRoutes(
     if (idx === -1) return res.status(404).json({ message: "File not found" });
     const [removed] = directorFiles.splice(idx, 1);
     try { fs.unlinkSync(path.join(uploadDir, removed.filename)); } catch {}
-    saveDirectorFiles();
     return res.json({ success: true });
   });
 
