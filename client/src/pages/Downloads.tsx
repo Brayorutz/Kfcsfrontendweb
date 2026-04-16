@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Download, Eye, DownloadOff, Calendar, FolderOpen } from "lucide-react";
+import { FileText, Download, Eye, Ban, Calendar, FolderOpen } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Section } from "@/components/Section";
 import { useToast } from "@/hooks/use-toast";
@@ -129,7 +129,7 @@ export default function Downloads() {
               onClick={() => setViewingFile(false)}
               className="flex items-center gap-2"
             >
-              <DownloadOff className="w-4 h-4" />
+              <Ban className="w-4 h-4" />
               Close Viewer
             </Button>
           </div>
@@ -143,7 +143,7 @@ export default function Downloads() {
           </div>
           <div className="p-6 border-t border-border bg-muted/50 text-center text-sm text-muted-foreground">
             <p className="flex items-center justify-center gap-2">
-              <DownloadOff className="w-4 h-4" />
+              <Ban className="w-4 h-4" />
               <span>View-only access. Right-click, copy, print, and download disabled for document security.</span>
             </p>
           </div>
@@ -232,7 +232,7 @@ export default function Downloads() {
                               >
                                 <Eye className="w-5 h-5 group-hover:-translate-y-0.5 transition-transform" />
                                 <span className="font-semibold">View Document</span>
-                                <DownloadOff className="w-4 h-4 ml-auto opacity-70" />
+                                <Ban className="w-4 h-4 ml-auto opacity-70" />
                               </Button>
                             </DialogTrigger>
                             <DialogContent className="max-w-7xl p-0 max-h-[95vh] h-[95vh]">
