@@ -22,6 +22,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useToast } from "@/hooks/use-toast";
+import { FinancialRecordsManager } from "./FinancialRecordsManager";
+
 
 interface UserInfo {
   role: "manager" | "director";
@@ -745,7 +747,8 @@ function ManagerDashboard({ user, onLogout }: { user: UserInfo; onLogout: () => 
             <TabsTrigger value="upload" className="gap-2"><Upload className="w-4 h-4" /> Upload File</TabsTrigger>
             <TabsTrigger value="files" className="gap-2"><FileText className="w-4 h-4" /> All Files</TabsTrigger>
             <TabsTrigger value="news" className="gap-2"><Newspaper className="w-4 h-4" /> News</TabsTrigger>
-            <TabsTrigger value="password" className="gap-2"><KeyRound className="w-4 h-4" /> Password</TabsTrigger>
+<TabsTrigger value="password" className="gap-2"><KeyRound className="w-4 h-4" /> Password</TabsTrigger>
+            <TabsTrigger value="financial" className="gap-2"><FileText className="w-4 h-4" /> Financial Records</TabsTrigger>
           </TabsList>
 
           <TabsContent value="directors" className="space-y-6">
@@ -998,7 +1001,6 @@ function ManagerDashboard({ user, onLogout }: { user: UserInfo; onLogout: () => 
           <TabsContent value="news" className="space-y-6">
             <NewsManagerComponent />
           </TabsContent>
-
           <TabsContent value="password" className="max-w-md">
             <Card>
               <CardHeader className="text-center">
@@ -1070,6 +1072,10 @@ function ManagerDashboard({ user, onLogout }: { user: UserInfo; onLogout: () => 
               </CardContent>
             </Card>
           </TabsContent>
+          <TabsContent value="financial" className="space-y-6">
+            <FinancialRecordsManager />
+          </TabsContent>
+
         </Tabs>
       </div>
     </div>

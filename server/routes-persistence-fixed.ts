@@ -1,4 +1,6 @@
-import type { Express, Request, Response } from "express";
+import type { Express } from "express";
+import type { Request, Response } from "express";
+import express from "express";
 import { createServer, type Server } from "http";
 import nodemailer from "nodemailer";
 import multer from "multer";
@@ -35,8 +37,19 @@ interface DirectorFile {
   mimetype: string;
 }
 
+interface FinancialFile {
+  id: string;
+  category: string;
+  filename: string;
+  originalName: string;
+  uploadedAt: string;
+  size: number;
+  mimetype: string;
+}
+
 const directors = new Map<string, DirectorAccount>();
 const directorFiles: DirectorFile[] = [];
+const financialRecords: FinancialFile[] = [];
 
 const MANAGER_USERNAME = process.env.MANAGER_USERNAME || "manager";
 const MANAGER_ID = "manager";
@@ -47,8 +60,14 @@ if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
 
+const financialDir = path.resolve("uploads/financial-records");
+if (!fs.existsSync(financialDir)) {
+  fs.mkdirSync(financialDir, { recursive: true });
+}
+
 const DIRECTORS_FILE = path.resolve("uploads/directors.json");
 const DIRECTOR_FILES_FILE = path.resolve("uploads/director-files.json");
+const FINANCIAL_RECORDS_FILE = path.resolve("uploads/financial-records.json");
 const MANAGER_PASSWORD_FILE = path.resolve("uploads/manager-password.txt");
 
 function ensureUploadsDir() {
@@ -90,6 +109,22 @@ function saveDirectorFiles(files: DirectorFile[]) {
   fs.writeFileSync(DIRECTOR_FILES_FILE, JSON.stringify(files, null, 2));
 }
 
+function loadFinancialRecords(): FinancialFile[] {
+  ensureUploadsDir();
+  if (!fs.existsSync(FINANCIAL_RECORDS_FILE)) return [];
+  try {
+    const data = fs.readFileSync(FINANCIAL_RECORDS_FILE, "utf8");
+    return JSON.parse(data) as FinancialFile[];
+  } catch {
+    return [];
+  }
+}
+
+function saveFinancialRecords(files: FinancialFile[]) {
+  ensureUploadsDir();
+  fs.writeFileSync(FINANCIAL_RECORDS_FILE, JSON.stringify(files, null, 2));
+}
+
 function saveManagerPassword(password: string) {
   ensureUploadsDir();
   fs.writeFileSync(MANAGER_PASSWORD_FILE, password);
@@ -118,6 +153,19 @@ const upload = multer({
   limits: { fileSize: 50 * 1024 * 1024 },
 });
 
+const financialStorage = multer.diskStorage({
+  destination: (_req, _file, cb) => cb(null, financialDir),
+  filename: (_req, file, cb) => {
+    const unique = Date.now() + "-" + randomUUID() + path.extname(file.originalname!);
+    cb(null, unique);
+  },
+});
+
+const financialUpload = multer({
+  storage: financialStorage,
+  limits: { fileSize: 50 * 1024 * 1024 },
+});
+
 export async function registerRoutes(
   httpServer: Server,
   app: Express
@@ -139,7 +187,13 @@ export async function registerRoutes(
   directorFiles.push(...loadDirectorFiles());
   console.log("[Persistence] Loaded", directorFiles.length, "director files from JSON");
 
+  financialRecords.length = 0;
+  financialRecords.push(...loadFinancialRecords());
+  console.log("[Persistence] Loaded", financialRecords.length, "financial records from JSON");
+
   currentManagerPassword = loadManagerPassword();
+
+  app.use("/financial-records", express.static(financialDir));
 
   app.use("/director-files", (req: any, res: any, next: any) => {
     if (!req.session?.userId) {
@@ -375,7 +429,7 @@ export async function registerRoutes(
     return res.json(myFiles);
   });
 
-  app.delete("/api/directors/files/:id", (req: Request, res: Response) => {
+app.delete("/api/directors/files/:id", (req: Request, res: Response) => {
     if (req.session?.role !== "manager") return res.status(403).json({ message: "Forbidden" });
     const { id } = req.params;
     const idx = directorFiles.findIndex((f: DirectorFile) => f.id === id);
@@ -383,6 +437,54 @@ export async function registerRoutes(
     const [removed] = directorFiles.splice(idx, 1);
     try { fs.unlinkSync(path.join(uploadDir, removed.filename)); } catch {}
     saveDirectorFiles(directorFiles);
+    return res.json({ success: true });
+  });
+
+  // Financial Records APIs
+  app.post("/api/manager/financial-files", financialUpload.single("file"), (req: Request, res: Response) => {
+    if (req.session?.role !== "manager") return res.status(403).json({ message: "Forbidden" });
+    if (!req.file) return res.status(400).json({ message: "No file uploaded" });
+    const { category } = req.body;
+    if (!category) return res.status(400).json({ message: "category is required" });
+
+    const uploadedAt = new Date().toISOString();
+
+    const meta: FinancialFile = {
+      id: randomUUID(),
+      category,
+      filename: (req.file as any).filename,
+      originalName: (req.file as any).originalname,
+      uploadedAt,
+      size: (req.file as any).size,
+      mimetype: (req.file as any).mimetype,
+    };
+    financialRecords.push(meta);
+    saveFinancialRecords(financialRecords);
+    return res.status(201).json(meta);
+  });
+
+  app.get("/api/manager/financial-files", (req: Request, res: Response) => {
+    if (req.session?.role !== "manager") return res.status(403).json({ message: "Forbidden" });
+    return res.json(financialRecords);
+  });
+
+app.get("/api/public/financial-files", (req: Request, res: Response) => {
+    const { category } = req.query;
+    if (category && typeof category === 'string') {
+      const filtered = financialRecords.filter(f => f.category.toLowerCase() === category.toLowerCase());
+      return res.json(filtered);
+    }
+    return res.json(financialRecords);
+  });
+
+  app.delete("/api/manager/financial-files/:id", (req: Request, res: Response) => {
+    if (req.session?.role !== "manager") return res.status(403).json({ message: "Forbidden" });
+    const { id } = req.params;
+    const idx = financialRecords.findIndex((f: FinancialFile) => f.id === id);
+    if (idx === -1) return res.status(404).json({ message: "File not found" });
+    const [removed] = financialRecords.splice(idx, 1);
+    try { fs.unlinkSync(path.join(financialDir, removed.filename)); } catch {}
+    saveFinancialRecords(financialRecords);
     return res.json({ success: true });
   });
 

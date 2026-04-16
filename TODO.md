@@ -1,20 +1,29 @@
-# Production Build & Setup Progress
+# Fix Annual Report Display Error (404 Router)
 
-## Status
-- [x] Frontend built → dist/public (1.2MB JS, assets optimized) ✅
-- [x] jsonwebtoken installed ✅
-- [x] tsconfig.prod.json fixed (CommonJS/node) ✅
-- [ ] Backend compile: No errors after fix? Run `npx tsc -p tsconfig.prod.json` [Errors: nodemailer typo, vite.ts import.meta]
+**Status:** In Progress - Route exists, needs rebuild/test.
 
-## Remaining Steps
-1. **Fix compile errors**:
-   - server/routes-persistence-fixed.ts: `createTransporter` → `createTransport` (nodemailer)
-   - Remove/exclude server/vite.ts (dev-only), vite.config.ts from backend compile
-2. `npx tsc -p tsconfig.prod.json` → server-dist/
-3. Edit package.json: Add `"build:server": "tsc -p tsconfig.prod.json"`, `"start": "node server-dist/server/index.js"`
-4. Strip dev from server/index.ts
-5. JWT refactor routes.ts
-6. `npm run build && npm run build:server && npm start`
+**Completed:**
+- [x] Static serve /attached_assets in server/static.ts (PDF accessible)
+- [x] Navbar link in Farmers dropdown
+- [x] Client route `/annual-report` in App.tsx
+- [x] .htaccess SPA fallback
 
-Next: Fix routes-persistence-fixed.ts typo, exclude vite.ts.
+**Steps:**
+1. [ ] `npm run build` - Rebuild client dist/
+2. [ ] `cd server-dist && set NODE_ENV=production && node index.js` - Start prod server
+3. [ ] Test http://localhost:5000/annual-report - Should load PDF viewer
+4. [ ] Check Network tab - PDF 200 OK
+5. [ ] Deploy dist/ + attached_assets/ + .htaccess to cPanel
+6. [x] Mark complete
+
+**Expected:** Page loads PDF embed, no 404.
+
+**Test Command:** 
+```
+npm run build
+cd server-dist
+set NODE_ENV=production
+node index.js
+# Open localhost:5000/annual-report
+```
 

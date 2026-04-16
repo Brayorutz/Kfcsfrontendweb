@@ -297,7 +297,12 @@ console.log("[Server] Starting API route registration...");
   });
 
   app.post("/api/directors/accounts", async (req: Request, res: Response) => {
-    if (req.session?.role !== "manager") return res.status(403).json({ message: "Forbidden" });
+    console.log('[ADD-DIRECTOR] POST /api/directors/accounts hit');
+    console.log('[ADD-DIRECTOR] Session:', { userId: req.session?.userId, role: req.session?.role });
+    if (req.session?.role !== "manager") {
+      console.log('[ADD-DIRECTOR] 403 Forbidden - role check failed');
+      return res.status(403).json({ message: "Forbidden" });
+    }
     const { username, fullName } = req.body;
     if (!username || !fullName) {
       return res.status(400).json({ message: "username and fullName are required" });

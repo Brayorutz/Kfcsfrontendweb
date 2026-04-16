@@ -1,0 +1,13 @@
+RewriteEngine On
+RewriteBase /
+
+# Serve index.html for SPA routes (cPanel static fallback)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^.*$ /index.html [L]
+
+# Ensure attached_assets served directly
+RewriteRule ^attached_assets/ - [L]
+
+# API proxy if needed (optional)
+# RewriteRule ^api/(.*)$ /server/api/$1 [P,L]
