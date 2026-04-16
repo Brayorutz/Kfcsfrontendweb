@@ -16,14 +16,14 @@ export function SuccessStory() {
     {
       icon: Droplets,
       label: "Daily Production",
-      value: "50,000L",
+      value: "20,000L",
       color: "text-pink-600",
       bgColor: "bg-pink-50"
     },
     {
       icon: Store,
       label: "New Outlets",
-      value: "15+",
+      value: "6+",
       color: "text-green-600",
       bgColor: "bg-green-50"
     },
@@ -37,7 +37,7 @@ export function SuccessStory() {
     {
       icon: TrendingUp,
       label: "Annual Growth",
-      value: "20%",
+      value: "18.5%",
       color: "text-green-600",
       bgColor: "bg-green-50"
     }

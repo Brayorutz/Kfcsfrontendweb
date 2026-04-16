@@ -24,6 +24,7 @@ import Contact from "@/pages/Contact";
 import Downloads from "@/pages/Downloads";
 import FutureProjects from "@/pages/FutureProjects";
 import Gallery from "@/pages/Gallery";
+import AnnualReport from "@/pages/AnnualReport";
 
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
@@ -62,6 +63,7 @@ function Router() {
           <Route path="/news" component={News} />
           <Route path="/contact" component={Contact} />
           <Route path="/gallery" component={Gallery} />
+          <Route path="/annual-report" component={AnnualReport} />
           <Route component={NotFound} />
         </Switch>
       </main>

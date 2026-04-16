@@ -1,17 +1,26 @@
 import { useRoute } from "wouter";
-import { newsItems } from "@/lib/news-data";
+import { useNews, NewsItem } from "@/lib/useNews";
 import { Section } from "@/components/Section";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { ArrowLeft, Calendar, Facebook, Instagram, Twitter, Share2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
+import { useEffect, useState } from "react";
 
 export default function NewsDetail() {
   const { toast } = useToast();
   const [, params] = useRoute("/news/:id");
   const id = params?.id ? parseInt(params.id) : null;
-  const article = newsItems.find((item) => item.id === id) as any;
+  const { news, loading } = useNews();
+  const [article, setArticle] = useState<NewsItem | null>(null);
+
+  useEffect(() => {
+    if (id && news.length > 0) {
+      const found = news.find((item: NewsItem) => item.id === id);
+      setArticle(found || null);
+    }
+  }, [id, news]);
 
   const shareUrl = window.location.href;
   const shareTitle = article?.title || "";
@@ -32,6 +41,12 @@ export default function NewsDetail() {
       description: "Share the link on your Instagram bio or story.",
     });
   };
+
+  if (loading) {
+    return <div className="pt-20 min-h-screen flex items-center justify-center">
+      <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+    </div>;
+  }
 
   if (!article) {
     return (

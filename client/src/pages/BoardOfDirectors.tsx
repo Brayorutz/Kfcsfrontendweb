@@ -177,7 +177,7 @@ export default function BoardOfDirectors() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {managementBoard.map((member, index) => (
             <motion.div
               key={member.id}
@@ -210,44 +210,58 @@ export default function BoardOfDirectors() {
 
       {/* Board of Supervisory */}
       <Section id="supervisory-board" background="muted">
-        <div className="max-w-3xl mx-auto text-center mb-16">
-          <span className="text-secondary font-bold tracking-widest uppercase text-xs mb-3 block">Oversight</span>
-          <h2 className="text-4xl md:text-5xl font-serif font-bold text-primary mb-6">Board of Supervisory</h2>
-          <p className="text-muted-foreground text-lg leading-relaxed">
-            Providing independent oversight and ensuring transparency, accountability, and compliance across all cooperative activities.
+  <div className="max-w-3xl mx-auto text-center mb-16">
+    <span className="text-secondary font-bold tracking-widest uppercase text-xs mb-3 block">
+      Oversight
+    </span>
+
+    <h2 className="text-4xl md:text-5xl font-serif font-bold text-primary mb-6">
+      Board of Supervisory
+    </h2>
+
+    <p className="text-muted-foreground text-lg leading-relaxed">
+      Providing independent oversight and ensuring transparency, accountability, and compliance across all cooperative activities.
+    </p>
+  </div>
+
+  {/* ✅ FIXED GRID WRAPPER */}
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+    {supervisoryBoard.map((member, index) => (
+      <motion.div
+        key={member.id}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: index * 0.1 }}
+        viewport={{ once: true }}
+        className="group cursor-pointer"
+        onClick={() => setSelectedMember(member)}
+        data-testid={`supervisory-member-${member.id}`}
+      >
+        <div className="aspect-[4/5] bg-white rounded-2xl overflow-hidden mb-6 relative shadow-md group-hover:shadow-xl transition-all duration-300 ring-1 ring-border/50">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+            <span className="text-white text-sm font-medium">View Full Profile</span>
+          </div>
+
+          <div className="absolute inset-0 flex items-center justify-center">
+            <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
+          </div>
+        </div>
+
+        <div className="text-center px-4">
+          <h3 className="text-2xl font-serif font-bold text-primary mb-1 group-hover:text-secondary transition-colors">
+            {member.name}
+          </h3>
+          <p className="text-sm text-secondary font-bold uppercase tracking-widest mb-3">
+            Supervisor
+          </p>
+          <p className="text-muted-foreground text-sm line-clamp-2">
+            {member.role}
           </p>
         </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-          {supervisoryBoard.map((member, index) => (
-            <motion.div
-              key={member.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="group cursor-pointer"
-              onClick={() => setSelectedMember(member)}
-              data-testid={`supervisory-member-${member.id}`}
-            >
-              <div className="aspect-[4/5] bg-white rounded-2xl overflow-hidden mb-6 relative shadow-md group-hover:shadow-xl transition-all duration-300 ring-1 ring-border/50">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
-                  <span className="text-white text-sm font-medium">View Full Profile</span>
-                </div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
-                </div>
-              </div>
-
-              <div className="text-center px-4">
-                <h3 className="text-2xl font-serif font-bold text-primary mb-1 group-hover:text-secondary transition-colors">{member.name}</h3>
-                <p className="text-sm text-secondary font-bold uppercase tracking-widest mb-3">Supervisor</p>
-                <p className="text-muted-foreground text-sm line-clamp-2">{member.role}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </Section>
+      </motion.div>
+    ))}
+  </div>
+</Section>
 
       {/* Profile Popup/Modal */}
       <AnimatePresence>

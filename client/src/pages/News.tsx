@@ -3,15 +3,22 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar, Play, ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
 import { useState } from "react";
-import { newsItems } from "@/lib/news-data";
+import { useNews, NewsItem } from "@/lib/useNews";
 import { Button } from "@/components/ui/button";
 
 export default function News() {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+  const { news, loading } = useNews();
 
   const videos = [
     { id: "M3fcCTqsGBA", title: "KFCS Featured on News", platform: "youtube" },
   ];
+
+  if (loading) {
+    return <div className="pt-20 min-h-screen flex items-center justify-center">
+      <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+    </div>;
+  }
 
   return (
     <div className="pt-20">
@@ -86,7 +93,7 @@ export default function News() {
           <p className="text-muted-foreground mb-8 text-lg">Stories from our community</p>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {newsItems.map((item) => (
+            {[...news].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).map((item: NewsItem) => (
               <Link key={item.id} href={`/news/${item.id}`} asChild>
                 <Card className="hover:shadow-lg transition-shadow cursor-pointer group overflow-hidden border-border" data-testid={`card-news-${item.id}`}>
                   <div className="aspect-video bg-muted overflow-hidden relative">

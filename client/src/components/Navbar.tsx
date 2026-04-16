@@ -120,11 +120,11 @@ export function Navbar() {
     <>
       {/* Top utility bar */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-primary text-white/90 text-xs py-1.5 px-4 flex items-center justify-between">
-        <span className="font-medium tracking-wide hidden sm:block">Kabianga Farmers Dairy Cooperative Society</span>
+        <span className="font-medium tracking-wide hidden sm:block">Kabianga Farmers Cooperative Society Limited</span>
         <span className="sm:hidden font-medium">KFCS</span>
         <div className="flex items-center gap-4">
           <a href="tel:+254000000000" className="flex items-center gap-1 hover:text-white transition-colors">
-            <Phone className="w-3 h-3" /> +254 000 000 000
+0743719091
           </a>
           <a href="mailto:info@kabiangafcs.co.ke" className="items-center gap-1 hover:text-white transition-colors hidden md:flex">
             <Mail className="w-3 h-3" /> info@kabiangafcs.co.ke

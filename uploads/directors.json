@@ -5,7 +5,8 @@
     "passwordHash": "$2b$10$3ZJXWYuIro2i631/r.v76O0z1jQSIeiYWJ2ulRRSQwkA70O4Qt.bK",
     "fullName": "Moses Rotich",
     "createdAt": "2026-04-13T14:42:37.503Z",
-    "firstLogin": true
+    "firstLogin": true,
+    "mustChangePassword": true
   },
   {
     "id": "261e6559-8c7c-453f-b5bb-905921517124",
@@ -13,6 +14,15 @@
     "passwordHash": "$2b$10$JQB85nuGe54V2oVTFbJdeuijEUggp5wvyswmbt2w1h42nj4HIQiii",
     "fullName": "Mike Koros",
     "createdAt": "2026-04-13T14:51:41.375Z",
-    "firstLogin": true
+    "firstLogin": true,
+    "mustChangePassword": true
+  },
+  {
+    "id": "cdd6c2ee-a4d9-47e4-988b-d066d76fc778",
+    "username": "RSANG",
+    "passwordHash": "$2b$10$JHUakHNJS32jZV53I85SbuV1MmDeABBGJfeY4UBhfq7ur9iUVCd7e",
+    "fullName": "Raphael Sang",
+    "createdAt": "2026-04-14T10:59:50.830Z",
+    "mustChangePassword": false
   }
 ]

@@ -59,7 +59,7 @@ import launchVideo from "@assets/Kabianga_farmers_dairy_cooperative_society_laun
 
 import yogurtPoster from "@assets/1765823139583_1768829902307.jpg";
 
-import { newsItems } from "@/lib/news-data";
+import { useNews } from "@/lib/useNews";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus, Minus, MessageSquare } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
@@ -89,6 +89,7 @@ const previewProducts = [
 export default function Home() {
   const { toast } = useToast();
   const [notes, setNotes] = useState<Record<number, string>>({});
+  const { news } = useNews();
 
   const handleOrder = (productName: string, id: number) => {
     toast({
@@ -156,8 +157,6 @@ export default function Home() {
                       />
                     </motion.div>
                   ))}
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent" />
                 </div>
 
                 {/* Carousel Navigation Buttons */}
@@ -303,62 +302,8 @@ export default function Home() {
         </div>
         </Section>
 
-      {/* Stats Section */}
-      <Section className="py-20">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 text-center">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="bg-white/80 backdrop-blur-xl p-8 rounded-2xl shadow-2xl border border-white/20"
-          >
-            <Users className="w-16 h-16 text-primary mx-auto mb-4 opacity-80" />
-            <div className="text-4xl lg:text-5xl font-bold text-primary font-serif mb-2">6,000+</div>
-            <div className="text-xl font-bold text-secondary uppercase tracking-wide">Active Farmers</div>
-          </motion.div>
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="bg-white/80 backdrop-blur-xl p-8 rounded-2xl shadow-2xl border border-white/20"
-          >
-            <Droplets className="w-16 h-16 text-primary mx-auto mb-4 opacity-80" />
-            <div className="text-4xl lg:text-5xl font-bold text-primary font-serif mb-2">20,000L</div>
-            <div className="text-xl font-bold text-secondary uppercase tracking-wide">Daily Production</div>
-          </motion.div>
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="bg-white/80 backdrop-blur-xl p-8 rounded-2xl shadow-2xl border border-white/20"
-          >
-            <TrendingUp className="w-16 h-16 text-primary mx-auto mb-4 opacity-80" />
-            <div className="text-4xl lg:text-5xl font-bold text-primary font-serif mb-2">6+</div>
-            <div className="text-xl font-bold text-secondary uppercase tracking-wide">New Outlets</div>
-          </motion.div>
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="bg-white/80 backdrop-blur-xl p-8 rounded-2xl shadow-2xl border border-white/20 lg:col-span-3"
-          >
-            <Users className="w-16 h-16 text-primary mx-auto mb-4 opacity-80" />
-            <div className="text-4xl lg:text-5xl font-bold text-primary font-serif mb-2">High</div>
-            <div className="text-xl font-bold text-secondary uppercase tracking-wide">Community Impact</div>
-          </motion.div>
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="bg-gradient-to-br from-primary to-secondary text-white p-8 rounded-2xl shadow-2xl border-0 lg:col-span-3"
-          >
-            <TrendingUp className="w-16 h-16 mx-auto mb-4 opacity-80" />
-            <div className="text-5xl lg:text-6xl font-bold font-serif mb-4">18.5%</div>
-            <div className="text-2xl font-bold uppercase tracking-wider">Annual Growth</div>
-          </motion.div>
-        </div>
-      </Section>
-
       {/* Community Impact Section */}
+
       <Section className="py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center"> 
           <div className="order-2 lg:order-1 relative">
@@ -418,32 +363,19 @@ export default function Home() {
           <h2 className="text-3xl font-serif font-bold text-primary">Our Trusted Partners</h2>
         </div>
         
-        <div className="relative overflow-hidden w-full group">
-          <motion.div 
-            className="flex gap-12 items-center whitespace-nowrap"
-            animate={{ x: ["0%", "-50%"] }}
-            transition={{ 
-              duration: 30, 
-              repeat: Infinity, 
-              ease: "linear" 
-            }}
-          >
-            {[...partners, ...partners].map((partner, index) => (
-              <div 
-                key={index} 
-                className="flex-shrink-0 w-40 h-24 flex items-center justify-center grayscale hover:grayscale-0 transition-all opacity-60 hover:opacity-100"
-              >
-                <img 
-                  src={partner.logo} 
-                  alt={partner.name} 
-                  className="max-w-full max-h-full object-contain" 
-                />
-              </div>
-            ))}
-          </motion.div>
-          {/* Gradient Masks */}
-          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-10" />
-          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-10" />
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-8 max-w-7xl mx-auto px-4">
+          {partners.map((partner, index) => (
+            <div 
+              key={index} 
+              className="w-32 h-20 md:w-40 md:h-24 flex items-center justify-center p-4 bg-white/50 rounded-xl backdrop-blur-sm shadow-sm border border-border/50 hover:shadow-lg hover:scale-105 hover:grayscale-0 grayscale opacity-80 hover:opacity-100 transition-all duration-300 hover:border-primary/50"
+            >
+              <img 
+                src={partner.logo} 
+                alt={partner.name}
+                className="max-w-full max-h-full object-contain" 
+              />
+            </div>
+          ))}
         </div>
       </Section>
 
@@ -461,9 +393,8 @@ export default function Home() {
             </Button>
           </Link>
         </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {newsItems.slice(0, 4).map((item) => (
+          {[...news].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 4).map((item) => (
             <motion.div
               key={item.id}
               initial={ { opacity: 0, y: 20 } }

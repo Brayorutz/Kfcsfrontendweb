@@ -7,7 +7,12 @@ const downloadCategories = [
     title: "Financial Reports",
     icon: FileText,
     description: "Latest audited financial statements, annual reports, and investor information.",
-    files: []
+    files: [{
+      name: "ANNUAL REPORT AND FINANCIAL STATEMENTS FOR THE YEAR ENDED 31ST DECEMBER 2025",
+      size: "2.5 MB",
+      date: "2025",
+      url: "/attached_assets/ANNUAL REPORT AND FINANCIAL STATEMENTS FOR THE YEAR ENDED 31ST DECEMBER 2025.pdf"
+    }]
   },
   {
     title: "AGM Reports",
@@ -71,14 +76,14 @@ export default function Downloads() {
                   category.files.map((file) => (
                     <div key={file.name} className="flex items-center justify-between p-4 rounded-xl bg-muted/30 border border-transparent hover:border-secondary/20 transition-colors group">
                       <div className="flex items-center gap-3">
-                        <FileDown className="w-5 h-5 text-muted-foreground group-hover:text-secondary transition-colors" />
+                        <FileText className="w-5 h-5 text-muted-foreground group-hover:text-secondary transition-colors" />
                         <div>
                           <p className="font-medium text-foreground">{file.name}</p>
                           <p className="text-xs text-muted-foreground">{file.size} • {file.date}</p>
                         </div>
                       </div>
-                      <Button variant="ghost" size="sm" className="text-secondary hover:text-secondary hover:bg-secondary/10">
-                        Download
+                      <Button variant="ghost" size="sm" className="text-secondary hover:text-secondary hover:bg-secondary/10" asChild>
+                        <a href="/annual-report">View</a>
                       </Button>
                     </div>
                   ))

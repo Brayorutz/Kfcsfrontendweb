@@ -6,8 +6,21 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   LogOut, Upload, Users, FileText, Trash2, Download, Plus, Eye, EyeOff,
-  FolderOpen, User, Shield, UserCheck, UsersRound, KeyRound, AlertTriangle
-} from "lucide-react";
+  FolderOpen, User, Shield, UserCheck, UsersRound, KeyRound, AlertTriangle,
+  Newspaper, Edit3, Image, CalendarIcon, Trash
+} from "lucide-react"; // CalendarIcon is imported here, but we'll use LucideCalendarIcon for clarity in the NewsManagerComponent
+import { useNews, NewsItem } from "@/lib/useNews";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { CalendarIcon as LucideCalendarIcon } from "lucide-react"; // Alias to avoid potential conflict with Calendar component
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import { useToast } from "@/hooks/use-toast";
 
 interface UserInfo {
@@ -288,6 +301,14 @@ function ManagerDashboard({ user, onLogout }: { user: UserInfo; onLogout: () => 
   const [filterDirectorId, setFilterDirectorId] = useState("");
   const { toast } = useToast();
 
+  // Manager Password Change State
+  const [curPass, setCurPass] = useState("");
+  const [newPass, setNewPass] = useState("");
+  const [confPass, setConfPass] = useState("");
+  const [showCur, setShowCur] = useState(false);
+  const [passLoading, setPassLoading] = useState(false);
+  const [passError, setPassError] = useState("");
+
   const fetchDirectors = async () => {
     const res = await fetch("/api/directors/accounts", { credentials: "include" });
     if (res.ok) setDirectors(await res.json());
@@ -375,10 +396,330 @@ function ManagerDashboard({ user, onLogout }: { user: UserInfo; onLogout: () => 
     if (res.ok) { toast({ title: "File deleted" }); fetchFiles(); }
   };
 
+  const handleManagerPasswordChange = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPassError("");
+
+    if (newPass !== confPass) {
+      setPassError("New passwords do not match.");
+      return;
+    }
+
+    setPassLoading(true);
+    try {
+      const res = await fetch("/api/manager/change-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ currentPassword: curPass, newPassword: newPass }),
+      });
+      
+      const isJson = res.headers.get("content-type")?.includes("application/json");
+      if (res.status === 404) throw new Error("Endpoint not found (404). Please ensure the server has been updated.");
+      const data = isJson ? await res.json() : null;
+      
+      if (res.ok) {
+        toast({ title: "Success", description: "Manager password has been updated." });
+        setCurPass("");
+        setNewPass("");
+        setConfPass("");
+      } else {
+        setPassError(data?.message || `Error: ${res.status} ${res.statusText}`);
+      }
+    } catch (err) {
+      console.error("Password change fetch error:", err);
+      setPassError(err instanceof Error ? err.message : "Network error: The server could not be reached.");
+    } finally {
+      setPassLoading(false);
+    }
+  };
+
+  // News Management Component
+  function NewsManagerComponent() {
+    const [open, setOpen] = useState(false);
+    const [editingId, setEditingId] = useState<number | null>(null);
+    const [selectedImage, setSelectedImage] = useState<File | null>(null);
+    const { news, loading, error, createNews, updateNews, deleteNews, refetch } = useNews();
+    const { toast } = useToast();
+
+    const formSchema = z.object({
+      title: z.string().min(1, 'Title is required'),
+      excerpt: z.string().min(1, 'Excerpt is required'),
+      content: z.string().min(1, 'Content is required'),
+      date: z.date(),
+    });
+    type FormDataType = z.infer<typeof formSchema>;
+    const form = useForm<FormDataType>({
+      resolver: zodResolver(formSchema),
+      defaultValues: {
+        title: '',
+        excerpt: '',
+        content: '',
+        date: new Date(),
+      },
+    });
+
+    const newsItem = editingId ? news.find(n => n.id === editingId) : null;
+    useEffect(() => {
+      if (newsItem && open) {
+        form.reset({
+          title: newsItem.title,
+          excerpt: newsItem.excerpt,
+          content: newsItem.content,
+          date: new Date(newsItem.date),
+        });
+      } else if (open) {
+        form.reset({
+          title: '',
+          excerpt: '',
+          content: '',
+          date: new Date(),
+        });
+      }
+    }, [newsItem, open, form]);
+
+    const onSubmit = async (data: FormDataType) => {
+      try {
+        const formData = new FormData();
+        formData.append('title', data.title);
+        formData.append('excerpt', data.excerpt);
+        formData.append('content', data.content);
+        formData.append('date', data.date.toISOString().split('T')[0]);
+        if (selectedImage) {
+          formData.append('image', selectedImage);
+        }
+
+        if (editingId) {
+          await updateNews(editingId, formData);
+          toast({ title: 'News updated' });
+        } else {
+          await createNews(formData);
+          toast({ title: 'News created' });
+        }
+        setOpen(false);
+        setEditingId(null);
+        setSelectedImage(null);
+        form.reset();
+        refetch();
+      } catch (err) {
+        toast({
+          title: 'Error',
+          description: err instanceof Error ? err.message : 'Failed to save news',
+          variant: 'destructive',
+        });
+      }
+    };
+
+    const handleDelete = async (id: number) => {
+      if (!confirm('Delete this news item?')) return;
+      try {
+        await deleteNews(id);
+        toast({ title: 'News deleted' });
+        refetch();
+      } catch (err) {
+        toast({
+          title: 'Error',
+          description: 'Failed to delete news',
+          variant: 'destructive',
+        });
+      }
+    };
+
+    const handleEdit = (id: number) => {
+      setEditingId(id);
+      setOpen(true);
+    };
+
+    if (loading) return <div className="text-center py-12 text-muted-foreground">Loading news...</div>;
+    if (error) return <div className="text-center py-12 text-destructive">{error}</div>;
+
+    return (
+      <div>
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h2 className="text-2xl font-serif font-bold text-primary">Manage News</h2>
+            <p className="text-muted-foreground text-lg">Create, edit and delete news articles for the website</p>
+          </div>
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>
+              <Button size="lg" className="gap-2" onClick={() => setEditingId(null)}>
+                <Plus className="w-5 h-5" />
+                {editingId ? 'Edit News' : 'Add New News'}
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>{editingId ? 'Edit News Article' : 'Create New News Article'}</DialogTitle>
+                <DialogDescription>
+                  Fill in the details. Featured image is required, additional images can be embedded in content using <code>{`<img src="/attached_assets/news/filename.jpg">`}</code>.
+                </DialogDescription>
+              </DialogHeader>
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="title"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Title</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter news title" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="excerpt"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Excerpt (short summary)</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Short summary shown in news list" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="date"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-col">
+                          <FormLabel>Date</FormLabel>
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant="outline"
+                                className={cn(
+                                  "w-full justify-start text-left font-normal",
+                                  !field.value && "text-muted-foreground"
+                                )}
+                              >
+                                <LucideCalendarIcon className="mr-2 h-4 w-4" />
+                                {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0">
+                              <Calendar
+                                mode="single"
+                                selected={field.value}
+                                onSelect={field.onChange}
+                                initialFocus
+                              />
+                            </PopoverContent>
+                          </Popover>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <div>
+                      <Label>Featured Image</Label>
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setSelectedImage(e.target.files?.[0] || null)}
+                        className="mt-1"
+                      />
+                      {newsItem && !selectedImage && (
+                        <div className="mt-1 text-xs text-muted-foreground">
+                          Current: {newsItem.image}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <FormField
+                    control={form.control}
+                    name="content"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Main Content</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Full news content. You can embed additional images with: <img src='/attached_assets/news/filename.jpg' alt='description'>"
+                            rows={10}
+                            className="resize-none"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <DialogFooter>
+                    <Button type="submit" className="gap-2">
+                      <Edit3 className="w-4 h-4" />
+                      {editingId ? 'Update News' : 'Create News'}
+                    </Button>
+                  </DialogFooter>
+                </form>
+              </Form>
+            </DialogContent>
+          </Dialog>
+        </div>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Published News ({news.length})</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {news.length === 0 ? (
+              <div className="text-center py-12 text-muted-foreground">
+                <Newspaper className="w-12 h-12 mx-auto mb-4 opacity-30" />
+                <p className="font-medium">No news articles yet</p>
+                <p className="text-sm mt-1">Create your first news article using the button above.</p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {news.map((item) => (
+                  <div key={item.id} className="flex items-start justify-between gap-4 p-4 rounded-xl border hover:shadow-sm hover:border-primary/30 transition-all">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start gap-3">
+                        <img
+                          src={item.image}
+                          alt={item.title}
+                          className="w-20 h-20 object-cover rounded-lg flex-shrink-0"
+                        />
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-bold text-lg line-clamp-1 mb-1">{item.title}</h3>
+                          <p className="text-sm text-muted-foreground line-clamp-2 mb-2">{item.excerpt}</p>
+                          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                            <LucideCalendarIcon className="w-3 h-3" />
+                            {item.date}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                      <Button variant="outline" size="sm" onClick={() => handleEdit(item.id)}>
+                        <Edit3 className="w-4 h-4 mr-1" />
+                        Edit
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="text-destructive hover:text-destructive/80 hover:bg-destructive/10 h-9 w-9 p-0"
+                        onClick={() => handleDelete(item.id)}
+                      >
+                        <Trash className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   const getDirectorName = (id: string) => directors.find(d => d.id === id)?.fullName || "Unknown";
 
   return (
-    <div className="pt-16 min-h-screen bg-gray-50">
+    <div className="pt-[94px] min-h-screen bg-gray-50">
       <div className="bg-white border-b border-border px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
@@ -399,13 +740,17 @@ function ManagerDashboard({ user, onLogout }: { user: UserInfo; onLogout: () => 
 
       <div className="container mx-auto px-4 py-8 max-w-5xl">
         <Tabs defaultValue="directors">
-          <TabsList className="mb-6">
+            <TabsList className="mb-6">
             <TabsTrigger value="directors" className="gap-2"><Users className="w-4 h-4" /> Directors</TabsTrigger>
             <TabsTrigger value="upload" className="gap-2"><Upload className="w-4 h-4" /> Upload File</TabsTrigger>
             <TabsTrigger value="files" className="gap-2"><FileText className="w-4 h-4" /> All Files</TabsTrigger>
+            <TabsTrigger value="news" className="gap-2"><Newspaper className="w-4 h-4" /> News</TabsTrigger>
+            <TabsTrigger value="password" className="gap-2"><KeyRound className="w-4 h-4" /> Password</TabsTrigger>
           </TabsList>
 
           <TabsContent value="directors" className="space-y-6">
+            {/* Existing directors content stays the same */}
+
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2"><Plus className="w-5 h-5" /> Create Director Account</CardTitle>
@@ -649,6 +994,82 @@ function ManagerDashboard({ user, onLogout }: { user: UserInfo; onLogout: () => 
               </CardContent>
             </Card>
           </TabsContent>
+
+          <TabsContent value="news" className="space-y-6">
+            <NewsManagerComponent />
+          </TabsContent>
+
+          <TabsContent value="password" className="max-w-md">
+            <Card>
+              <CardHeader className="text-center">
+                <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center mx-auto mb-3">
+                  <KeyRound className="w-6 h-6 text-white" />
+                </div>
+                <CardTitle>Change Manager Password</CardTitle>
+                <p className="text-sm text-muted-foreground">Update your manager account credentials</p>
+              </CardHeader>
+              <CardContent className="p-6">
+                <form onSubmit={handleManagerPasswordChange} className="space-y-4">
+                  <div className="space-y-1.5">
+                    <Label>Current Password</Label>
+                    <div className="relative">
+                      <Input
+                        type={showCur ? "text" : "password"}
+                        value={curPass}
+                        onChange={e => setCurPass(e.target.value)}
+                        placeholder="Current password"
+                        required
+                      />
+                      <button type="button" onClick={() => setShowCur(v => !v)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                        {showCur ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <Label>New Password</Label>
+                    <div className="relative">
+                      <Input
+                        type="password"
+                        value={newPass}
+                        onChange={e => setNewPass(e.target.value)}
+                        placeholder="New password"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <Label>Confirm New Password</Label>
+                    <div className="relative">
+                      <Input
+                        type="password"
+                        value={confPass}
+                        onChange={e => setConfPass(e.target.value)}
+                        placeholder="Confirm new password"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  {passError && (
+                    <p className="text-sm text-red-500 bg-red-50 px-3 py-2 rounded-md">
+                      {passError}
+                    </p>
+                  )}
+
+                  <Button
+                    type="submit"
+                    className="w-full gap-2"
+                    disabled={passLoading}
+                  >
+                    <KeyRound className="w-4 h-4" />
+                    {passLoading ? "Updating..." : "Update Password"}
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
+          </TabsContent>
         </Tabs>
       </div>
     </div>
@@ -669,10 +1090,12 @@ function DirectorDashboard({ user, onLogout }: { user: UserInfo; onLogout: () =>
     }
   };
 
-  useEffect(() => { fetchFiles(); }, []);
+  useEffect(() => {
+    fetchFiles();
+  }, []);
 
   return (
-    <div className="pt-16 min-h-screen bg-gray-50">
+    <div className="pt-[94px] min-h-screen bg-gray-50">
       <div className="bg-white border-b border-border px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-secondary rounded-lg flex items-center justify-center">
@@ -684,7 +1107,9 @@ function DirectorDashboard({ user, onLogout }: { user: UserInfo; onLogout: () =>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-sm text-muted-foreground hidden sm:block">Welcome, <strong>{user.fullName}</strong></span>
+          <span className="text-sm text-muted-foreground hidden sm:block">
+            Welcome, <strong>{user.fullName}</strong>
+          </span>
           <Button variant="outline" size="sm" onClick={onLogout} className="gap-2">
             <LogOut className="w-4 h-4" /> Logout
           </Button>
@@ -709,7 +1134,7 @@ function DirectorDashboard({ user, onLogout }: { user: UserInfo; onLogout: () =>
               </div>
             ) : (
               <div className="space-y-3">
-                {files.map(f => (
+                {files.map((f) => (
                   <div key={f.id} className="flex items-center justify-between gap-3 p-4 rounded-xl border hover:shadow-sm hover:border-primary/30 transition-all">
                     <div className="flex items-center gap-3 min-w-0">
                       <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
@@ -744,26 +1169,33 @@ export default function DirectorsPortal() {
 
   useEffect(() => {
     fetch("/api/directors/me", { credentials: "include" })
-      .then(res => res.ok ? res.json() : null)
-      .then(data => { if (data) setUser(data); })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data) setUser(data);
+      })
       .finally(() => setCheckingSession(false));
   }, []);
 
   const handleLogout = async () => {
-    await fetch("/api/directors/logout", { method: "POST", credentials: "include" });
-    setUser(null);
+    try {
+      await fetch("/api/directors/logout", { method: "POST", credentials: "include" });
+    } finally {
+      setUser(null);
+    }
   };
 
   if (checkingSession) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-muted-foreground">Loading...</div>
+        <div className="animate-pulse text-muted-foreground">Loading session...</div>
       </div>
     );
   }
 
   if (!user) return <LoginForm onLogin={setUser} />;
+
   if (user.role === "manager") return <ManagerDashboard user={user} onLogout={handleLogout} />;
+
   if (user.mustChangePassword) {
     return (
       <ForcePasswordChange

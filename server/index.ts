@@ -39,6 +39,8 @@ app.use(session({
 }));
 
 app.use("/attached_assets", express.static("attached_assets"));
+// Removed public static for /director-files - now auth-protected only
+
 
 export function log(message: string, source = "express") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {
@@ -88,41 +90,47 @@ app.use((req, res, next) => {
     throw err;
   });
 
-  if (process.env.NODE_ENV === "production") {
-    serveStatic(app);
-  } else {
-    const { setupVite } = await import("./vite");
-    await setupVite(httpServer, app);
-  }
+  serveStatic(app);
 
   let port = parseInt(process.env.PORT || "5000", 10);
   
-  const tryBind = (currentPort: number): number => {
-    httpServer.once('error', (err: any) => {
-      if (err.code === 'EADDRINUSE') {
-        log(`Port ${currentPort} in use, trying ${currentPort + 1}`);
-        httpServer.close(() => tryBind(currentPort + 1));
-      } else {
-        log(`Server error: ${err.message}`);
-        process.exit(1);
-      }
-    });
-    
-    httpServer.listen(
-      {
-        port: currentPort,
-        host: "localhost",
-        reusePort: false,
-      },
-      () => {
+  const startServer = async (startPort: number) => {
+    let currentPort = startPort;
+    while (currentPort < startPort + 100) {
+      try {
+        await new Promise<void>((resolve, reject) => {
+          const onError = (err: any) => {
+            if (err.code === 'EADDRINUSE') {
+              httpServer.removeListener('error', onError);
+              reject(err);
+            } else {
+              reject(err);
+            }
+          };
+
+          httpServer.once('error', onError);
+          httpServer.listen({ port: currentPort, host: "0.0.0.0" }, () => {
+            httpServer.removeListener('error', onError);
+            resolve();
+          });
+        });
+        
         log(`serving on port ${currentPort}`);
-      },
-    );
-    
-    return currentPort;
+        return currentPort;
+      } catch (err: any) {
+        if (err.code === 'EADDRINUSE') {
+          log(`Port ${currentPort} in use, trying ${currentPort + 1}`);
+          currentPort++;
+        } else {
+          log(`Server error: ${err.message}`);
+          process.exit(1);
+        }
+      }
+    }
+    throw new Error("Could not find an available port");
   };
   
-  port = tryBind(port);
+  await startServer(port);
   
   // Graceful shutdown
   process.on('SIGTERM', () => {

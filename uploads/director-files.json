@@ -1,42 +1,32 @@
 [
   {
-    "id": "e923e6c9-aa6f-42a9-a44d-249301e7a1b2",
+    "id": "aaa05da8-8985-46c8-a2fd-29efacadb7bc",
     "directorId": "c71de002-1670-4dae-a550-d4a53345ab9b",
-    "filename": "1776092716851-3432cf3f-0afe-442d-a887-97812dc43cb7.md",
-    "originalName": "TODO.md",
-    "uploadedAt": "2026-04-13T15:05:16.854Z",
+    "filename": "1776171504899-e936cf63-4a9a-4b17-9b5d-cff9726835aa_for_c71de002.pdf",
+    "originalName": "ANNUAL REPORT AND FINANCIAL STATEMENTS FOR THE YEAR ENDED 31ST DECEMBER 2025 (1) (3) (2).pdf",
+    "uploadedAt": "2026-04-14T12:58:24.975Z",
     "uploadedBy": "manager",
-    "size": 1846,
-    "mimetype": "application/octet-stream"
+    "size": 9052424,
+    "mimetype": "application/pdf"
   },
   {
-    "id": "52281e8b-15d1-4fbf-9212-ba9661346245",
+    "id": "fa6b31d1-c7ea-4459-84dc-ef0a3bdbd5bb",
     "directorId": "261e6559-8c7c-453f-b5bb-905921517124",
-    "filename": "1776092716851-3432cf3f-0afe-442d-a887-97812dc43cb7.md",
-    "originalName": "TODO.md",
-    "uploadedAt": "2026-04-13T15:05:16.854Z",
+    "filename": "1776171504899-e936cf63-4a9a-4b17-9b5d-cff9726835aa_for_261e6559.pdf",
+    "originalName": "ANNUAL REPORT AND FINANCIAL STATEMENTS FOR THE YEAR ENDED 31ST DECEMBER 2025 (1) (3) (2).pdf",
+    "uploadedAt": "2026-04-14T12:58:24.975Z",
     "uploadedBy": "manager",
-    "size": 1846,
-    "mimetype": "application/octet-stream"
+    "size": 9052424,
+    "mimetype": "application/pdf"
   },
   {
-    "id": "aa85ef11-d8e0-4be6-b867-0737f5be4d38",
-    "directorId": "c71de002-1670-4dae-a550-d4a53345ab9b",
-    "filename": "1776092726956-ca2dde00-6d0b-420d-9d30-f7f5e3f6b9a2.html",
-    "originalName": "financial-report-viewer.html",
-    "uploadedAt": "2026-04-13T15:05:26.957Z",
+    "id": "a0813c3c-8baa-40c3-bea5-4feb5b0baf54",
+    "directorId": "cdd6c2ee-a4d9-47e4-988b-d066d76fc778",
+    "filename": "1776171504899-e936cf63-4a9a-4b17-9b5d-cff9726835aa_for_cdd6c2ee.pdf",
+    "originalName": "ANNUAL REPORT AND FINANCIAL STATEMENTS FOR THE YEAR ENDED 31ST DECEMBER 2025 (1) (3) (2).pdf",
+    "uploadedAt": "2026-04-14T12:58:24.975Z",
     "uploadedBy": "manager",
-    "size": 4081,
-    "mimetype": "text/html"
-  },
-  {
-    "id": "4e2dfeb4-627d-4c7f-b1b0-a89c32beee93",
-    "directorId": "261e6559-8c7c-453f-b5bb-905921517124",
-    "filename": "1776092726956-ca2dde00-6d0b-420d-9d30-f7f5e3f6b9a2.html",
-    "originalName": "financial-report-viewer.html",
-    "uploadedAt": "2026-04-13T15:05:26.957Z",
-    "uploadedBy": "manager",
-    "size": 4081,
-    "mimetype": "text/html"
+    "size": 9052424,
+    "mimetype": "application/pdf"
   }
 ]
