@@ -22,8 +22,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useToast } from "@/hooks/use-toast";
-import { FinancialRecordsManager } from "./FinancialRecordsManager";
-import { GeneralDownloadsManager } from "./GeneralDownloadsManager";
+import { UnifiedDownloadsManager } from "./UnifiedDownloadsManager";
 
 
 interface UserInfo {
@@ -749,8 +748,7 @@ function ManagerDashboard({ user, onLogout }: { user: UserInfo; onLogout: () => 
             <TabsTrigger value="files" className="gap-2"><FileText className="w-4 h-4" /> All Files</TabsTrigger>
             <TabsTrigger value="news" className="gap-2"><Newspaper className="w-4 h-4" /> News</TabsTrigger>
 <TabsTrigger value="password" className="gap-2"><KeyRound className="w-4 h-4" /> Password</TabsTrigger>
-            <TabsTrigger value="financial" className="gap-2"><FileText className="w-4 h-4" /> Financial Records</TabsTrigger>
-            <TabsTrigger value="downloads" className="gap-2"><FileDown className="w-4 h-4" /> Public Downloads</TabsTrigger>
+            <TabsTrigger value="downloads" className="gap-2"><FileDown className="w-4 h-4" /> Downloads</TabsTrigger>
           </TabsList>
 
           <TabsContent value="directors" className="space-y-6">
@@ -1074,12 +1072,8 @@ function ManagerDashboard({ user, onLogout }: { user: UserInfo; onLogout: () => 
               </CardContent>
             </Card>
           </TabsContent>
-          <TabsContent value="financial" className="space-y-6">
-            <FinancialRecordsManager />
-          </TabsContent>
-
           <TabsContent value="downloads" className="space-y-6">
-            <GeneralDownloadsManager />
+            <UnifiedDownloadsManager />
           </TabsContent>
 
         </Tabs>

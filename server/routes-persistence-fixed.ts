@@ -52,10 +52,18 @@ interface GeneralDownload {
   filename: string;
   originalName: string;
   description: string;
+  category: string;
   uploadedAt: string;
   size: number;
   mimetype: string;
 }
+
+interface CustomCategory {
+  name: string;
+  createdAt: string;
+}
+
+const FINANCIAL_CATEGORIES = ['Annual Reports', 'Financial Statements', 'Audit Reports', 'Board Minutes', 'Others'];
 
 interface NewsItem {
   id: number;
@@ -71,6 +79,7 @@ const directors = new Map<string, DirectorAccount>();
 const directorFiles: DirectorFile[] = [];
 const financialRecords: FinancialFile[] = [];
 const generalDownloads: GeneralDownload[] = [];
+const customCategories: CustomCategory[] = [];
 let newsItems: NewsItem[] = [];
 
 const MANAGER_USERNAME = process.env.MANAGER_USERNAME || "manager";
@@ -101,6 +110,7 @@ const DIRECTORS_FILE = path.resolve("uploads/directors.json");
 const DIRECTOR_FILES_FILE = path.resolve("uploads/director-files.json");
 const FINANCIAL_RECORDS_FILE = path.resolve("uploads/financial-records.json");
 const GENERAL_DOWNLOADS_FILE = path.resolve("uploads/general-downloads.json");
+const CUSTOM_CATEGORIES_FILE = path.resolve("uploads/custom-categories.json");
 const NEWS_FILE = path.resolve("uploads/news.json");
 const MANAGER_PASSWORD_FILE = path.resolve("uploads/manager-password.txt");
 
@@ -173,6 +183,22 @@ function loadGeneralDownloads(): GeneralDownload[] {
 function saveGeneralDownloads(files: GeneralDownload[]) {
   ensureUploadsDir();
   fs.writeFileSync(GENERAL_DOWNLOADS_FILE, JSON.stringify(files, null, 2));
+}
+
+function loadCustomCategories(): CustomCategory[] {
+  ensureUploadsDir();
+  if (!fs.existsSync(CUSTOM_CATEGORIES_FILE)) return [];
+  try {
+    const data = fs.readFileSync(CUSTOM_CATEGORIES_FILE, "utf8");
+    return JSON.parse(data) as CustomCategory[];
+  } catch {
+    return [];
+  }
+}
+
+function saveCustomCategories(cats: CustomCategory[]) {
+  ensureUploadsDir();
+  fs.writeFileSync(CUSTOM_CATEGORIES_FILE, JSON.stringify(cats, null, 2));
 }
 
 function loadNews(): NewsItem[] {
@@ -286,6 +312,10 @@ export async function registerRoutes(
   generalDownloads.length = 0;
   generalDownloads.push(...loadGeneralDownloads());
   console.log("[Persistence] Loaded", generalDownloads.length, "general downloads from JSON");
+
+  customCategories.length = 0;
+  customCategories.push(...loadCustomCategories());
+  console.log("[Persistence] Loaded", customCategories.length, "custom categories from JSON");
 
   newsItems = loadNews();
   console.log("[Persistence] Loaded", newsItems.length, "news items from JSON");
@@ -589,16 +619,86 @@ app.get("/api/public/financial-files", (req: Request, res: Response) => {
     return res.json({ success: true });
   });
 
+  // Categories management
+  app.get("/api/manager/categories", (req: Request, res: Response) => {
+    if (req.session?.role !== "manager") return res.status(403).json({ message: "Forbidden" });
+    const all = [
+      ...FINANCIAL_CATEGORIES.map(name => ({ name, viewOnly: true, isFinancial: true })),
+      ...customCategories.map(c => ({ name: c.name, viewOnly: false, isFinancial: false, createdAt: c.createdAt })),
+    ];
+    return res.json(all);
+  });
+
+  app.post("/api/manager/categories", (req: Request, res: Response) => {
+    if (req.session?.role !== "manager") return res.status(403).json({ message: "Forbidden" });
+    const { name } = req.body;
+    if (!name || typeof name !== "string" || !name.trim()) {
+      return res.status(400).json({ message: "Category name is required" });
+    }
+    const trimmed = name.trim();
+    const allNames = [...FINANCIAL_CATEGORIES, ...customCategories.map(c => c.name)];
+    if (allNames.map(n => n.toLowerCase()).includes(trimmed.toLowerCase())) {
+      return res.status(409).json({ message: "Category already exists" });
+    }
+    const cat: CustomCategory = { name: trimmed, createdAt: new Date().toISOString() };
+    customCategories.push(cat);
+    saveCustomCategories(customCategories);
+    return res.status(201).json({ name: cat.name, viewOnly: false, isFinancial: false, createdAt: cat.createdAt });
+  });
+
+  app.delete("/api/manager/categories/:name", (req: Request, res: Response) => {
+    if (req.session?.role !== "manager") return res.status(403).json({ message: "Forbidden" });
+    const name = decodeURIComponent(req.params.name);
+    if (FINANCIAL_CATEGORIES.includes(name)) {
+      return res.status(400).json({ message: "Cannot delete built-in financial categories" });
+    }
+    const idx = customCategories.findIndex(c => c.name.toLowerCase() === name.toLowerCase());
+    if (idx === -1) return res.status(404).json({ message: "Category not found" });
+    customCategories.splice(idx, 1);
+    saveCustomCategories(customCategories);
+    return res.json({ success: true });
+  });
+
+  // Unified public downloads API (combines financial records + general downloads)
+  app.get("/api/public/all-downloads", (_req: Request, res: Response) => {
+    const financial = financialRecords.map(f => ({
+      id: f.id,
+      filename: f.filename,
+      originalName: f.originalName,
+      category: f.category,
+      description: "",
+      uploadedAt: f.uploadedAt,
+      size: f.size,
+      mimetype: f.mimetype,
+      viewOnly: true,
+      fileUrl: `/financial-records/${f.filename}`,
+    }));
+    const general = generalDownloads.map(f => ({
+      id: f.id,
+      filename: f.filename,
+      originalName: f.originalName,
+      category: f.category || "General",
+      description: f.description || "",
+      uploadedAt: f.uploadedAt,
+      size: f.size,
+      mimetype: f.mimetype,
+      viewOnly: FINANCIAL_CATEGORIES.includes(f.category),
+      fileUrl: `/general-downloads/${f.filename}`,
+    }));
+    return res.json([...financial, ...general]);
+  });
+
   // General Downloads (public downloadable files)
   app.post("/api/manager/downloads", generalDownloadsUpload.single("file"), (req: Request, res: Response) => {
     if (req.session?.role !== "manager") return res.status(403).json({ message: "Forbidden" });
     if (!req.file) return res.status(400).json({ message: "No file uploaded" });
-    const { description } = req.body;
+    const { description, category } = req.body;
     const meta: GeneralDownload = {
       id: randomUUID(),
       filename: (req.file as any).filename,
       originalName: (req.file as any).originalname,
       description: description || "",
+      category: category || "General",
       uploadedAt: new Date().toISOString(),
       size: (req.file as any).size,
       mimetype: (req.file as any).mimetype,
