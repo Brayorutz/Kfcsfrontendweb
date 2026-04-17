@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   LogOut, Upload, Users, FileText, Trash2, Download, Plus, Eye, EyeOff,
   FolderOpen, User, Shield, UserCheck, UsersRound, KeyRound, AlertTriangle,
-  Newspaper, Edit3, Image, CalendarIcon, Trash
+  Newspaper, Edit3, Image, CalendarIcon, Trash, FileDown
 } from "lucide-react"; // CalendarIcon is imported here, but we'll use LucideCalendarIcon for clarity in the NewsManagerComponent
 import { useNews, NewsItem } from "@/lib/useNews";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -23,6 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { FinancialRecordsManager } from "./FinancialRecordsManager";
+import { GeneralDownloadsManager } from "./GeneralDownloadsManager";
 
 
 interface UserInfo {
@@ -749,6 +750,7 @@ function ManagerDashboard({ user, onLogout }: { user: UserInfo; onLogout: () => 
             <TabsTrigger value="news" className="gap-2"><Newspaper className="w-4 h-4" /> News</TabsTrigger>
 <TabsTrigger value="password" className="gap-2"><KeyRound className="w-4 h-4" /> Password</TabsTrigger>
             <TabsTrigger value="financial" className="gap-2"><FileText className="w-4 h-4" /> Financial Records</TabsTrigger>
+            <TabsTrigger value="downloads" className="gap-2"><FileDown className="w-4 h-4" /> Public Downloads</TabsTrigger>
           </TabsList>
 
           <TabsContent value="directors" className="space-y-6">
@@ -1074,6 +1076,10 @@ function ManagerDashboard({ user, onLogout }: { user: UserInfo; onLogout: () => 
           </TabsContent>
           <TabsContent value="financial" className="space-y-6">
             <FinancialRecordsManager />
+          </TabsContent>
+
+          <TabsContent value="downloads" className="space-y-6">
+            <GeneralDownloadsManager />
           </TabsContent>
 
         </Tabs>

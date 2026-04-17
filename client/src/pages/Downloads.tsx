@@ -2,18 +2,26 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Download, Eye, Ban, Calendar, FolderOpen } from "lucide-react";
+import { FileText, Download, Eye, Ban, Calendar, FolderOpen, FileDown } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Section } from "@/components/Section";
 import { useToast } from "@/hooks/use-toast";
-import { cn } from "@/lib/utils";
-import { format } from "date-fns";
 
 interface FinancialFile {
   id: string;
   category: string;
   filename: string;
   originalName: string;
+  uploadedAt: string;
+  size: number;
+  mimetype: string;
+}
+
+interface GeneralDownload {
+  id: string;
+  filename: string;
+  originalName: string;
+  description: string;
   uploadedAt: string;
   size: number;
   mimetype: string;
@@ -32,7 +40,8 @@ function formatDate(iso: string) {
 }
 
 export default function Downloads() {
-  const [files, setFiles] = useState<FinancialFile[]>([]);
+  const [financialFiles, setFinancialFiles] = useState<FinancialFile[]>([]);
+  const [generalFiles, setGeneralFiles] = useState<GeneralDownload[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedFile, setSelectedFile] = useState<FinancialFile | null>(null);
   const [viewingFile, setViewingFile] = useState(false);
@@ -47,29 +56,30 @@ export default function Downloads() {
   ];
 
   useEffect(() => {
-    fetchFinancialFiles();
+    Promise.all([fetchFinancialFiles(), fetchGeneralDownloads()])
+      .finally(() => setLoading(false));
   }, []);
 
   const fetchFinancialFiles = async () => {
     try {
       const res = await fetch("/api/public/financial-files");
-      if (res.ok) {
-        const data = await res.json();
-        setFiles(data);
-      }
-    } catch (err) {
-      toast({
-        title: "Error loading documents",
-        description: "Please refresh the page",
-        variant: "destructive"
-      });
-    } finally {
-      setLoading(false);
+      if (res.ok) setFinancialFiles(await res.json());
+    } catch {
+      toast({ title: "Error loading financial documents", description: "Please refresh the page", variant: "destructive" });
+    }
+  };
+
+  const fetchGeneralDownloads = async () => {
+    try {
+      const res = await fetch("/api/public/downloads");
+      if (res.ok) setGeneralFiles(await res.json());
+    } catch {
+      toast({ title: "Error loading downloads", description: "Please refresh the page", variant: "destructive" });
     }
   };
 
   const getCategoryFiles = (categoryId: string) => {
-    return files.filter(f => f.category.toLowerCase().replace(/\s+/g, '-') === categoryId);
+    return financialFiles.filter(f => f.category.toLowerCase().replace(/\s+/g, '-') === categoryId);
   };
 
   const openViewer = (file: FinancialFile) => {
@@ -92,10 +102,8 @@ export default function Downloads() {
       document.addEventListener('keydown', handleKeyDown);
       document.addEventListener('selectstart', handleSelectStart);
       document.addEventListener('dragstart', handleSelectStart);
-      
       document.body.style.userSelect = 'none';
       document.body.style.webkitUserSelect = 'none';
-      document.body.style.MozUserSelect = 'none';
 
       return () => {
         document.removeEventListener('contextmenu', handleContextMenu);
@@ -103,7 +111,6 @@ export default function Downloads() {
         document.removeEventListener('selectstart', handleSelectStart);
         document.body.style.userSelect = '';
         document.body.style.webkitUserSelect = '';
-        document.body.style.MozUserSelect = '';
       };
     }, []);
 
@@ -124,18 +131,14 @@ export default function Downloads() {
                 </div>
               </div>
             </div>
-            <Button 
-              variant="outline" 
-              onClick={() => setViewingFile(false)}
-              className="flex items-center gap-2"
-            >
+            <Button variant="outline" onClick={() => setViewingFile(false)} className="flex items-center gap-2">
               <Ban className="w-4 h-4" />
               Close Viewer
             </Button>
           </div>
           <div className="h-[75vh] md:h-[85vh] p-1 bg-gray-50">
-            <embed 
-              src={`/${encodeURI(`financial-records/${file.filename}`)}#toolbar=0&navpanes=0&scrollbar=1&view=FitH`} 
+            <embed
+              src={`/${encodeURI(`financial-records/${file.filename}`)}#toolbar=0&navpanes=0&scrollbar=1&view=FitH`}
               type="application/pdf"
               className="w-full h-full border-none select-none pointer-events-auto"
               title={file.originalName}
@@ -167,6 +170,7 @@ export default function Downloads() {
 
   return (
     <div className="pt-20 min-h-screen bg-gray-50">
+      {/* Hero */}
       <div className="bg-gradient-to-r from-primary/10 via-white to-secondary/10">
         <Section>
           <div className="text-center py-20">
@@ -175,91 +179,168 @@ export default function Downloads() {
               <span className="text-xl font-bold">Public Documents</span>
             </div>
             <h1 className="text-5xl md:text-6xl font-serif font-black bg-gradient-to-r from-primary via-primary/80 to-foreground bg-clip-text text-transparent mb-6 leading-tight">
-              Financial Records
+              Downloads
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto">
-              View official KFCS financial reports and documents. <strong>View-only access</strong> - no downloads permitted.
+              Access KFCS official documents. Financial records are <strong>view-only</strong>; other documents are available for download.
             </p>
           </div>
         </Section>
       </div>
 
       <Section className="pb-20">
-        <div className="max-w-6xl mx-auto space-y-8">
-          {CATEGORIES.map((cat) => {
-            const catFiles = getCategoryFiles(cat.id);
-            if (catFiles.length === 0) return null;
-            
-            return (
-              <Card key={cat.id} className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-                <CardHeader className="bg-gradient-to-r from-primary/5 pb-1">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center">
-                      <span className="text-2xl">{cat.badge}</span>
-                    </div>
-                    <div>
-                      <CardTitle className="text-2xl font-serif">{cat.label}</CardTitle>
-                      <p className="text-sm text-muted-foreground">{catFiles.length} document{catFiles.length !== 1 ? 's' : ''}</p>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent className="p-0">
-                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 p-6">
-                    {catFiles.map((file) => (
-                      <Card key={file.id} className="hover:shadow-md transition-all group border hover:border-primary/30">
-                        <CardHeader className="pb-3 pt-6">
-                          <div className="flex items-start justify-between">
-                            <div className="flex items-center gap-3 text-sm font-medium text-primary">
-                              <FileText className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                              <span className="truncate max-w-[180px]">{file.originalName}</span>
-                            </div>
-                            <Badge variant="outline" className="text-xs">{formatSize(file.size)}</Badge>
-                          </div>
-                          <div className="flex items-center gap-2 text-xs text-muted-foreground mt-2">
-                            <Calendar className="w-3 h-3" />
-                            {formatDate(file.uploadedAt)}
-                          </div>
-                        </CardHeader>
-                        <CardContent className="pb-6 pt-0">
-                          <Dialog open={viewingFile && selectedFile?.id === file.id} onOpenChange={() => {
-                            if (viewingFile && selectedFile?.id === file.id) setViewingFile(false);
-                          }}>
-                            <DialogTrigger asChild>
-                              <Button 
-                                variant="outline" 
-                                className="w-full h-12 group hover:bg-primary hover:text-white transition-all justify-center gap-2 border-2 hover:border-primary/50 shadow-sm hover:shadow-primary/25"
-                                onClick={() => openViewer(file)}
-                              >
-                                <Eye className="w-5 h-5 group-hover:-translate-y-0.5 transition-transform" />
-                                <span className="font-semibold">View Document</span>
-                                <Ban className="w-4 h-4 ml-auto opacity-70" />
-                              </Button>
-                            </DialogTrigger>
-                            <DialogContent className="max-w-7xl p-0 max-h-[95vh] h-[95vh]">
-                              <AntiDownloadViewer file={file} />
-                            </DialogContent>
-                          </Dialog>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
+        <div className="max-w-6xl mx-auto space-y-16">
 
-          {files.length === 0 && (
+          {/* General Downloads Section */}
+          {generalFiles.length > 0 && (
+            <div>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 bg-green-100 rounded-2xl flex items-center justify-center">
+                  <FileDown className="w-6 h-6 text-green-700" />
+                </div>
+                <div>
+                  <h2 className="text-3xl font-serif font-bold text-foreground">Available Downloads</h2>
+                  <p className="text-muted-foreground">Click to download any of the files below</p>
+                </div>
+              </div>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {generalFiles.map(file => (
+                  <Card key={file.id} className="hover:shadow-md transition-all group border hover:border-green-400/50">
+                    <CardHeader className="pb-3 pt-6">
+                      <div className="flex items-start justify-between">
+                        <div className="flex items-center gap-3 text-sm font-medium text-foreground">
+                          <FileDown className="w-5 h-5 flex-shrink-0 mt-0.5 text-green-700" />
+                          <span className="truncate max-w-[180px]">{file.originalName}</span>
+                        </div>
+                        <Badge variant="outline" className="text-xs">{formatSize(file.size)}</Badge>
+                      </div>
+                      {file.description && (
+                        <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{file.description}</p>
+                      )}
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground mt-2">
+                        <Calendar className="w-3 h-3" />
+                        {formatDate(file.uploadedAt)}
+                      </div>
+                    </CardHeader>
+                    <CardContent className="pb-6 pt-0">
+                      <a
+                        href={`/general-downloads/${file.filename}`}
+                        download={file.originalName}
+                        className="w-full"
+                      >
+                        <Button
+                          variant="outline"
+                          className="w-full h-12 group hover:bg-green-600 hover:text-white transition-all justify-center gap-2 border-2 border-green-200 hover:border-green-600 shadow-sm"
+                        >
+                          <Download className="w-5 h-5 group-hover:-translate-y-0.5 transition-transform" />
+                          <span className="font-semibold">Download</span>
+                        </Button>
+                      </a>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Financial Records Section */}
+          <div>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center">
+                <FileText className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <h2 className="text-3xl font-serif font-bold text-foreground">Financial Records</h2>
+                <p className="text-muted-foreground flex items-center gap-1">
+                  <Ban className="w-3.5 h-3.5" /> View-only — downloads are disabled
+                </p>
+              </div>
+            </div>
+
+            <div className="space-y-8">
+              {CATEGORIES.map((cat) => {
+                const catFiles = getCategoryFiles(cat.id);
+                if (catFiles.length === 0) return null;
+                return (
+                  <Card key={cat.id} className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                    <CardHeader className="bg-gradient-to-r from-primary/5 pb-1">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center">
+                          <span className="text-2xl">{cat.badge}</span>
+                        </div>
+                        <div>
+                          <CardTitle className="text-2xl font-serif">{cat.label}</CardTitle>
+                          <p className="text-sm text-muted-foreground">{catFiles.length} document{catFiles.length !== 1 ? 's' : ''}</p>
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="p-0">
+                      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 p-6">
+                        {catFiles.map((file) => (
+                          <Card key={file.id} className="hover:shadow-md transition-all group border hover:border-primary/30">
+                            <CardHeader className="pb-3 pt-6">
+                              <div className="flex items-start justify-between">
+                                <div className="flex items-center gap-3 text-sm font-medium text-primary">
+                                  <FileText className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                                  <span className="truncate max-w-[180px]">{file.originalName}</span>
+                                </div>
+                                <Badge variant="outline" className="text-xs">{formatSize(file.size)}</Badge>
+                              </div>
+                              <div className="flex items-center gap-2 text-xs text-muted-foreground mt-2">
+                                <Calendar className="w-3 h-3" />
+                                {formatDate(file.uploadedAt)}
+                              </div>
+                            </CardHeader>
+                            <CardContent className="pb-6 pt-0">
+                              <Dialog open={viewingFile && selectedFile?.id === file.id} onOpenChange={() => {
+                                if (viewingFile && selectedFile?.id === file.id) setViewingFile(false);
+                              }}>
+                                <DialogTrigger asChild>
+                                  <Button
+                                    variant="outline"
+                                    className="w-full h-12 group hover:bg-primary hover:text-white transition-all justify-center gap-2 border-2 hover:border-primary/50 shadow-sm hover:shadow-primary/25"
+                                    onClick={() => openViewer(file)}
+                                  >
+                                    <Eye className="w-5 h-5 group-hover:-translate-y-0.5 transition-transform" />
+                                    <span className="font-semibold">View Document</span>
+                                    <Ban className="w-4 h-4 ml-auto opacity-70" />
+                                  </Button>
+                                </DialogTrigger>
+                                <DialogContent className="max-w-7xl p-0 max-h-[95vh] h-[95vh]">
+                                  <AntiDownloadViewer file={file} />
+                                </DialogContent>
+                              </Dialog>
+                            </CardContent>
+                          </Card>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+
+              {financialFiles.length === 0 && (
+                <Card className="text-center py-12">
+                  <FileText className="w-12 h-12 text-muted-foreground mx-auto mb-3 opacity-30" />
+                  <p className="text-muted-foreground">No financial records published yet.</p>
+                </Card>
+              )}
+            </div>
+          </div>
+
+          {generalFiles.length === 0 && financialFiles.length === 0 && (
             <Card className="text-center py-20">
-              <FileText className="w-16 h-16 text-muted-foreground mx-auto mb-4 opacity-50" />
+              <FolderOpen className="w-16 h-16 text-muted-foreground mx-auto mb-4 opacity-50" />
               <h3 className="text-2xl font-bold text-muted-foreground mb-2">No Documents Available</h3>
               <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-                Financial records will appear here once uploaded by management. Check back soon.
+                Documents will appear here once uploaded by management. Check back soon.
               </p>
-              <Button variant="outline" onClick={fetchFinancialFiles}>
+              <Button variant="outline" onClick={() => { fetchFinancialFiles(); fetchGeneralDownloads(); }}>
                 Refresh
               </Button>
             </Card>
           )}
+
         </div>
       </Section>
 
@@ -273,4 +354,3 @@ export default function Downloads() {
     </div>
   );
 }
-

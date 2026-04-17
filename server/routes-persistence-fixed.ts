@@ -47,9 +47,31 @@ interface FinancialFile {
   mimetype: string;
 }
 
+interface GeneralDownload {
+  id: string;
+  filename: string;
+  originalName: string;
+  description: string;
+  uploadedAt: string;
+  size: number;
+  mimetype: string;
+}
+
+interface NewsItem {
+  id: number;
+  title: string;
+  excerpt: string;
+  content: string;
+  image: string;
+  date: string;
+  videoUrl?: string;
+}
+
 const directors = new Map<string, DirectorAccount>();
 const directorFiles: DirectorFile[] = [];
 const financialRecords: FinancialFile[] = [];
+const generalDownloads: GeneralDownload[] = [];
+let newsItems: NewsItem[] = [];
 
 const MANAGER_USERNAME = process.env.MANAGER_USERNAME || "manager";
 const MANAGER_ID = "manager";
@@ -65,9 +87,21 @@ if (!fs.existsSync(financialDir)) {
   fs.mkdirSync(financialDir, { recursive: true });
 }
 
+const generalDownloadsDir = path.resolve("uploads/general-downloads");
+if (!fs.existsSync(generalDownloadsDir)) {
+  fs.mkdirSync(generalDownloadsDir, { recursive: true });
+}
+
+const newsImagesDir = path.resolve("attached_assets/news");
+if (!fs.existsSync(newsImagesDir)) {
+  fs.mkdirSync(newsImagesDir, { recursive: true });
+}
+
 const DIRECTORS_FILE = path.resolve("uploads/directors.json");
 const DIRECTOR_FILES_FILE = path.resolve("uploads/director-files.json");
 const FINANCIAL_RECORDS_FILE = path.resolve("uploads/financial-records.json");
+const GENERAL_DOWNLOADS_FILE = path.resolve("uploads/general-downloads.json");
+const NEWS_FILE = path.resolve("uploads/news.json");
 const MANAGER_PASSWORD_FILE = path.resolve("uploads/manager-password.txt");
 
 function ensureUploadsDir() {
@@ -125,6 +159,38 @@ function saveFinancialRecords(files: FinancialFile[]) {
   fs.writeFileSync(FINANCIAL_RECORDS_FILE, JSON.stringify(files, null, 2));
 }
 
+function loadGeneralDownloads(): GeneralDownload[] {
+  ensureUploadsDir();
+  if (!fs.existsSync(GENERAL_DOWNLOADS_FILE)) return [];
+  try {
+    const data = fs.readFileSync(GENERAL_DOWNLOADS_FILE, "utf8");
+    return JSON.parse(data) as GeneralDownload[];
+  } catch {
+    return [];
+  }
+}
+
+function saveGeneralDownloads(files: GeneralDownload[]) {
+  ensureUploadsDir();
+  fs.writeFileSync(GENERAL_DOWNLOADS_FILE, JSON.stringify(files, null, 2));
+}
+
+function loadNews(): NewsItem[] {
+  ensureUploadsDir();
+  if (!fs.existsSync(NEWS_FILE)) return [];
+  try {
+    const data = fs.readFileSync(NEWS_FILE, "utf8");
+    return JSON.parse(data) as NewsItem[];
+  } catch {
+    return [];
+  }
+}
+
+function saveNews(items: NewsItem[]) {
+  ensureUploadsDir();
+  fs.writeFileSync(NEWS_FILE, JSON.stringify(items, null, 2));
+}
+
 function saveManagerPassword(password: string) {
   ensureUploadsDir();
   fs.writeFileSync(MANAGER_PASSWORD_FILE, password);
@@ -166,6 +232,32 @@ const financialUpload = multer({
   limits: { fileSize: 50 * 1024 * 1024 },
 });
 
+const generalDownloadsStorage = multer.diskStorage({
+  destination: (_req, _file, cb) => cb(null, generalDownloadsDir),
+  filename: (_req, file, cb) => {
+    const unique = Date.now() + "-" + randomUUID() + path.extname(file.originalname!);
+    cb(null, unique);
+  },
+});
+
+const generalDownloadsUpload = multer({
+  storage: generalDownloadsStorage,
+  limits: { fileSize: 100 * 1024 * 1024 },
+});
+
+const newsImageStorage = multer.diskStorage({
+  destination: (_req, _file, cb) => cb(null, newsImagesDir),
+  filename: (_req, file, cb) => {
+    const unique = Date.now() + "-" + randomUUID() + path.extname(file.originalname!);
+    cb(null, unique);
+  },
+});
+
+const newsUpload = multer({
+  storage: newsImageStorage,
+  limits: { fileSize: 10 * 1024 * 1024 },
+});
+
 export async function registerRoutes(
   httpServer: Server,
   app: Express
@@ -191,9 +283,18 @@ export async function registerRoutes(
   financialRecords.push(...loadFinancialRecords());
   console.log("[Persistence] Loaded", financialRecords.length, "financial records from JSON");
 
+  generalDownloads.length = 0;
+  generalDownloads.push(...loadGeneralDownloads());
+  console.log("[Persistence] Loaded", generalDownloads.length, "general downloads from JSON");
+
+  newsItems = loadNews();
+  console.log("[Persistence] Loaded", newsItems.length, "news items from JSON");
+
   currentManagerPassword = loadManagerPassword();
 
   app.use("/financial-records", express.static(financialDir));
+  app.use("/general-downloads", express.static(generalDownloadsDir));
+  app.use("/attached_assets/news", express.static(newsImagesDir));
 
   app.use("/director-files", (req: any, res: any, next: any) => {
     if (!req.session?.userId) {
@@ -485,6 +586,100 @@ app.get("/api/public/financial-files", (req: Request, res: Response) => {
     const [removed] = financialRecords.splice(idx, 1);
     try { fs.unlinkSync(path.join(financialDir, removed.filename)); } catch {}
     saveFinancialRecords(financialRecords);
+    return res.json({ success: true });
+  });
+
+  // General Downloads (public downloadable files)
+  app.post("/api/manager/downloads", generalDownloadsUpload.single("file"), (req: Request, res: Response) => {
+    if (req.session?.role !== "manager") return res.status(403).json({ message: "Forbidden" });
+    if (!req.file) return res.status(400).json({ message: "No file uploaded" });
+    const { description } = req.body;
+    const meta: GeneralDownload = {
+      id: randomUUID(),
+      filename: (req.file as any).filename,
+      originalName: (req.file as any).originalname,
+      description: description || "",
+      uploadedAt: new Date().toISOString(),
+      size: (req.file as any).size,
+      mimetype: (req.file as any).mimetype,
+    };
+    generalDownloads.push(meta);
+    saveGeneralDownloads(generalDownloads);
+    return res.status(201).json(meta);
+  });
+
+  app.get("/api/manager/downloads", (req: Request, res: Response) => {
+    if (req.session?.role !== "manager") return res.status(403).json({ message: "Forbidden" });
+    return res.json(generalDownloads);
+  });
+
+  app.get("/api/public/downloads", (_req: Request, res: Response) => {
+    return res.json(generalDownloads);
+  });
+
+  app.delete("/api/manager/downloads/:id", (req: Request, res: Response) => {
+    if (req.session?.role !== "manager") return res.status(403).json({ message: "Forbidden" });
+    const { id } = req.params;
+    const idx = generalDownloads.findIndex((f: GeneralDownload) => f.id === id);
+    if (idx === -1) return res.status(404).json({ message: "File not found" });
+    const [removed] = generalDownloads.splice(idx, 1);
+    try { fs.unlinkSync(path.join(generalDownloadsDir, removed.filename)); } catch {}
+    saveGeneralDownloads(generalDownloads);
+    return res.json({ success: true });
+  });
+
+  // News API
+  app.get("/api/news", (_req: Request, res: Response) => {
+    return res.json(newsItems);
+  });
+
+  app.post("/api/news", newsUpload.single("image"), (req: Request, res: Response) => {
+    if (req.session?.role !== "manager") return res.status(403).json({ message: "Forbidden" });
+    const { title, excerpt, content, date, videoUrl } = req.body;
+    if (!title || !excerpt || !content || !date) {
+      return res.status(400).json({ message: "title, excerpt, content, date are required" });
+    }
+    const imagePath = req.file ? `/attached_assets/news/${(req.file as any).filename}` : "";
+    const id = newsItems.length > 0 ? Math.max(...newsItems.map((n: NewsItem) => n.id)) + 1 : 1;
+    const newNews: NewsItem = { id, title, excerpt, content, image: imagePath, date, videoUrl: videoUrl || "" };
+    newsItems.push(newNews);
+    saveNews(newsItems);
+    return res.status(201).json(newNews);
+  });
+
+  app.put("/api/news/:id", newsUpload.single("image"), (req: Request, res: Response) => {
+    if (req.session?.role !== "manager") return res.status(403).json({ message: "Forbidden" });
+    const id = parseInt(req.params.id);
+    const item = newsItems.find((n: NewsItem) => n.id === id);
+    if (!item) return res.status(404).json({ message: "News item not found" });
+    const { title, excerpt, content, date, videoUrl } = req.body;
+    if (title) item.title = title;
+    if (excerpt) item.excerpt = excerpt;
+    if (content) item.content = content;
+    if (date) item.date = date;
+    if (videoUrl !== undefined) item.videoUrl = videoUrl;
+    if (req.file) {
+      if (item.image && item.image.startsWith("/attached_assets/news/")) {
+        const oldFilename = item.image.split("/").pop();
+        try { fs.unlinkSync(path.join(newsImagesDir, oldFilename || "")); } catch {}
+      }
+      item.image = `/attached_assets/news/${(req.file as any).filename}`;
+    }
+    saveNews(newsItems);
+    return res.json(item);
+  });
+
+  app.delete("/api/news/:id", (req: Request, res: Response) => {
+    if (req.session?.role !== "manager") return res.status(403).json({ message: "Forbidden" });
+    const id = parseInt(req.params.id);
+    const index = newsItems.findIndex((n: NewsItem) => n.id === id);
+    if (index === -1) return res.status(404).json({ message: "News item not found" });
+    const [item] = newsItems.splice(index, 1);
+    saveNews(newsItems);
+    if (item.image && item.image.startsWith("/attached_assets/news/")) {
+      const filename = item.image.split("/").pop();
+      try { fs.unlinkSync(path.join(newsImagesDir, filename || "")); } catch {}
+    }
     return res.json({ success: true });
   });
 
