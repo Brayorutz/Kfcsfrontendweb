@@ -8,6 +8,7 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Section } from "@/components/Section";
 import { useToast } from "@/hooks/use-toast";
 import * as pdfjsLib from "pdfjs-dist";
+import heroBg from "@assets/kfcs_flag_1767871165316.jpg";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.mjs",
@@ -229,21 +230,20 @@ export default function Downloads() {
   return (
     <div className="pt-20 min-h-screen bg-gray-50">
       {/* Hero */}
-      <div className="bg-gradient-to-r from-primary/10 via-white to-secondary/10">
-        <Section>
-          <div className="text-center py-16">
-            <div className="inline-flex items-center gap-3 bg-primary/10 text-primary px-6 py-3 rounded-full mb-6">
-              <FolderOpen className="w-6 h-6" />
-              <span className="text-xl font-bold">Public Documents</span>
-            </div>
-            <h1 className="text-5xl md:text-6xl font-serif font-black bg-gradient-to-r from-primary via-primary/80 to-foreground bg-clip-text text-transparent mb-6 leading-tight">
-              Downloads
-            </h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Official KFCS documents and files. Financial records are <strong>view-only</strong>; other documents can be downloaded.
-            </p>
+      <div className="bg-primary py-20 md:py-32 text-center text-white relative overflow-hidden">
+        <div className="absolute inset-0 opacity-20">
+          <img src={heroBg} className="w-full h-full object-cover grayscale" alt="Background" />
+        </div>
+        <div className="relative z-10 container mx-auto px-6">
+          <div className="inline-flex items-center gap-2 bg-white/20 text-white px-5 py-2 rounded-full mb-6 text-sm font-semibold tracking-wide uppercase">
+            <FolderOpen className="w-4 h-4" />
+            Public Documents
           </div>
-        </Section>
+          <h1 className="text-5xl md:text-7xl font-serif font-bold mb-6">Downloads</h1>
+          <p className="text-xl max-w-2xl mx-auto text-white/85">
+            Official KFCS documents and files. Financial records are view-only; other documents can be downloaded.
+          </p>
+        </div>
       </div>
 
       <Section className="pb-20">
