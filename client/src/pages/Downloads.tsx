@@ -1,12 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Download, Eye, Ban, Calendar, FolderOpen, ExternalLink } from "lucide-react";
+import { FileText, Download, Eye, Ban, Calendar, FolderOpen, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Section } from "@/components/Section";
 import { useToast } from "@/hooks/use-toast";
+import * as pdfjsLib from "pdfjs-dist";
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
+  "pdfjs-dist/build/pdf.worker.mjs",
+  import.meta.url
+).toString();
 
 interface DownloadItem {
   id: string;
@@ -34,6 +40,15 @@ function formatDate(iso: string) {
 }
 
 function PDFViewer({ file, onClose }: { file: DownloadItem; onClose: () => void }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [pdfDoc, setPdfDoc] = useState<any>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const renderTaskRef = useRef<any>(null);
+
   useEffect(() => {
     const stop = (e: Event) => e.preventDefault();
     const stopKey = (e: KeyboardEvent) => {
@@ -52,6 +67,62 @@ function PDFViewer({ file, onClose }: { file: DownloadItem; onClose: () => void 
       document.body.style.userSelect = '';
     };
   }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    setError(null);
+    setCurrentPage(1);
+    setPdfDoc(null);
+    setTotalPages(0);
+
+    pdfjsLib.getDocument(file.fileUrl).promise
+      .then((doc: any) => {
+        setPdfDoc(doc);
+        setTotalPages(doc.numPages);
+        setLoading(false);
+      })
+      .catch(() => {
+        setError("Failed to load document. Please try again.");
+        setLoading(false);
+      });
+  }, [file.fileUrl]);
+
+  const renderPage = useCallback(async (doc: any, pageNum: number) => {
+    if (!canvasRef.current || !doc) return;
+
+    if (renderTaskRef.current) {
+      renderTaskRef.current.cancel();
+      renderTaskRef.current = null;
+    }
+
+    const page = await doc.getPage(pageNum);
+    const containerWidth = containerRef.current?.clientWidth ?? 800;
+    const viewport = page.getViewport({ scale: 1 });
+    const scale = (containerWidth - 32) / viewport.width;
+    const scaledViewport = page.getViewport({ scale });
+
+    const canvas = canvasRef.current;
+    canvas.height = scaledViewport.height;
+    canvas.width = scaledViewport.width;
+
+    const context = canvas.getContext("2d");
+    const renderTask = page.render({ canvasContext: context, viewport: scaledViewport });
+    renderTaskRef.current = renderTask;
+
+    try {
+      await renderTask.promise;
+    } catch (e: any) {
+      if (e?.name !== "RenderingCancelledException") {
+        console.error("Render error:", e);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (pdfDoc && currentPage) {
+      renderPage(pdfDoc, currentPage);
+    }
+  }, [pdfDoc, currentPage, renderPage]);
 
   return (
     <div className="flex flex-col h-full select-none">
@@ -73,20 +144,57 @@ function PDFViewer({ file, onClose }: { file: DownloadItem; onClose: () => void 
           <Ban className="w-4 h-4 mr-1" /> Close
         </Button>
       </div>
-      <div className="flex-1 bg-gray-100 relative min-h-0">
-        <iframe
-          src={`${file.fileUrl}#toolbar=0&navpanes=0&scrollbar=1`}
-          className="w-full h-full border-none"
-          title={file.originalName}
-          style={{ minHeight: '60vh' }}
-        />
+
+      <div ref={containerRef} className="flex-1 overflow-y-auto bg-gray-200 flex flex-col items-center py-4 px-4 min-h-0">
+        {loading && (
+          <div className="flex flex-col items-center justify-center h-full gap-3 text-muted-foreground">
+            <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            <p className="text-sm">Loading document...</p>
+          </div>
+        )}
+        {error && (
+          <div className="flex flex-col items-center justify-center h-full gap-3 text-destructive">
+            <p className="text-sm font-medium">{error}</p>
+          </div>
+        )}
+        {!loading && !error && (
+          <canvas
+            ref={canvasRef}
+            className="shadow-xl rounded max-w-full"
+            style={{ pointerEvents: 'none' }}
+          />
+        )}
       </div>
-      <div className="p-3 border-t bg-muted/50 text-center text-xs text-muted-foreground flex-shrink-0">
-        <span className="flex items-center justify-center gap-1.5">
-          <Ban className="w-3.5 h-3.5" />
-          View-only — right-click, copy, print and download are disabled
-        </span>
-      </div>
+
+      {!loading && !error && totalPages > 0 && (
+        <div className="p-3 border-t bg-muted/50 flex items-center justify-between flex-shrink-0">
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={currentPage <= 1}
+              onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </Button>
+            <span className="text-sm text-muted-foreground px-2">
+              Page {currentPage} of {totalPages}
+            </span>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={currentPage >= totalPages}
+              onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+            >
+              <ChevronRight className="w-4 h-4" />
+            </Button>
+          </div>
+          <span className="text-xs text-muted-foreground flex items-center gap-1.5">
+            <Ban className="w-3.5 h-3.5" />
+            View-only — download and copy are disabled
+          </span>
+        </div>
+      )}
     </div>
   );
 }
