@@ -5,8 +5,7 @@ import {
   Menu, X, ChevronDown, Info, Users, LayoutGrid,
   ShoppingCart, Shield, ArrowUpRight, Phone, Mail,
   Leaf, Trophy, BookOpen, Cpu, FolderDown, Rocket,
-  Newspaper, Image as GalleryIcon, Briefcase, MessageSquare,
-  FileText
+  Newspaper, Image as GalleryIcon, Briefcase, MessageSquare
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import kfcsLogo from "@assets/image_20251218_135629_0000_1766055489904.png";
@@ -30,7 +29,6 @@ const navItems = [
       { name: "Membership", path: "/membership", icon: BookOpen, desc: "Join our 6,000+ farmer community." },
       { name: "Production", path: "/production", icon: Cpu, desc: "Modern dairy processing standards." },
 { name: "Downloads", path: "/downloads", icon: FolderDown, desc: "Forms, reports and key documents." },
-      { name: "Annual Report 2025", path: "/annual-report", icon: FileText, desc: "Latest audited financial statements." },
       { name: "Future Projects", path: "/future-projects", icon: Rocket, desc: "Upcoming supply chain innovations." },
     ],
   },
