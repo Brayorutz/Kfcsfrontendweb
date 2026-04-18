@@ -1,6 +1,7 @@
 import { build as esbuild } from "esbuild";
 import { build as viteBuild } from "vite";
-import { rm, readFile } from "fs/promises";
+import { rm, readFile, cp } from "fs/promises";
+import { existsSync } from "fs";
 
 // server deps to bundle to reduce openat(2) syscalls
 // which helps cold start times
@@ -61,6 +62,20 @@ async function buildAll() {
     external: externals,
     logLevel: "info",
   });
+
+  console.log("copying uploads data into dist...");
+  if (existsSync("uploads")) {
+    await cp("uploads", "dist/uploads", { recursive: true });
+    console.log("  ✓ uploads/ → dist/uploads/");
+  }
+
+  console.log("copying attached_assets into dist...");
+  if (existsSync("attached_assets")) {
+    await cp("attached_assets", "dist/attached_assets", { recursive: true });
+    console.log("  ✓ attached_assets/ → dist/attached_assets/");
+  }
+
+  console.log("build complete.");
 }
 
 buildAll().catch((err) => {

@@ -5,6 +5,16 @@ import MemoryStore from "memorystore";
 import { registerRoutes } from "./routes-persistence-fixed.ts";
 import { serveStatic } from "./static.ts";
 import { createServer } from "http";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const _serverDir = path.dirname(fileURLToPath(import.meta.url));
+const _isProd = process.env.NODE_ENV === "production";
+// In dev: _serverDir = <project>/server/ → attached_assets is one level up
+// In prod: _serverDir = <project>/dist/  → attached_assets is copied here during build
+const ATTACHED_ASSETS_DIR = _isProd
+  ? path.resolve(_serverDir, "attached_assets")
+  : path.resolve(_serverDir, "..", "attached_assets");
 
 const app = express();
 const httpServer = createServer(app);
@@ -38,7 +48,7 @@ app.use(session({
   }
 }));
 
-app.use("/attached_assets", express.static("attached_assets"));
+app.use("/attached_assets", express.static(ATTACHED_ASSETS_DIR));
 // Removed public static for /director-files - now auth-protected only
 
 

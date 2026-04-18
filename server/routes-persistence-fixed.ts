@@ -8,6 +8,22 @@ import path from "path";
 import fs from "fs";
 import bcrypt from "bcrypt";
 import { randomUUID } from "crypto";
+import { fileURLToPath } from "url";
+
+// Resolve the directory of the currently executing file.
+// In dev (ESM via tsx):   import.meta.url → <project>/server/routes-persistence-fixed.ts
+// In prod (CJS via esbuild): import.meta.url → <project>/dist/index.cjs
+const _currentDir = path.dirname(fileURLToPath(import.meta.url));
+const IS_PROD = process.env.NODE_ENV === "production";
+
+// In dev,  _currentDir = <project>/server/  → go up one level to reach project root
+// In prod, _currentDir = <project>/dist/    → uploads/ and attached_assets/ are copied here
+const UPLOADS_ROOT = IS_PROD
+  ? path.resolve(_currentDir, "uploads")
+  : path.resolve(_currentDir, "..", "uploads");
+const ASSETS_ROOT = IS_PROD
+  ? path.resolve(_currentDir, "attached_assets")
+  : path.resolve(_currentDir, "..", "attached_assets");
 
 declare module "express-session" {
   interface SessionData {
@@ -86,38 +102,37 @@ const MANAGER_USERNAME = process.env.MANAGER_USERNAME || "manager";
 const MANAGER_ID = "manager";
 let currentManagerPassword: string;
 
-const uploadDir = path.resolve("uploads/director-files");
+const uploadDir = path.resolve(UPLOADS_ROOT, "director-files");
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-const financialDir = path.resolve("uploads/financial-records");
+const financialDir = path.resolve(UPLOADS_ROOT, "financial-records");
 if (!fs.existsSync(financialDir)) {
   fs.mkdirSync(financialDir, { recursive: true });
 }
 
-const generalDownloadsDir = path.resolve("uploads/general-downloads");
+const generalDownloadsDir = path.resolve(UPLOADS_ROOT, "general-downloads");
 if (!fs.existsSync(generalDownloadsDir)) {
   fs.mkdirSync(generalDownloadsDir, { recursive: true });
 }
 
-const newsImagesDir = path.resolve("attached_assets/news");
+const newsImagesDir = path.resolve(ASSETS_ROOT, "news");
 if (!fs.existsSync(newsImagesDir)) {
   fs.mkdirSync(newsImagesDir, { recursive: true });
 }
 
-const DIRECTORS_FILE = path.resolve("uploads/directors.json");
-const DIRECTOR_FILES_FILE = path.resolve("uploads/director-files.json");
-const FINANCIAL_RECORDS_FILE = path.resolve("uploads/financial-records.json");
-const GENERAL_DOWNLOADS_FILE = path.resolve("uploads/general-downloads.json");
-const CUSTOM_CATEGORIES_FILE = path.resolve("uploads/custom-categories.json");
-const NEWS_FILE = path.resolve("uploads/news.json");
-const MANAGER_PASSWORD_FILE = path.resolve("uploads/manager-password.txt");
+const DIRECTORS_FILE = path.resolve(UPLOADS_ROOT, "directors.json");
+const DIRECTOR_FILES_FILE = path.resolve(UPLOADS_ROOT, "director-files.json");
+const FINANCIAL_RECORDS_FILE = path.resolve(UPLOADS_ROOT, "financial-records.json");
+const GENERAL_DOWNLOADS_FILE = path.resolve(UPLOADS_ROOT, "general-downloads.json");
+const CUSTOM_CATEGORIES_FILE = path.resolve(UPLOADS_ROOT, "custom-categories.json");
+const NEWS_FILE = path.resolve(UPLOADS_ROOT, "news.json");
+const MANAGER_PASSWORD_FILE = path.resolve(UPLOADS_ROOT, "manager-password.txt");
 
 function ensureUploadsDir() {
-  const uploadDirPath = path.resolve("uploads");
-  if (!fs.existsSync(uploadDirPath)) {
-    fs.mkdirSync(uploadDirPath, { recursive: true });
+  if (!fs.existsSync(UPLOADS_ROOT)) {
+    fs.mkdirSync(UPLOADS_ROOT, { recursive: true });
   }
 }
 
