@@ -1,0 +1,30 @@
+Options -Indexes
+RewriteEngine On
+RewriteBase /
+
+# ── Protect the data directory from direct HTTP access ───────────────────────
+RewriteRule ^data/ - [F,L]
+
+# ── Route all /api/* requests to PHP ─────────────────────────────────────────
+RewriteRule ^api/(.*)$ api/index.php [L,QSA]
+
+# ── Auth-gated director file downloads ───────────────────────────────────────
+# The actual files live in data/director-files/ (denied above).
+# Requests to /director-files/* are handled by PHP which checks the session.
+RewriteRule ^director-files/([^/]+)$ api/index.php [L,QSA]
+
+# ── Static assets: financial-records, general-downloads, attached_assets ──────
+# These directories are served directly by Apache (no PHP needed).
+# They are already public — add authentication via PHP if you want to restrict them.
+
+# ── React Router (SPA fallback) ───────────────────────────────────────────────
+# Only apply to non-existing files/directories
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.html [L]
+
+# ── Upload size limit (adjust to match your cPanel PHP settings) ──────────────
+php_value upload_max_filesize 100M
+php_value post_max_size 105M
+php_value max_execution_time 120
+php_value max_input_time 120

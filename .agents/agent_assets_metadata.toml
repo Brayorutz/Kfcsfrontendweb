@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "x4xghh4_PSpqUEo4kBZ46"
+uri = "file://kfcs-code-only.tar.gz"
+type = "unspecified"
+title = "KFCS cPanel Code Package (386 KB) — core files only"
