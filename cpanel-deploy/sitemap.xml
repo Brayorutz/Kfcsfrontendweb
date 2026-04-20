@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <!-- Homepage - Kabianga Farmers Dairy Cooperative -->
+  <url>
+    <loc>https://www.kabiangafcs.co.ke/</loc>
+    <lastmod>2025-01-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- About - Company history mission vision since 1964 -->
+  <url>
+    <loc>https://www.kabiangafcs.co.ke/about</loc>
+    <lastmod>2025-01-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.kabiangafcs.co.ke/about/awards</loc>
+    <lastmod>2025-01-25</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.kabiangafcs.co.ke/about/board</loc>
+    <lastmod>2025-01-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Production - Dairy processing yoghurt milk facilities Kericho -->
+  <url>
+    <loc>https://www.kabiangafcs.co.ke/production</loc>
+    <lastmod>2025-01-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Shop - Buy Kabianga yoghurt fresh milk online dairy products -->
+  <url>
+    <loc>https://www.kabiangafcs.co.ke/shop</loc>
+    <lastmod>2025-01-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  
+  <!-- Membership - Join Kabianga farmers cooperative dairy society Kericho -->
+  <url>
+    <loc>https://www.kabiangafcs.co.ke/membership</loc>
+    <lastmod>2025-01-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Investors - Kabianga FCS financial reports cooperative investment -->
+  <url>
+    <loc>https://www.kabiangafcs.co.ke/investors</loc>
+    <lastmod>2025-01-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Downloads - KFCS forms reports documents farmers cooperative -->
+  <url>
+    <loc>https://www.kabiangafcs.co.ke/downloads</loc>
+    <lastmod>2025-01-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.kabiangafcs.co.ke/annual-report</loc>
+    <lastmod>2025-01-25</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- News -->
+  <url>
+    <loc>https://www.kabiangafcs.co.ke/news</loc>
+    <lastmod>2025-01-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Dynamic News - Latest KFCS updates events awards training -->
+  <url>
+    <loc>https://www.kabiangafcs.co.ke/news/1</loc>
+    <title>Kabianga Farmers Announces Death of Director Paul Soi</title>
+    <lastmod>2026-01-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.kabiangafcs.co.ke/news/2</loc>
+    <title>Kabianga Mourns Visionary Leader Director Paul Soi</title>
+    <lastmod>2026-01-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.kabiangafcs.co.ke/news/3</loc>
+    <title>Kabianga FCS Wins Best Cooperative Kenya Award</title>
+    <lastmod>2026-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.kabiangafcs.co.ke/news/4</loc>
+    <title>KJET Programme Farmers Training Kabianga Cooperative</title>
+    <lastmod>2026-01-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.kabiangafcs.co.ke/news/5</loc>
+    <title>Kabianga Farmers Dairy Cooperative Feature Video</title>
+    <lastmod>2026-01-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.kabiangafcs.co.ke/news/6</loc>
+    <title>Kabianga Acquires Tuk Tuk Milk Feed Transport</title>
+    <lastmod>2026-01-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.kabiangafcs.co.ke/news/7</loc>
+    <title>KFCS Directors Visit Kabianga High School</title>
+    <lastmod>2026-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Contact - Kabianga farmers cooperative contacts Kericho Kenya -->
+  <url>
+    <loc>https://www.kabiangafcs.co.ke/contact</loc>
+    <lastmod>2025-01-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Gallery - KFCS facilities farm photos dairy processing -->
+  <url>
+    <loc>https://www.kabiangafcs.co.ke/gallery</loc>
+    <lastmod>2025-01-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://www.kabiangafcs.co.ke/attached_assets/feed_laboratory_1767871165290.jpg</image:loc>
+      <image:title>KFCS Feed Laboratory Kericho</image:title>
+      <image:caption>Modern animal feed testing laboratory at Kabianga Farmers Cooperative</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kabiangafcs.co.ke/attached_assets/yogurt_processing_1767871165321.jpg</image:loc>
+      <image:title>Kabianga Yogurt Production Plant</image:title>
+      <image:caption>State-of-the-art yogurt processing facility serving Kericho farmers</image:caption>
+    </image:image>
+  </url>
+  
+  <!-- Future Projects - Kabianga cooperative expansion plans -->
+  <url>
+    <loc>https://www.kabiangafcs.co.ke/future-projects</loc>
+    <lastmod>2025-01-25</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+</urlset>
